@@ -211,4 +211,7 @@
   <data name="InstallIIoT" xml:space="preserve">
     <value>Additionally install Industrial IoT modules</value>
   </data>
+  <data name="UseHostname" xml:space="preserve">
+    <value>Simply press Enter to use the host name</value>
+  </data>
 </root>

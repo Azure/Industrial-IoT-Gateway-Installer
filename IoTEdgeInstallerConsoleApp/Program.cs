@@ -41,24 +41,6 @@ namespace IoTEdgeInstallerConsoleApp
 
         static void Main(string[] args)
         {
-            string deviceName = string.Empty;
-            while (deviceName == string.Empty)
-            {
-                Console.WriteLine();
-                Console.WriteLine(Strings.AzureCreateDeviceIdDesc);
-                int top = Console.CursorTop;
-                Console.Write(Installer.GetInstance().AzureCreateId);
-               // Console.MoveBufferArea(0, top, (.CursorLeft = 0;
-                deviceName = Console.ReadLine();
-            }
-            Installer.GetInstance().AzureCreateId = deviceName;
-
-  
-
-
-
-
-
 #if !DEBUG
             // Try to elevate to admin
             try
@@ -105,7 +87,13 @@ namespace IoTEdgeInstallerConsoleApp
 
                 Installer.GetInstance().GetNicList();
 
-
+                Console.WriteLine();
+                Console.WriteLine(Strings.AzureCreateDeviceIdDesc + " (" + Strings.UseHostname + " " + Installer.GetInstance().AzureCreateId + ")");
+                string input = Console.ReadLine();
+                if (input != string.Empty)
+                {
+                    Installer.GetInstance().AzureCreateId = input;
+                }
 
                 char decision = 'a';
                 while (decision != 'y' && decision != 'n')
@@ -115,6 +103,7 @@ namespace IoTEdgeInstallerConsoleApp
                     decision = Console.ReadKey().KeyChar;
                 }
 
+                Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine(Strings.Installing);
                 Installer.GetInstance().CreateAzureIoTEdgeDeviceAsync(hub, decision == 'y').Wait();

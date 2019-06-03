@@ -340,5 +340,16 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("InstallIIoT", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Simply press Enter to use the host name.
+        /// </summary>
+        public static string UseHostname
+        {
+            get
+            {
+                return ResourceManager.GetString("UseHostname", resourceCulture);
+            }
+        }
     }
 }
