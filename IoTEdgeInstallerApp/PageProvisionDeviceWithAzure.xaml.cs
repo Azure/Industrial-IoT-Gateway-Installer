@@ -23,6 +23,14 @@ namespace IoTEdgeInstaller
             DataContext = _viewModel;
 
             InitializeComponent();
+
+            CreateDescription.Text = Strings.Prerequisits;
+            InstallButton.Content = Strings.CreateEdgeButton;
+            IoTHubTitle.Text = Strings.IoTHubs;
+            DevicesTitle.Text = Strings.AzureDeviceId;
+            IoTEdgeTitle.Text = Strings.IoTEdgeModules;
+            CreateOptionsTitle.Text = Strings.AzureCreateDeviceIdDesc;
+            NicsTitle.Text = Strings.Nic;
         }
 
         private void _pageFlow_PageChange(object sender, PageChangeCancelEventArgs e)
@@ -40,7 +48,7 @@ namespace IoTEdgeInstaller
 
         public void WindowsShowError(string error)
         {
-            MessageBox.Show(error, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(error, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         public Collection<string> RunPSCommand(string command)
@@ -90,7 +98,7 @@ namespace IoTEdgeInstaller
         {
             if (_viewModel.AzureIoTHubs.Count == 0)
             {
-                MessageBox.Show(Strings.Strings.ConnectToAzure_NoAzureIoTHub, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(Strings.ConnectToAzure_NoAzureIoTHub, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 

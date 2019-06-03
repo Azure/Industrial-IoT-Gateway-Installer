@@ -11,9 +11,9 @@ namespace IoTEdgeInstaller
             // Uncomment to test localization
             // System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
 
-            InitializeComponent();
+            Title = Strings.AboutSubtitle;
 
-            Title = Strings.Strings.AboutSubtitle;
+            InitializeComponent();
 
             _pageFlow = new PageFlow(_NavigationFrame);
             _pageFlow.Navigate(typeof(PageProvisionDeviceWithAzure));

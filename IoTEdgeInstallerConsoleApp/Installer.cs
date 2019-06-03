@@ -81,7 +81,7 @@ namespace IoTEdgeInstaller
             while (!selectionSuccessful)
             {
                 Console.WriteLine();
-                Console.WriteLine(Strings.Strings.IoTHubs + " [0..n]");
+                Console.WriteLine(Strings.IoTHubs + " [0..n]");
 
                 string selection = Console.ReadLine();
                 if (uint.TryParse(selection, out index))
@@ -158,9 +158,11 @@ namespace IoTEdgeInstaller
                  || nic.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
                  || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 {
-                    var entity = new NicsEntity();
-                    entity.Name = nic.Name;
-                    entity.Description = nic.Description;
+                    var entity = new NicsEntity
+                    {
+                        Name = nic.Name,
+                        Description = nic.Description
+                    };
                     nics.Add(entity);
                 }
             }
@@ -174,7 +176,7 @@ namespace IoTEdgeInstaller
         private void ShowNicList(IList<NicsEntity> nicList)
         {
             Console.WriteLine();
-            Console.WriteLine(Strings.Strings.Nic + " [0..n]:");
+            Console.WriteLine(Strings.Nic + " [0..n]:");
 
             for (int i = 0; i < nicList.Count; i++)
             {
@@ -226,7 +228,7 @@ namespace IoTEdgeInstaller
                     PS.Commands.Clear();
                     if (results.Count == 0)
                     {
-                        Console.WriteLine("Error: " + Strings.Strings.VSwitchSetupFailed);
+                        Console.WriteLine("Error: " + Strings.VSwitchSetupFailed);
                         return false;
                     }
 
@@ -234,7 +236,7 @@ namespace IoTEdgeInstaller
                     {
                         if (vmSwitch.ToString().Contains("(Name = 'host')"))
                         {
-                            Console.WriteLine(Strings.Strings.VSwitchExists);
+                            Console.WriteLine(Strings.VSwitchExists);
                             return true;
                         }
                     }
@@ -245,7 +247,7 @@ namespace IoTEdgeInstaller
                     PS.Commands.Clear();
                     if (results.Count == 0)
                     {
-                        Console.WriteLine("Error: " + Strings.Strings.VSwitchSetupFailed);
+                        Console.WriteLine("Error: " + Strings.VSwitchSetupFailed);
                         return false;
                     }
 
@@ -254,7 +256,7 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
-                    Console.WriteLine(Strings.Strings.OSNotSupported);
+                    Console.WriteLine(Strings.OSNotSupported);
                     return false;
                 }
             }
@@ -280,26 +282,28 @@ namespace IoTEdgeInstaller
                 {
                     try
                     {
-                        var newProcessInfo = new ProcessStartInfo();
-                        newProcessInfo.FileName = Environment.SystemDirectory + "\\WindowsPowerShell\\v1.0\\powershell.exe";
+                        var newProcessInfo = new ProcessStartInfo
+                        {
+                            FileName = Environment.SystemDirectory + "\\WindowsPowerShell\\v1.0\\powershell.exe"
+                        };
 
-                        Console.WriteLine(Strings.Strings.Uninstall);
+                        Console.WriteLine(Strings.Uninstall);
                         newProcessInfo.Arguments = "Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Uninstall-IoTEdge -Force";
                         var process = Process.Start(newProcessInfo);
                         process.WaitForExit();
                         if (process.ExitCode != 0)
                         {
-                            Console.WriteLine("Error: " + Strings.Strings.UninstallFailed);
+                            Console.WriteLine("Error: " + Strings.UninstallFailed);
                             return false;
                         }
 
-                        Console.WriteLine(Strings.Strings.Install);
+                        Console.WriteLine(Strings.Install);
                         newProcessInfo.Arguments = $"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck";
                         process = Process.Start(newProcessInfo);
                         process.WaitForExit();
                         if (process.ExitCode != 0)
                         {
-                            Console.WriteLine("Error: " + Strings.Strings.InstallFailed);
+                            Console.WriteLine("Error: " + Strings.InstallFailed);
                             return false;
                         }
                     }
@@ -320,10 +324,10 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
-                    Console.WriteLine(Strings.Strings.OSNotSupported);
+                    Console.WriteLine(Strings.OSNotSupported);
                     return false;
                 }
-                Console.WriteLine(Strings.Strings.Deployment);
+                Console.WriteLine(Strings.Deployment);
 
                 // first set the Azure subscription for the selected IoT Hub
                 string cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
@@ -339,13 +343,13 @@ namespace IoTEdgeInstaller
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    Console.WriteLine("Error: " + Strings.Strings.DeployFailed);
+                    Console.WriteLine("Error: " + Strings.DeployFailed);
                     return false;
                 }
 
                 Console.WriteLine();
-                Console.WriteLine(Strings.Strings.Completed);
-                Console.WriteLine(Strings.Strings.Reboot);
+                Console.WriteLine(Strings.Completed);
+                Console.WriteLine(Strings.Reboot);
                 return true;
             }
 
@@ -384,7 +388,7 @@ namespace IoTEdgeInstaller
             {
                 if (!SetupPrerequisits())
                 {
-                    Console.WriteLine("Error: " + Strings.Strings.PreRequisitsFailed);
+                    Console.WriteLine("Error: " + Strings.PreRequisitsFailed);
                 }
                 else
                 {
@@ -399,12 +403,12 @@ namespace IoTEdgeInstaller
                         {
                             // installation failed so delete the device again
                             await azureIoTHub.DeleteDeviceAsync(azureCreateId);
-                            Console.WriteLine(Strings.Strings.DeletedDevice);
+                            Console.WriteLine(Strings.DeletedDevice);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Error: " + Strings.Strings.CreateFailed);
+                        Console.WriteLine("Error: " + Strings.CreateFailed);
                     }
                 }
             }
@@ -416,7 +420,7 @@ namespace IoTEdgeInstaller
                 {
                     // installation failed so delete the device again (if neccessary)
                     await azureIoTHub.DeleteDeviceAsync(azureCreateId);
-                    Console.WriteLine(Strings.Strings.DeletedDevice);
+                    Console.WriteLine(Strings.DeletedDevice);
                 }
                 catch (Exception ex2)
                 {

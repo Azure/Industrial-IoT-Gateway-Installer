@@ -3,11 +3,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:props="clr-namespace:IoTEdgeInstaller.Strings"
     xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
     x:Class="IoTEdgeInstaller.PageProvisionDeviceWithAzure"
       mc:Ignorable="d" 
-      Title="{x:Static props:Strings.NewAzureDevice}"
       RenderTransformOrigin="0.5,0.5"
       Loaded="Page_Loaded"
       Unloaded="Page_Unloaded" Height="600" Width="1200" Background="#121416">
@@ -300,12 +298,12 @@
 
     <Grid>
         <StackPanel>
-            <TextBlock Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" x:Name="CreateDescription" x:Uid="Title" FontSize="30" Text="{x:Static props:Strings.Prerequisits}" HorizontalAlignment="Left" Margin="4,0,0,0"/>
+            <TextBlock Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" x:Name="CreateDescription" x:Uid="Title" FontSize="30" HorizontalAlignment="Left" Margin="4,0,0,0"/>
             <ProgressBar Foreground="Blue" x:Name="progressBar" IsIndeterminate="False" Minimum="1" Maximum="100" Visibility="{Binding MainProgressVisibility}" Margin="0,10,0,0"/>
             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                 <StackPanel>
                     <StackPanel VerticalAlignment="Top">
-                        <TextBlock Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" FontSize="15" Visibility="{Binding CanChangeDevice}" Text="{x:Static props:Strings.IoTHubs}" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="IoTHubTitle" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" FontSize="15" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <ComboBox
                                 Width="300"
@@ -336,7 +334,7 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
-                        <TextBlock FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" Text="{x:Static props:Strings.AzureDeviceId}" HorizontalAlignment="Left" Margin="0 10 0 0"/>
+                        <TextBlock x:Name="DevicesTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left" Margin="0 10 0 0"/>
                         <StackPanel Orientation="Horizontal">
                                 <ListBox
                                     Margin="0,5,0,0"
@@ -359,7 +357,7 @@
                                 </ListBox>
                         </StackPanel>
                     </StackPanel>
-                    <TextBlock FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Text="{x:Static props:Strings.IoTEdgeModules}" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding IsIoTEdgeDevice}"/>
+                    <TextBlock x:Name="IoTEdgeTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding IsIoTEdgeDevice}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsIoTEdgeDevice}">
                         <ListBox
                             FontSize="15"
@@ -391,9 +389,9 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="20,0,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
-                    <TextBlock FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" Text="{x:Static props:Strings.AzureCreateDeviceIdDesc}" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
                     <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="{Binding CanChangeDevice}" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,1,0,10" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
-                    <TextBlock FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" Text="{x:Static props:Strings.Nic}" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="NicsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
                     <ComboBox
                         FontSize="15"
                         FontFamily="./Properties/#Selawik"
@@ -425,7 +423,7 @@
                     </ComboBox>
                 </StackPanel>
                 <StackPanel Margin="20,20,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
-                    <Button FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Width="200" Visibility="{Binding CanChangeDevice}" Content="{x:Static props:Strings.CreateEdgeButton}" Click="ButtonCreateAzureCreateEdge_Click" />
+                    <Button x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Width="200" Visibility="{Binding CanChangeDevice}" Click="ButtonCreateAzureCreateEdge_Click" />
                     <TextBox IsReadOnly="True" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" BorderThickness="0" Background="#121416" Margin="0,10,0,0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding OutputLB}" Width="500" Height="358"/>
                 </StackPanel>
             </StackPanel>

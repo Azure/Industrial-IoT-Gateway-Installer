@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IoTEdgeInstaller.Strings {
+namespace IoTEdgeInstaller {
     using System;
     
     
@@ -29,7 +29,7 @@ namespace IoTEdgeInstaller.Strings {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        public Strings() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace IoTEdgeInstaller.Strings {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IoTEdgeInstaller.Strings.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IoTEdgeInstaller.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

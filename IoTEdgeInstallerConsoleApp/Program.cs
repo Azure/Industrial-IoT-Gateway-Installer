@@ -62,34 +62,35 @@ namespace IoTEdgeInstallerConsoleApp
                 return;
             }
 #endif
-            Console.WriteLine(IoTEdgeInstaller.Strings.Strings.AboutSubtitle);
-            Console.WriteLine();
+            Console.WriteLine(Strings.AboutSubtitle);
 
-            Console.WriteLine(IoTEdgeInstaller.Strings.Strings.Prerequisits);
+            Console.WriteLine();
+            Console.WriteLine(Strings.Prerequisits);
             MSAHelper.SignIn(WindowsShowProgress, WindowsShowError, RunPSCommand);
 
-            Console.WriteLine(IoTEdgeInstaller.Strings.Strings.GatheringIoTHubs);
+            Console.WriteLine();
+            Console.WriteLine(Strings.GatheringIoTHubs);
             AzureIoTHub hub = Installer.GetInstance().DiscoverAzureIoTHubs();
             if (hub != null)
             {
                 Console.WriteLine();
-                Console.WriteLine(IoTEdgeInstaller.Strings.Strings.AzureDeviceId);
+                Console.WriteLine(Strings.AzureDeviceId);
                 AzureDeviceEntity device = Installer.GetInstance().DiscoverDevicesAsync(hub).Result;
                 if (device != null && device.IotEdge)
                 {
                     Console.WriteLine();
-                    Console.WriteLine(IoTEdgeInstaller.Strings.Strings.IoTEdgeModules);
+                    Console.WriteLine(Strings.IoTEdgeModules);
                     Installer.GetInstance().DiscoverIoTEdgeModules(device);
                 }
 
                 Installer.GetInstance().GetNicList();
                 
                 Console.WriteLine();
-                Console.WriteLine(IoTEdgeInstaller.Strings.Strings.Installing);
+                Console.WriteLine(Strings.Installing);
                 Installer.GetInstance().CreateAzureIoTEdgeDeviceAsync(hub).Wait();
 
                 Console.WriteLine();
-                Console.WriteLine(IoTEdgeInstaller.Strings.Strings.EnterToExist);
+                Console.WriteLine(Strings.EnterToExist);
                 Console.ReadLine();
             }
         }

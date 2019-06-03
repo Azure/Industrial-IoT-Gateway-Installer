@@ -1,5 +1,4 @@
-﻿using IoTEdgeInstaller;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -21,40 +20,21 @@ namespace IoTEdgeInstaller
 
         public delegate void SetUIStateType();
 
-        public void WindowsShowProgress(double progress)
+        public static bool QueueUserWorkItem(WaitCallback callBack, object state)
         {
-            _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.Value = progress, DispatcherPriority.Background);
-        }
-
-        public void WindowsShowError(string error)
-        {
-            MessageBox.Show(error, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        public Collection<string> RunPSCommand(string command)
-        {
-            Collection<string> returnValues = new Collection<string>();
-            using (PowerShell ps = PowerShell.Create())
+            void safeCallback(object o)
             {
-                ps.AddScript(command);
-                Collection<PSObject> results = ps.Invoke();
-                ps.Streams.ClearStreams();
-                ps.Commands.Clear();
-
-                foreach (PSObject result in results)
-                {
-                    returnValues.Add(result.ToString());
-                }
+                callBack(o);
             }
 
-            return returnValues;
+            return ThreadPool.QueueUserWorkItem(safeCallback, state);
         }
-        
+
         public PageProvisionDeviceWithAzureViewModel(PageProvisionDeviceWithAzure parentPage)
         {
             _parentPage = parentPage;
 
-            AzureCreateId = System.Environment.MachineName;
+            AzureCreateId = Environment.MachineName;
             SelectedLocationIndex = 0;
             MainProgressVisibility = Visibility.Visible;
 
@@ -71,7 +51,7 @@ namespace IoTEdgeInstaller
                 var azureIoTHub = AzureIoTHubs.ElementAt(SelectedAzureIoTHubIndex);
                 if (azureIoTHub != null)
                 {
-                    ThreadPoolHelper.QueueUserWorkItem(CreateAzureIoTEdgeDeviceAsync, azureIoTHub);
+                    QueueUserWorkItem(CreateAzureIoTEdgeDeviceAsync, azureIoTHub);
                 }
             }
         }
@@ -80,7 +60,7 @@ namespace IoTEdgeInstaller
         {
             if (MSAHelper.CurrentState == SigninStates.SignedIn)
             {
-                ThreadPoolHelper.QueueUserWorkItem(GetAzureDevicesAsync, iotHub);
+                QueueUserWorkItem(GetAzureDevicesAsync, iotHub);
             }
         }
 
@@ -88,7 +68,7 @@ namespace IoTEdgeInstaller
         {
             if (MSAHelper.CurrentState == SigninStates.SignedIn)
             {
-                ThreadPoolHelper.QueueUserWorkItem(GetAzureIoTEdgeModulesAsync, device);
+                QueueUserWorkItem(GetAzureIoTEdgeModulesAsync, device);
             }
         }
         
@@ -120,7 +100,7 @@ namespace IoTEdgeInstaller
         private void SetAzureIoTHubList(List<AzureIoTHub> hubList)
         {
             SetUIState(HideMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Strings.NewAzureDevice, DispatcherPriority.Background);
+            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
 
             AzureIoTHubs.Clear();
             foreach (var hub in hubList)
@@ -134,9 +114,9 @@ namespace IoTEdgeInstaller
         public async Task GetAzureIoTHubsAsync()
         {
             SetUIState(ShowMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Strings.GatheringIoTHubs, DispatcherPriority.Background);
+            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.GatheringIoTHubs, DispatcherPriority.Background);
 
-            var hubList = AzureIoT.GetIotHubList(WindowsShowProgress, WindowsShowError, RunPSCommand);
+            var hubList = AzureIoT.GetIotHubList(_parentPage.WindowsShowProgress, _parentPage.WindowsShowError, _parentPage.RunPSCommand);
             
             if (Application.Current.Dispatcher.CheckAccess())
             {
@@ -178,10 +158,9 @@ namespace IoTEdgeInstaller
             _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
             SetUIState(ShowMainProgressUI);
 
-            var azureIoTHub = threadContext as AzureIoTHub;
-            if (azureIoTHub != null)
+            if (threadContext is AzureIoTHub azureIoTHub)
             {
-                var deviceList = await azureIoTHub.GetDevicesAsync(WindowsShowError);
+                var deviceList = await azureIoTHub.GetDevicesAsync(_parentPage.WindowsShowError);
 
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
@@ -215,8 +194,7 @@ namespace IoTEdgeInstaller
             _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
             SetUIState(ShowMainProgressUI);
 
-            var azureDeviceEntity = threadContext as AzureDeviceEntity;
-            if (azureDeviceEntity != null)
+            if (threadContext is AzureDeviceEntity azureDeviceEntity)
             {
                 IoTEdgeDevice = azureDeviceEntity.IotEdge;
                 if (azureDeviceEntity.IotEdge)
@@ -251,9 +229,11 @@ namespace IoTEdgeInstaller
                  || nic.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
                  || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                 {
-                    var entity = new NicsEntity();
-                    entity.Name = nic.Name;
-                    entity.Description = nic.Description;
+                    var entity = new NicsEntity
+                    {
+                        Name = nic.Name,
+                        Description = nic.Description
+                    };
                     Nics.Add(entity);
                 }
             }
@@ -273,7 +253,7 @@ namespace IoTEdgeInstaller
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    MessageBox.Show(Strings.Strings.VSwitchSetupFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
@@ -281,7 +261,7 @@ namespace IoTEdgeInstaller
                 {
                     if (vmSwitch.ToString().Contains("(Name = 'host')"))
                     {
-                        OutputLB += (Strings.Strings.VSwitchExists + "\n");
+                        OutputLB += (Strings.VSwitchExists + "\n");
                         return true;
                     }
                 }
@@ -292,7 +272,7 @@ namespace IoTEdgeInstaller
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    MessageBox.Show(Strings.Strings.VSwitchSetupFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
@@ -301,7 +281,7 @@ namespace IoTEdgeInstaller
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
   
@@ -317,7 +297,7 @@ namespace IoTEdgeInstaller
                 PS.Streams.Error.DataAdded += PSErrorStreamHandler;
                 PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
-                OutputLB += (Strings.Strings.Uninstall + "\n");
+                OutputLB += (Strings.Uninstall + "\n");
                 try
                 {
                     PS.AddScript("Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Uninstall-IoTEdge -Force");
@@ -326,19 +306,19 @@ namespace IoTEdgeInstaller
                     PS.Commands.Clear();
                     if (results1.Count == 0)
                     {
-                        MessageBox.Show(Strings.Strings.UninstallFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Strings.UninstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                         return false;
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
                     return false;
                 }
 
-                OutputLB += (Strings.Strings.Install + "\n");
+                OutputLB += (Strings.Install + "\n");
                 string cmd = $"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck";
                 PS.AddScript(cmd);
                 Collection<PSObject> results = PS.Invoke();
@@ -346,11 +326,11 @@ namespace IoTEdgeInstaller
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    MessageBox.Show(Strings.Strings.InstallFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.InstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
-                OutputLB += (Strings.Strings.Deployment + "\n");
+                OutputLB += (Strings.Deployment + "\n");
 
                 // first set the Azure subscription for the selected IoT Hub
                 cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
@@ -366,11 +346,11 @@ namespace IoTEdgeInstaller
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    MessageBox.Show(Strings.Strings.DeployFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
-                OutputLB += (Strings.Strings.Completed + "\n" + Strings.Strings.Reboot + "\n");
+                OutputLB += (Strings.Completed + "\n" + Strings.Reboot + "\n");
                 return true;
             }
 
@@ -405,7 +385,7 @@ namespace IoTEdgeInstaller
         {
             _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
             SetUIState(ShowMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Strings.Installing, DispatcherPriority.Background);
+            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Installing, DispatcherPriority.Background);
 
 
             PowerShell PS = PowerShell.Create();
@@ -418,7 +398,7 @@ namespace IoTEdgeInstaller
             {
                 if (!SetupHyperVSwitch())
                 {
-                    MessageBox.Show(Strings.Strings.PreRequisitsFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.PreRequisitsFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
@@ -437,29 +417,29 @@ namespace IoTEdgeInstaller
                     }
                     else
                     {
-                        MessageBox.Show(Strings.Strings.CreateFailed, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        MessageBox.Show(Strings.CreateFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
 
                     // refresh Azure device list
-                    ThreadPoolHelper.QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
+                    QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
 
                 try
                 {
                     // installation failed so delete the device again (if neccessary)
                     await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
-                    MessageBox.Show(Strings.Strings.DeletedDevice, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
                     // refresh Azure device list
-                    ThreadPoolHelper.QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
+                    QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
                 }
                 catch (Exception ex2)
                 {
-                    MessageBox.Show(ex2.Message, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(ex2.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 

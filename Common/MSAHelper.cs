@@ -36,7 +36,7 @@ namespace IoTEdgeInstaller
                 Collection<string> results = PSCallback?.Invoke("az");
                 if (results == null || results.Count == 0)
                 {
-                    errorCallback?.Invoke(Strings.Strings.AzureCLI);
+                    errorCallback?.Invoke(Strings.AzureCLI);
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
                         Process.Start(new ProcessStartInfo("https://aka.ms/installazurecliwindows"));
@@ -49,7 +49,7 @@ namespace IoTEdgeInstaller
                     }
                     else
                     {
-                        errorCallback?.Invoke(Strings.Strings.OSNotSupported);
+                        errorCallback?.Invoke(Strings.OSNotSupported);
                     }
 
                     return false;
@@ -60,7 +60,7 @@ namespace IoTEdgeInstaller
                 results = PSCallback?.Invoke("az login");
                 if (results == null || results.Count == 0)
                 {
-                    errorCallback?.Invoke(Strings.Strings.LoginFailedAlertMessage);
+                    errorCallback?.Invoke(Strings.LoginFailedAlertMessage);
                     return false;
                 }
 
@@ -94,7 +94,7 @@ namespace IoTEdgeInstaller
             }
             catch (Exception ex)
             {
-                errorCallback?.Invoke(Strings.Strings.LoginFailedAlertMessage + ": " + ex.Message);
+                errorCallback?.Invoke(Strings.LoginFailedAlertMessage + ": " + ex.Message);
                 return false;
             }
         }
