@@ -211,6 +211,7 @@ namespace IoTEdgeInstaller
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
                     // TODO:
+                    // https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-2.1.700
                     //"curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > ./microsoft-prod.list";
                     //"sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/";
                     //"curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg";
