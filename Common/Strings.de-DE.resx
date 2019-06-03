@@ -207,4 +207,7 @@
   <data name="OSNotSupported" xml:space="preserve">
     <value>Dieses Betriebssystem wird leider nicht unterstuezt.</value>
   </data>
+  <data name="InstallIIoT" xml:space="preserve">
+    <value>Zusaetzlich die Industrial IoT Module installieren</value>
+  </data>
 </root>

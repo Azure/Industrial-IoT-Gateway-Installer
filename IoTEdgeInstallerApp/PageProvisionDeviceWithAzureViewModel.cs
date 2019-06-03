@@ -330,24 +330,27 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                OutputLB += (Strings.Deployment + "\n");
-
-                // first set the Azure subscription for the selected IoT Hub
-                cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
-                PS.AddScript(cmd);
-                results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-               
-                cmd = $"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json";
-                PS.AddScript(cmd);
-                results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-                if (results.Count == 0)
+                if (_parentPage.CheckBox.IsChecked == true)
                 {
-                    MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
+                    OutputLB += (Strings.Deployment + "\n");
+
+                    // first set the Azure subscription for the selected IoT Hub
+                    cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
+                    PS.AddScript(cmd);
+                    results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+
+                    cmd = $"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json";
+                    PS.AddScript(cmd);
+                    results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+                    if (results.Count == 0)
+                    {
+                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
                 }
 
                 OutputLB += (Strings.Completed + "\n" + Strings.Reboot + "\n");

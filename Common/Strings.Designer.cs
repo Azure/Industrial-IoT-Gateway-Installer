@@ -329,5 +329,16 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("VSwitchSetupFailed", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Additionally install Industrial IoT modules.
+        /// </summary>
+        public static string InstallIIoT
+        {
+            get
+            {
+                return ResourceManager.GetString("InstallIIoT", resourceCulture);
+            }
+        }
     }
 }

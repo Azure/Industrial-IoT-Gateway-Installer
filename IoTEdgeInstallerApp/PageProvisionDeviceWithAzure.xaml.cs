@@ -31,6 +31,7 @@ namespace IoTEdgeInstaller
             IoTEdgeTitle.Text = Strings.IoTEdgeModules;
             CreateOptionsTitle.Text = Strings.AzureCreateDeviceIdDesc;
             NicsTitle.Text = Strings.Nic;
+            CheckBox.Content = Strings.InstallIIoT;
         }
 
         private void _pageFlow_PageChange(object sender, PageChangeCancelEventArgs e)

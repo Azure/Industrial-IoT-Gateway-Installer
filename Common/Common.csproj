@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <Content Include="iiotedgedeploymentmanifest.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

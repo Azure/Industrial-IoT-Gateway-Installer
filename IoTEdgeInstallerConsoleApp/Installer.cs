@@ -16,7 +16,7 @@ namespace IoTEdgeInstaller
         private static Installer _instance = null;
         private static object _creationLock = new object();
 
-        private string AzureCreateId = Environment.MachineName;
+        public string AzureCreateId = Environment.MachineName;
                
         private List<NicsEntity> nics = new List<NicsEntity>();
         private int selectedNicIndex = 0;
@@ -39,13 +39,13 @@ namespace IoTEdgeInstaller
             return _instance;
         }
 
-        public async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub hub)
+        public async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub hub, bool installIIoTModules)
         {
             if (MSAHelper.CurrentState == SigninStates.SignedIn)
             {
                 if (hub != null)
                 {
-                    await CreateAzureIoTEdgeDeviceAsync(hub, AzureCreateId);
+                    await CreateAzureIoTEdgeDeviceAsync(hub, AzureCreateId, installIIoTModules);
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace IoTEdgeInstaller
             return true;
         }
 
-        private bool InstallIoTEdge(AzureDeviceEntity deviceEntity, AzureIoTHub iotHub)
+        private bool InstallIoTEdge(AzureDeviceEntity deviceEntity, AzureIoTHub iotHub, bool installIIoTModules)
         {
             if (deviceEntity != null)
             {
@@ -327,24 +327,28 @@ namespace IoTEdgeInstaller
                     Console.WriteLine(Strings.OSNotSupported);
                     return false;
                 }
-                Console.WriteLine(Strings.Deployment);
 
-                // first set the Azure subscription for the selected IoT Hub
-                string cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
-                PS.AddScript(cmd);
-                Collection<PSObject> results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-               
-                cmd = $"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json";
-                PS.AddScript(cmd);
-                results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-                if (results.Count == 0)
+                if (installIIoTModules)
                 {
-                    Console.WriteLine("Error: " + Strings.DeployFailed);
-                    return false;
+                    Console.WriteLine(Strings.Deployment);
+
+                    // first set the Azure subscription for the selected IoT Hub
+                    string cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
+                    PS.AddScript(cmd);
+                    Collection<PSObject> results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+
+                    cmd = $"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json";
+                    PS.AddScript(cmd);
+                    results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+                    if (results.Count == 0)
+                    {
+                        Console.WriteLine("Error: " + Strings.DeployFailed);
+                        return false;
+                    }
                 }
 
                 Console.WriteLine();
@@ -377,7 +381,7 @@ namespace IoTEdgeInstaller
             Console.WriteLine(((PSDataCollection<InformationRecord>)sender)[e.Index].ToString());
         }
 
-        private async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub azureIoTHub, string azureCreateId)
+        private async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub azureIoTHub, string azureCreateId, bool installIIoTModules)
         {
             PowerShell PS = PowerShell.Create();
             PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
@@ -399,7 +403,7 @@ namespace IoTEdgeInstaller
                     var deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
                     if (deviceEntity != null)
                     {
-                        if (!InstallIoTEdge(deviceEntity, azureIoTHub))
+                        if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
                         {
                             // installation failed so delete the device again
                             await azureIoTHub.DeleteDeviceAsync(azureCreateId);

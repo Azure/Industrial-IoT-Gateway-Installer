@@ -208,4 +208,7 @@
   <data name="OSNotSupported" xml:space="preserve">
     <value>This Operating System is unfortunately not supported.</value>
   </data>
+  <data name="InstallIIoT" xml:space="preserve">
+    <value>Additionally install Industrial IoT modules</value>
+  </data>
 </root>
