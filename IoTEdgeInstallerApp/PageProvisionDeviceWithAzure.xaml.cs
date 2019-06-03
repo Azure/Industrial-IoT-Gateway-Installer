@@ -41,9 +41,16 @@ namespace IoTEdgeInstaller
             }
         }
 
-        public void WindowsShowProgress(double progress)
+        public void WindowsShowProgress(double progress, bool isAbsolute)
         {
-            progressBar.Dispatcher.Invoke(() => progressBar.Value = progress, DispatcherPriority.Background);
+            if (isAbsolute)
+            {
+                progressBar.Dispatcher.Invoke(() => progressBar.Value = progress, DispatcherPriority.Background);
+            }
+            else
+            {
+                progressBar.Dispatcher.Invoke(() => progressBar.Value += progress, DispatcherPriority.Background);
+            }
         }
 
         public void WindowsShowError(string error)

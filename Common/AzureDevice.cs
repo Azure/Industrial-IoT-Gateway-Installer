@@ -11,7 +11,7 @@ namespace IoTEdgeInstaller
 {
     public class AzureIoT
     {
-        public delegate void ShowProgress(double percentProgress);
+        public delegate void ShowProgress(double percentProgress, bool isAbsolute);
         public delegate void ShowError(string error);
         public delegate Collection<string> RunPSCommand(string command);
 
@@ -73,7 +73,7 @@ namespace IoTEdgeInstaller
                     }
                  
                     Task.WhenAll(tasks).Wait();
-                    progressCallback?.Invoke(progressPerSubscription);
+                    progressCallback?.Invoke(progressPerSubscription, false);
                 }
             }
             catch (Exception ex)

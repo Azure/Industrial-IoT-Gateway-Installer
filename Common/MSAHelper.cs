@@ -17,7 +17,7 @@ namespace IoTEdgeInstaller
 
         public static List<string> Subscriptions = new List<string>();
 
-        public delegate void ShowProgress(double percentProgress);
+        public delegate void ShowProgress(double percentProgress, bool isAbsolute);
         public delegate void ShowError(string error);
         public delegate Collection<string> RunPSCommand(string command);
 
@@ -55,7 +55,7 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                progressCallback?.Invoke(5);
+                progressCallback?.Invoke(5, true);
                 
                 results = PSCallback?.Invoke("az login");
                 if (results == null || results.Count == 0)
@@ -81,12 +81,12 @@ namespace IoTEdgeInstaller
                     }
                 }
 
-                progressCallback?.Invoke(10);
+                progressCallback?.Invoke(10, true);
                 
                 // install iot extension, if required
                 PSCallback?.Invoke("az extension add --name azure-cli-iot-ext");
 
-                progressCallback?.Invoke(15);
+                progressCallback?.Invoke(15, true);
                 
                 CurrentState = SigninStates.SignedIn;
 

@@ -98,7 +98,7 @@ namespace IoTEdgeInstaller
 
         public AzureIoTHub DiscoverAzureIoTHubs()
         {
-            return ShowAzureIoTHubList(AzureIoT.GetIotHubList(Program.WindowsShowProgress, Program.WindowsShowError, Program.RunPSCommand));
+            return ShowAzureIoTHubList(AzureIoT.GetIotHubList(Program.ConsoleShowProgress, Program.ConsoleShowError, Program.RunPSCommand));
         }
 
         private AzureDeviceEntity ShowAzureDeviceList(List<AzureDeviceEntity> deviceList)
@@ -124,7 +124,7 @@ namespace IoTEdgeInstaller
         {
             if (azureIoTHub != null)
             {
-                return ShowAzureDeviceList(await azureIoTHub.GetDevicesAsync(Program.WindowsShowError));
+                return ShowAzureDeviceList(await azureIoTHub.GetDevicesAsync(Program.ConsoleShowError));
             }
 
             return null;

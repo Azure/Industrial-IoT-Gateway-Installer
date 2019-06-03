@@ -27,7 +27,7 @@ namespace IoTEdgeInstaller
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show(Strings.Strings.Admin, Strings.Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.Admin, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
                 App.Current.Shutdown();

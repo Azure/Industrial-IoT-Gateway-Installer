@@ -10,12 +10,12 @@ namespace IoTEdgeInstallerConsoleApp
 {
     class Program
     {
-        public static void WindowsShowProgress(double progress)
+        public static void ConsoleShowProgress(double progress, bool isAbsolute)
         {
             Console.Write(".");
         }
 
-        public static void WindowsShowError(string error)
+        public static void ConsoleShowError(string error)
         {
             Console.WriteLine("Error: " + error);
         }
@@ -58,7 +58,7 @@ namespace IoTEdgeInstallerConsoleApp
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error: " + ex.Message + " " + Strings.Strings.Admin);
+                Console.WriteLine("Error: " + ex.Message + " " + Strings.Admin);
                 return;
             }
 #endif
@@ -66,7 +66,7 @@ namespace IoTEdgeInstallerConsoleApp
 
             Console.WriteLine();
             Console.WriteLine(Strings.Prerequisits);
-            MSAHelper.SignIn(WindowsShowProgress, WindowsShowError, RunPSCommand);
+            MSAHelper.SignIn(ConsoleShowProgress, ConsoleShowError, RunPSCommand);
 
             Console.WriteLine();
             Console.WriteLine(Strings.GatheringIoTHubs);
