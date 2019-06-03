@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTEdgeInstaller", "IoTEdgeInstallerApp\IoTEdgeInstaller.csproj", "{8E1ABD30-8EF0-4F72-9995-5FA1B8CE6AFB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D} = {B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoTEdgeInstallerConsoleApp", "IoTEdgeInstallerConsoleApp\IoTEdgeInstallerConsoleApp.csproj", "{F4795A9A-1BE6-473A-A51F-27292F352F8A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D} = {B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E1ABD30-8EF0-4F72-9995-5FA1B8CE6AFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1ABD30-8EF0-4F72-9995-5FA1B8CE6AFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1ABD30-8EF0-4F72-9995-5FA1B8CE6AFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1ABD30-8EF0-4F72-9995-5FA1B8CE6AFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4795A9A-1BE6-473A-A51F-27292F352F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4795A9A-1BE6-473A-A51F-27292F352F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4795A9A-1BE6-473A-A51F-27292F352F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4795A9A-1BE6-473A-A51F-27292F352F8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C9CBB5-4BAE-435C-A9B5-79B805344D5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B86904C-3E22-451F-A90C-ED2FCE2829CB}
+	EndGlobalSection
+EndGlobal

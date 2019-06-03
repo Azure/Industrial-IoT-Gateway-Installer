@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>IoTEdgeInstaller</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="iiotedgedeploymentmanifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="iiotedgedeploymentmanifest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.17.3" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConnectToAzure_NoAzureIoTHub" xml:space="preserve">
+    <value>Looks like you haven’t set up an Azure IoT Hub yet.</value>
+  </data>
+  <data name="AboutSubtitle" xml:space="preserve">
+    <value>Azure IoT Edge Installer</value>
+    <comment>no loc</comment>
+  </data>
+  <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
+    <value>Name your IoT Edge Device:</value>
+  </data>
+  <data name="NewAzureDevice" xml:space="preserve">
+    <value>Install Azure IoT Edge on this Computer</value>
+  </data>
+  <data name="AzureDeviceId" xml:space="preserve">
+    <value>Devices already registered with this IoT Hub:</value>
+  </data>
+  <data name="CreateEdgeButton" xml:space="preserve">
+    <value>Install</value>
+  </data>
+  <data name="IoTEdgeModules" xml:space="preserve">
+    <value>Status of IoT Edge Modules:</value>
+  </data>
+  <data name="IoTHubs" xml:space="preserve">
+    <value>Pick an IoT Hub:</value>
+  </data>
+  <data name="LoginFailedAlertMessage" xml:space="preserve">
+    <value>Unable to login to Azure.</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Please restart this app as Administrator/sudo.</value>
+  </data>
+  <data name="AzureCLI" xml:space="preserve">
+    <value>We first need to install the Azure CLI for Windows. The Web installer will now launch. Please reboot after the installation is complete.</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>This part of the installation is completed.</value>
+  </data>
+  <data name="DeployFailed" xml:space="preserve">
+    <value>Deploying IoT Edge Container modules failed.</value>
+  </data>
+  <data name="Deployment" xml:space="preserve">
+    <value>Deploying IoT Edge Containers specified in Deployment Script...</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installing new IoT Edge and Moby Docker instance...</value>
+  </data>
+  <data name="InstallFailed" xml:space="preserve">
+    <value>Installing IoT Edge runtime failed. Please reboot and try again.</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Uninstalling previous IoT Edge instance, if required...</value>
+  </data>
+  <data name="UninstallFailed" xml:space="preserve">
+    <value>Uninstalling IoT Edge runtime failed.</value>
+  </data>
+  <data name="Reboot" xml:space="preserve">
+    <value>Please restart Windows to complete the installation.</value>
+  </data>
+  <data name="CreateFailed" xml:space="preserve">
+    <value>Creating IoT Edge device on selected IoT Hub failed.</value>
+  </data>
+  <data name="PreRequisitsFailed" xml:space="preserve">
+    <value>Prerequisits to install IoT Edge not yet met. Please try again after all prerequests are met.</value>
+  </data>
+  <data name="DeletedDevice" xml:space="preserve">
+    <value>Deleted existing IoT Edge device successfully. Please try again.</value>
+  </data>
+  <data name="Nic" xml:space="preserve">
+    <value>Pick a local network interface for IoT Edge:</value>
+  </data>
+  <data name="VSwitchExists" xml:space="preserve">
+    <value>Aborting setup of HyperV Virtual Switch 'host' as it already exists.</value>
+  </data>
+  <data name="VSwitchSetupFailed" xml:space="preserve">
+    <value>Setting up HyperV Virtual Switch 'host' failed.</value>
+  </data>
+  <data name="GatheringIoTHubs" xml:space="preserve">
+    <value>Collecting IoT Hubs You have Access to...</value>
+  </data>
+  <data name="Installing" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Prerequisits" xml:space="preserve">
+    <value>Checking Prerequisits...</value>
+  </data>
+  <data name="EnterToExist" xml:space="preserve">
+    <value>Press Enter to exit.</value>
+  </data>
+  <data name="OSNotSupported" xml:space="preserve">
+    <value>This Operating System is unfortunately not supported.</value>
+  </data>
+</root>
