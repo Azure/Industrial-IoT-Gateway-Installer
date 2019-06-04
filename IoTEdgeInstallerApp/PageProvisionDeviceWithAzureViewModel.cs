@@ -407,11 +407,28 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
+                    // check if device exists already
+                    var deviceEntity = await azureIoTHub.GetDeviceAsync(_azureCreateId);
+                    if (deviceEntity != null)
+                    {
+                        MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
+                        }
+                        else
+                        {
+                            SetUIState(HideMainProgressUI);
+                            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
+                            return;
+                        }
+                    }
+
                     // create the device
                     await azureIoTHub.CreateDeviceAsync(_azureCreateId, true);
 
                     // retrieve the newly created device
-                    var deviceEntity = await azureIoTHub.GetDeviceAsync(_azureCreateId);
+                    deviceEntity = await azureIoTHub.GetDeviceAsync(_azureCreateId);
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub))
@@ -437,8 +454,7 @@ namespace IoTEdgeInstaller
                 {
                     // installation failed so delete the device again (if neccessary)
                     await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
-                    MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
+                    
                     // refresh Azure device list
                     QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
                 }
@@ -449,7 +465,7 @@ namespace IoTEdgeInstaller
             }
 
             SetUIState(HideMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = string.Empty, DispatcherPriority.Background);
+            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
         }
 
         // list of Azure IoT hub shown in UI

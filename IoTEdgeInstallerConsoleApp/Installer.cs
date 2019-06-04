@@ -397,18 +397,38 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
+                    // check if device exists already
+                    var deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
+                    if (deviceEntity != null)
+                    {
+                        char decision = 'a';
+                        while (decision != 'y' && decision != 'n')
+                        {
+                            Console.WriteLine();
+                            Console.Write(Strings.DeletedDevice + "? [y/n]: ");
+                            decision = Console.ReadKey().KeyChar;
+                        }
+                        if (decision == 'y')
+                        {
+                            await azureIoTHub.DeleteDeviceAsync(azureCreateId);
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    
                     // create the device
                     await azureIoTHub.CreateDeviceAsync(azureCreateId, true);
 
                     // retrieve the newly created device
-                    var deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
+                    deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
                         {
                             // installation failed so delete the device again
                             await azureIoTHub.DeleteDeviceAsync(azureCreateId);
-                            Console.WriteLine(Strings.DeletedDevice);
                         }
                     }
                     else
@@ -425,7 +445,6 @@ namespace IoTEdgeInstaller
                 {
                     // installation failed so delete the device again (if neccessary)
                     await azureIoTHub.DeleteDeviceAsync(azureCreateId);
-                    Console.WriteLine(Strings.DeletedDevice);
                 }
                 catch (Exception ex2)
                 {

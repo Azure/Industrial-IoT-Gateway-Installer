@@ -182,7 +182,7 @@
     <value>Prerequisits to install IoT Edge not yet met. Please try again after all prerequests are met.</value>
   </data>
   <data name="DeletedDevice" xml:space="preserve">
-    <value>Deleted existing IoT Edge device successfully. Please try again.</value>
+    <value>A device with this name exists already for this IoT Hub. Do you want to overwrite the device?</value>
   </data>
   <data name="Nic" xml:space="preserve">
     <value>Pick a local network interface for IoT Edge:</value>

@@ -140,9 +140,9 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("CreateFailed", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Deleted existing IoT Edge device successfully. Please try again..
+        ///   Looks up a localized string similar to A device with this name exists already for this IoT Hub. Do you want to overwrite the device?.
         /// </summary>
         public static string DeletedDevice {
             get {

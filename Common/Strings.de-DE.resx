@@ -145,7 +145,7 @@
     <value>Das IoT Edge Geraet konnte nicht fuer den selektierten IoT Hub angelegt werden.</value>
   </data>
   <data name="DeletedDevice" xml:space="preserve">
-    <value>Das existierende IoT Edge Geraet wurde erfolgreich entfernt. Bitte probieren Sie es noch einmal.</value>
+    <value>Ein Geraet mit diesem Namen existiert bereits auf diesem IoT Hub. Wollen Sie das Geraet ersaezten?</value>
   </data>
   <data name="DeployFailed" xml:space="preserve">
     <value>Das Anlegen der IoT Edge Container Module ist fehlgeschlagen.</value>
