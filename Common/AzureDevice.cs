@@ -99,7 +99,6 @@ namespace IoTEdgeInstaller
 
         public AzureDeviceEntity GetDevice(RunPSCommand PSCallback, string deviceId)
         {
-            //az iot hub device-identity show --device-id myEdgeDevice --hub-name {hub_name}
             Collection<string> results = PSCallback?.Invoke($"az iot hub device-identity show --device-id {deviceId} --hub-name {Name}");
             if (results != null && results.Count != 0)
             {
