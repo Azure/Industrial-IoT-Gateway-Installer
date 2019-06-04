@@ -303,7 +303,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
                 <StackPanel>
                     <StackPanel VerticalAlignment="Top">
-                        <TextBlock x:Name="IoTHubTitle" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" FontSize="15" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="IoTHubTitle" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" FontSize="15" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <ComboBox
                                 Width="300"
@@ -311,6 +311,7 @@
                                 FontSize="15" 
                                 Foreground="#AFB9C3"
                                 Background="#121416"
+                                Margin="0,5,0,0"
                                 HorizontalAlignment="Left"
                                 SelectedIndex="{Binding SelectedAzureIoTHubIndex}"
                                 Visibility="{Binding CanChangeDevice}"
@@ -334,15 +335,15 @@
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>
-                    <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
-                    <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="{Binding CanChangeDevice}" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,1,0,10" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
-                    <TextBlock x:Name="NicsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
+                    <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
+                    <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="{Binding CanChangeDevice}" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,5,0,0" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
+                    <TextBlock x:Name="NicsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left" Margin="0,10,0,0"/>
                     <ComboBox
                         FontSize="15"
                         FontFamily="./Properties/#Selawik"
                         Foreground="#AFB9C3"
                         Background="#121416"
-                        Margin="0,5,0,5"
+                        Margin="0,5,0,0"
                         Width="300"
                         HorizontalAlignment="Left"
                         SelectedIndex="{Binding SelectedNicIndex}"
@@ -365,7 +366,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <CheckBox x:Name="CheckBox" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,5,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#121416"></CheckBox>
+                    <CheckBox x:Name="CheckBox" Visibility="{Binding CanChangeDevice}" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,10,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#121416"></CheckBox>
                     <TextBlock x:Name="IoTEdgeTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding IsIoTEdgeDevice}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsIoTEdgeDevice}">
                         <ListBox
@@ -376,7 +377,8 @@
                             Width="300"
                             BorderThickness="0"
                             HorizontalAlignment="Left" 
-                            SelectedIndex="-1"                           
+                            SelectedIndex="-1"   
+                            Margin="0,5,0,0"
                             Visibility="{Binding IoTEdgeDevice}"    
                             ItemsSource="{Binding IoTEdgeModules}">
                             <ListBox.ItemContainerStyle>
@@ -396,8 +398,8 @@
                         </ListBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Margin="20,20,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
-                    <Button x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Width="200" Visibility="{Binding CanChangeDevice}" Click="ButtonCreateAzureCreateEdge_Click" />
+                <StackPanel Margin="15,20,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
+                    <Button Margin="0,5,0,0" x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Width="200" Visibility="{Binding CanChangeDevice}" Click="ButtonCreateAzureCreateEdge_Click" />
                     <TextBox IsReadOnly="True" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" BorderThickness="0" Background="#121416" Margin="0,10,0,0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding OutputLB}" Width="500" Height="358"/>
                 </StackPanel>
             </StackPanel>
