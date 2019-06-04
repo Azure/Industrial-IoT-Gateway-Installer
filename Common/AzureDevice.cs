@@ -83,8 +83,6 @@ namespace IoTEdgeInstaller
 
     public class AzureIoTHub
     {
-        public delegate void ShowProgress(double percentProgress, bool isAbsolute);
-        public delegate void ShowError(string error);
         public delegate Collection<string> RunPSCommand(string command);
 
         public AzureIoTHub(string name, string connectionString, string subscriptionName)
