@@ -330,7 +330,9 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                if (_parentPage.CheckBox.IsChecked == true)
+                bool installIIoTModues = false;
+                _parentPage.CheckBox.Dispatcher.Invoke(() => installIIoTModues = (_parentPage.CheckBox.IsChecked == true), DispatcherPriority.Send);
+                if (installIIoTModues)
                 {
                     OutputLB += (Strings.Deployment + "\n");
 
@@ -591,6 +593,7 @@ namespace IoTEdgeInstaller
         }
 
         private string _azureCreateIdDesc;
+
         public string AzureCreateIdDesc
         {
             get => _azureCreateIdDesc;
