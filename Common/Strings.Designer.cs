@@ -97,15 +97,6 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Devices already registered with this IoT Hub:.
-        /// </summary>
-        public static string AzureDeviceId {
-            get {
-                return ResourceManager.GetString("AzureDeviceId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This part of the installation is completed..
         /// </summary>
         public static string Completed {

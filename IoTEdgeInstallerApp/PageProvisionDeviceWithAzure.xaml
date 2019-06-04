@@ -315,7 +315,6 @@
                                 SelectedIndex="{Binding SelectedAzureIoTHubIndex}"
                                 Visibility="{Binding CanChangeDevice}"
                                 ItemsSource="{Binding AzureIoTHubs}"
-                                SelectionChanged="comboBoxIotHub_SelectionChanged"
                                 Style="{DynamicResource ComboBoxStyle1}">
                                 <ComboBox.Resources>
                                     <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#121416"/>
@@ -334,29 +333,39 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
-                        <TextBlock x:Name="DevicesTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left" Margin="0 10 0 0"/>
-                        <StackPanel Orientation="Horizontal">
-                                <ListBox
-                                    Margin="0,5,0,0"
-                                    FontSize="15"
-                                    Foreground="#AFB9C3"
-                                    FontFamily="./Properties/#Selawik"
-                                    Background="#121416"
-                                    Width="300"
-                                    MaxHeight="150"
-                                    HorizontalAlignment="Left"
-                                    SelectionChanged="comboBoxDeviceId_SelectionChanged"
-                                    SelectedIndex="{Binding SelectedAzureDeviceIndex}"
-                                    Visibility="{Binding CanChangeDevice}"
-                                    ItemsSource="{Binding AzureDevices}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                                <TextBlock Text="{Binding ComboId}"/>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                        </StackPanel>
                     </StackPanel>
+                    <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
+                    <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="{Binding CanChangeDevice}" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,1,0,10" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
+                    <TextBlock x:Name="NicsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
+                    <ComboBox
+                        FontSize="15"
+                        FontFamily="./Properties/#Selawik"
+                        Foreground="#AFB9C3"
+                        Background="#121416"
+                        Margin="0,5,0,5"
+                        Width="300"
+                        HorizontalAlignment="Left"
+                        SelectedIndex="{Binding SelectedNicIndex}"
+                        Visibility="{Binding CanChangeDevice}"
+                        ItemsSource="{Binding Nics}"
+                        Style="{DynamicResource ComboBoxStyle1}">
+                        <ComboBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#121416"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Foreground" Value="#AFB9C3"/>
+                                <Setter Property="Background" Value="#121416"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <CheckBox x:Name="CheckBox" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,5,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#121416"></CheckBox>
                     <TextBlock x:Name="IoTEdgeTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding IsIoTEdgeDevice}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsIoTEdgeDevice}">
                         <ListBox
@@ -367,7 +376,6 @@
                             Width="300"
                             BorderThickness="0"
                             HorizontalAlignment="Left" 
-                            SelectionChanged="comboBoxModules_SelectionChanged"
                             SelectedIndex="-1"                           
                             Visibility="{Binding IoTEdgeDevice}"    
                             ItemsSource="{Binding IoTEdgeModules}">
@@ -387,41 +395,6 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="20,0,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
-                    <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
-                    <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="{Binding CanChangeDevice}" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,1,0,10" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
-                    <TextBlock x:Name="NicsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left"/>
-                    <ComboBox
-                        FontSize="15"
-                        FontFamily="./Properties/#Selawik"
-                        Foreground="#AFB9C3"
-                        Background="#121416"
-                        Margin="0,5,0,5"
-                        Width="300"
-                        HorizontalAlignment="Left"
-                        SelectedIndex="{Binding SelectedNicIndex}"
-                        Visibility="{Binding CanChangeDevice}"
-                        ItemsSource="{Binding Nics}"
-                        SelectionChanged="comboBoxNics_SelectionChanged"
-                        Style="{DynamicResource ComboBoxStyle1}">
-                        <ComboBox.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#121416"/>
-                        </ComboBox.Resources>
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Foreground" Value="#AFB9C3"/>
-                                <Setter Property="Background" Value="#121416"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Description}"/>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <CheckBox x:Name="CheckBox" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,5,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#121416"></CheckBox>
                 </StackPanel>
                 <StackPanel Margin="20,20,0,0" VerticalAlignment="Top" Visibility="{Binding CanChangeDevice}" HorizontalAlignment="Left">
                     <Button x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Width="200" Visibility="{Binding CanChangeDevice}" Click="ButtonCreateAzureCreateEdge_Click" />

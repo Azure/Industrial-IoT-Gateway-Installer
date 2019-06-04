@@ -27,7 +27,6 @@ namespace IoTEdgeInstaller
             CreateDescription.Text = Strings.Prerequisits;
             InstallButton.Content = Strings.CreateEdgeButton;
             IoTHubTitle.Text = Strings.IoTHubs;
-            DevicesTitle.Text = Strings.AzureDeviceId;
             IoTEdgeTitle.Text = Strings.IoTEdgeModules;
             CreateOptionsTitle.Text = Strings.AzureCreateDeviceIdDesc;
             NicsTitle.Text = Strings.Nic;
@@ -110,30 +109,9 @@ namespace IoTEdgeInstaller
             }
         }
 
-        private void comboBoxModules_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var device = ((ListBox)sender).SelectedItem as AzureModuleEntity;
-        }
-                 
         private void ButtonCreateAzureCreateEdge_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.CreateAzureIoTEdgeDevice();
-        }
-
-        private void comboBoxIotHub_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var azureIotHub = ((ComboBox)sender).SelectedItem as AzureIoTHub;
-            _viewModel.DiscoverDevices(azureIotHub);
-        }
-
-        private void comboBoxDeviceId_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var azureDeviceEntity = ((ListBox)sender).SelectedItem as AzureDeviceEntity;
-            _viewModel.DiscoverIoTEdgeModules(azureDeviceEntity);
-        }
-
-        private void comboBoxNics_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
     }
 }

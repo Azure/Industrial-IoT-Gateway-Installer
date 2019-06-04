@@ -1,10 +1,6 @@
-﻿using Microsoft.Azure.Devices;
-using Microsoft.Azure.Devices.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace IoTEdgeInstaller
@@ -87,16 +83,10 @@ namespace IoTEdgeInstaller
 
     public class AzureIoTHub
     {
-        private const int KEY_SIZE = 32;
-
-        private RegistryManager _registryManager;
-        private int _maxCountOfDevices = 100;
-
         public delegate void ShowError(string error);
 
         public AzureIoTHub(string name, string connectionString, string subscriptionName)
         {
-            _registryManager = RegistryManager.CreateFromConnectionString(connectionString);
             Name = name;
             SubscriptionName = subscriptionName;
         }
@@ -105,105 +95,62 @@ namespace IoTEdgeInstaller
 
         public string SubscriptionName { get; set; }
 
-        public async Task<AzureDeviceEntity> GetDeviceAsync(string deviceId)
+        public AzureDeviceEntity GetDevice(string deviceId)
         {
+            //az iot hub device-identity show --device-id myEdgeDevice --hub-name {hub_name}
+            /*           if (device != null)
+                       {
+                           var deviceEntity = new AzureDeviceEntity()
+                           {
+                               Id = device.Id
+                           };
 
-            var device = await _registryManager.GetDeviceAsync(deviceId);
-            if (device != null)
-            {
-                var deviceEntity = new AzureDeviceEntity()
-                {
-                    Id = device.Id
-                };
+                           if (device.Capabilities != null)
+                           {
+                               deviceEntity.IotEdge = device.Capabilities.IotEdge;
+                           }
 
-                if (device.Capabilities != null)
-                {
-                    deviceEntity.IotEdge = device.Capabilities.IotEdge;
-                }
+                           //az iot hub device-identity show-connection-string --device-id myEdgeDevice --hub-name {hub_name}
+                           if (device.Authentication != null &&
+                               device.Authentication.SymmetricKey != null)
+                           {
+                               deviceEntity.PrimaryKey = device.Authentication.SymmetricKey.PrimaryKey;
+                           }
 
-                if (device.Authentication != null &&
-                    device.Authentication.SymmetricKey != null)
-                {
-                    deviceEntity.PrimaryKey = device.Authentication.SymmetricKey.PrimaryKey;
-                }
-
-                if (deviceEntity.IotEdge)
-                {
-                    var moduleList = new List<AzureModuleEntity>();
-                    var modules = await _registryManager.GetModulesOnDeviceAsync(deviceId);
-                    if (modules != null)
-                    {
-                        foreach (var m in modules)
-                        {
-                            var entity = new AzureModuleEntity()
-                            {
-                                Id = m.Id,
-                                DeviceId = m.DeviceId,
-                                ConnectionState = m.ConnectionState
-                            };
-                            moduleList.Add(entity);
-                        }
-                    }
-                    deviceEntity.Modules = moduleList;
-                }
-                return deviceEntity;
-            }
+                           if (deviceEntity.IotEdge)
+                           {
+                               var moduleList = new List<AzureModuleEntity>();
+                               //az iot hub module-identity list --device-id myEdgeDevice --hub-name {hub_name}
+                               if (modules != null)
+                               {
+                                   foreach (var m in modules)
+                                   {
+                                       var entity = new AzureModuleEntity()
+                                       {
+                                           Id = m.Id,
+                                           DeviceId = m.DeviceId,
+                                       };
+                                       moduleList.Add(entity);
+                                   }
+                               }
+                               deviceEntity.Modules = moduleList;
+                           }
+                           return deviceEntity;
+                       }*/
             return null;
         }
 
-        public async Task<List<AzureDeviceEntity>> GetDevicesAsync(ShowError errorCallback)
+        public bool CreateIoTEdgeDevice(string id)
         {
-            var listOfDevices = new List<AzureDeviceEntity>();
-
-            try
-            {
-                AzureDeviceEntity deviceEntity;
-
-                // reset device list and get new list
-                var query = _registryManager.CreateQuery("select * from devices", _maxCountOfDevices);
-                Debug.Assert(query != null);
-
-                while (query.HasMoreResults)
-                {
-                    var deviceTwins = await query.GetNextAsTwinAsync();
-                    foreach (var deviceTwin in deviceTwins)
-                    {
-                        deviceEntity = await GetDeviceAsync(deviceTwin.DeviceId);
-                        if (deviceEntity != null)
-                        {
-                            listOfDevices.Add(deviceEntity);
-                        }
-                    }
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                errorCallback?.Invoke(ex.Message);
-            }
-
-            return listOfDevices;
+            //az iot hub device-identity create --device-id myEdgeDevice --hub-name {hub_name} --edge-enabled
+            return false;
         }
 
-        public async Task CreateDeviceAsync(string id, bool iotEdge = false)
+        public bool DeleteDevice(string id)
         {
-            var newDevice = await _registryManager.AddDeviceAsync(new Device(id));
-            Debug.Assert(newDevice != null);
-
-            newDevice.Authentication.SymmetricKey.PrimaryKey = CryptoKeyGenerator.GenerateKey(KEY_SIZE);
-            newDevice.Authentication.SymmetricKey.SecondaryKey = CryptoKeyGenerator.GenerateKey(KEY_SIZE);
-            newDevice.Capabilities.IotEdge = iotEdge;
-            await _registryManager.UpdateDeviceAsync(newDevice);
+            //az iot hub device-identity delete --device-id myEdgeDevice --hub-name {hub_name}
+            return false;
         }
-
-        public async Task DeleteDeviceAsync(string id)
-        {
-            var device = await _registryManager.GetDeviceAsync(id);
-            if (device != null)
-            {
-                await _registryManager.RemoveDeviceAsync(device);
-            }
-        }
-
     }
 
     public class AzureModuleEntity : IComparable<AzureModuleEntity>
@@ -213,8 +160,6 @@ namespace IoTEdgeInstaller
         public string Id { get; set; }
 
         public string DeviceId { get; set; }
-
-        public DeviceConnectionState ConnectionState { get; set; }
 
         public int CompareTo(AzureModuleEntity other)
         {

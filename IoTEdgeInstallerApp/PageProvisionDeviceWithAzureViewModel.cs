@@ -51,16 +51,8 @@ namespace IoTEdgeInstaller
                 var azureIoTHub = AzureIoTHubs.ElementAt(SelectedAzureIoTHubIndex);
                 if (azureIoTHub != null)
                 {
-                    QueueUserWorkItem(CreateAzureIoTEdgeDeviceAsync, azureIoTHub);
+                    QueueUserWorkItem(CreateAzureIoTEdgeDevice, azureIoTHub);
                 }
-            }
-        }
-
-        public void DiscoverDevices(AzureIoTHub iotHub)
-        {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
-            {
-                QueueUserWorkItem(GetAzureDevicesAsync, iotHub);
             }
         }
 
@@ -136,44 +128,6 @@ namespace IoTEdgeInstaller
             }));
 
             ChangeDevice = AzureIoTHubs.Count == 0 ? false : true;
-        }
-
-        private void SetAzureDeviceList(List<AzureDeviceEntity> deviceList)
-        {
-            SetUIState(HideMainProgressUI);
-
-            deviceList.Sort();
-
-            AzureDevices.Clear();
-            foreach (var device in deviceList)
-            {
-                AzureDevices.Add(device);
-            }
-
-            SelectedAzureDeviceIndex = 0;
-        }
-
-        private async void GetAzureDevicesAsync(Object threadContext)
-        {
-            _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
-            SetUIState(ShowMainProgressUI);
-
-            if (threadContext is AzureIoTHub azureIoTHub)
-            {
-                var deviceList = await azureIoTHub.GetDevicesAsync(_parentPage.WindowsShowError);
-
-                if (Application.Current.Dispatcher.CheckAccess())
-                {
-                    SetAzureDeviceList(deviceList);
-                }
-                else
-                {
-                    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                    {
-                        SetAzureDeviceList(deviceList);
-                    }));
-                }
-            }
         }
 
         private void SetAzureIoTEdgeModuleList(IList<AzureModuleEntity> moduleList)
@@ -386,7 +340,7 @@ namespace IoTEdgeInstaller
             OutputLB += "\n";
         }
 
-        private async void CreateAzureIoTEdgeDeviceAsync(Object threadContext)
+        private void CreateAzureIoTEdgeDevice(Object threadContext)
         {
             _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
             SetUIState(ShowMainProgressUI);
@@ -408,13 +362,13 @@ namespace IoTEdgeInstaller
                 else
                 {
                     // check if device exists already
-                    var deviceEntity = await azureIoTHub.GetDeviceAsync(_azureCreateId);
+                    var deviceEntity = azureIoTHub.GetDevice(_azureCreateId);
                     if (deviceEntity != null)
                     {
                         MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (result == MessageBoxResult.Yes)
                         {
-                            await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
+                            azureIoTHub.DeleteDevice(_azureCreateId);
                         }
                         else
                         {
@@ -425,25 +379,22 @@ namespace IoTEdgeInstaller
                     }
 
                     // create the device
-                    await azureIoTHub.CreateDeviceAsync(_azureCreateId, true);
+                    azureIoTHub.CreateIoTEdgeDevice(_azureCreateId);
 
                     // retrieve the newly created device
-                    deviceEntity = await azureIoTHub.GetDeviceAsync(_azureCreateId);
+                    deviceEntity = azureIoTHub.GetDevice(_azureCreateId);
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub))
                         {
                             // installation failed so delete the device again
-                            await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
+                            azureIoTHub.DeleteDevice(_azureCreateId);
                         }
                     }
                     else
                     {
                         MessageBox.Show(Strings.CreateFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
-                    // refresh Azure device list
-                    QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
                 }
             }
             catch (Exception ex)
@@ -453,10 +404,8 @@ namespace IoTEdgeInstaller
                 try
                 {
                     // installation failed so delete the device again (if neccessary)
-                    await azureIoTHub.DeleteDeviceAsync(_azureCreateId);
+                    azureIoTHub.DeleteDevice(_azureCreateId);
                     
-                    // refresh Azure device list
-                    QueueUserWorkItem(GetAzureDevicesAsync, azureIoTHub);
                 }
                 catch (Exception ex2)
                 {

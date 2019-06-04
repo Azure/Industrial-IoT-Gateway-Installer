@@ -129,9 +129,6 @@
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
     <value>Geben Sie Ihrem IoT Edge Geraet einen Namen:</value>
   </data>
-  <data name="AzureDeviceId" xml:space="preserve">
-    <value>Geraete, die bereits mit diesem IoT Hub registriert sind:</value>
-  </data>
   <data name="Completed" xml:space="preserve">
     <value>Dieser Teil der Installation ist abgeschlossen.</value>
   </data>

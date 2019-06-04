@@ -7,7 +7,6 @@ using System.Linq;
 using System.Management.Automation;
 using System.Net.NetworkInformation;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace IoTEdgeInstaller
 {
@@ -15,8 +14,6 @@ namespace IoTEdgeInstaller
     {
         private static Installer _instance = null;
         private static object _creationLock = new object();
-
-        public string AzureCreateId = Environment.MachineName;
                
         private List<NicsEntity> nics = new List<NicsEntity>();
         private int selectedNicIndex = 0;
@@ -39,35 +36,6 @@ namespace IoTEdgeInstaller
             return _instance;
         }
 
-        public async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub hub, bool installIIoTModules)
-        {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
-            {
-                if (hub != null)
-                {
-                    await CreateAzureIoTEdgeDeviceAsync(hub, AzureCreateId, installIIoTModules);
-                }
-            }
-        }
-
-        public async Task<AzureDeviceEntity> DiscoverDevicesAsync(AzureIoTHub iotHub)
-        {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
-            {
-                return await GetAzureDevicesAsync(iotHub);
-            }
-
-            return null;
-        }
-
-        public void DiscoverIoTEdgeModules(AzureDeviceEntity device)
-        {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
-            {
-                GetAzureIoTEdgeModules(device);
-            }
-        }
-  
         private AzureIoTHub ShowAzureIoTHubList(List<AzureIoTHub> hubList)
         {
             for (int i = 0; i < hubList.Count; i++)
@@ -99,54 +67,6 @@ namespace IoTEdgeInstaller
         public AzureIoTHub DiscoverAzureIoTHubs()
         {
             return ShowAzureIoTHubList(AzureIoT.GetIotHubList(Program.ConsoleShowProgress, Program.ConsoleShowError, Program.RunPSCommand));
-        }
-
-        private AzureDeviceEntity ShowAzureDeviceList(List<AzureDeviceEntity> deviceList)
-        {
-            deviceList.Sort();
-
-            foreach (var device in deviceList)
-            {
-                if (device.IotEdge)
-                {
-                    Console.WriteLine(device.Id + " (IoT Edge)");
-                }
-                else
-                {
-                    Console.WriteLine(device.Id);
-                }
-            }
-
-            return null;
-        }
-
-        private async Task<AzureDeviceEntity> GetAzureDevicesAsync(AzureIoTHub azureIoTHub)
-        {
-            if (azureIoTHub != null)
-            {
-                return ShowAzureDeviceList(await azureIoTHub.GetDevicesAsync(Program.ConsoleShowError));
-            }
-
-            return null;
-        }
-
-        private void ShowAzureIoTEdgeModuleList(IList<AzureModuleEntity> moduleList)
-        {
-            foreach (var module in moduleList)
-            {
-                Console.WriteLine(module.Id + " " + module.ConnectionState.ToString());
-            }
-        }
-
-        private void GetAzureIoTEdgeModules(AzureDeviceEntity azureDeviceEntity)
-        {
-            if (azureDeviceEntity != null)
-            {
-                if (azureDeviceEntity.IotEdge)
-                {
-                    ShowAzureIoTEdgeModuleList(azureDeviceEntity.Modules);
-                }
-            }
         }
 
         public void GetNicList()
@@ -382,7 +302,7 @@ namespace IoTEdgeInstaller
             Console.WriteLine(((PSDataCollection<InformationRecord>)sender)[e.Index].ToString());
         }
 
-        private async Task CreateAzureIoTEdgeDeviceAsync(AzureIoTHub azureIoTHub, string azureCreateId, bool installIIoTModules)
+        public void CreateAzureIoTEdgeDevice(AzureIoTHub azureIoTHub, string azureCreateId, bool installIIoTModules)
         {
             PowerShell PS = PowerShell.Create();
             PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
@@ -398,7 +318,7 @@ namespace IoTEdgeInstaller
                 else
                 {
                     // check if device exists already
-                    var deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
+                    var deviceEntity = azureIoTHub.GetDevice(azureCreateId);
                     if (deviceEntity != null)
                     {
                         char decision = 'a';
@@ -410,7 +330,7 @@ namespace IoTEdgeInstaller
                         }
                         if (decision == 'y')
                         {
-                            await azureIoTHub.DeleteDeviceAsync(azureCreateId);
+                            azureIoTHub.DeleteDevice(azureCreateId);
                         }
                         else
                         {
@@ -419,16 +339,16 @@ namespace IoTEdgeInstaller
                     }
                     
                     // create the device
-                    await azureIoTHub.CreateDeviceAsync(azureCreateId, true);
+                    azureIoTHub.CreateIoTEdgeDevice(azureCreateId);
 
                     // retrieve the newly created device
-                    deviceEntity = await azureIoTHub.GetDeviceAsync(azureCreateId);
+                    deviceEntity = azureIoTHub.GetDevice(azureCreateId);
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
                         {
                             // installation failed so delete the device again
-                            await azureIoTHub.DeleteDeviceAsync(azureCreateId);
+                            azureIoTHub.DeleteDevice(azureCreateId);
                         }
                     }
                     else
@@ -444,7 +364,7 @@ namespace IoTEdgeInstaller
                 try
                 {
                     // installation failed so delete the device again (if neccessary)
-                    await azureIoTHub.DeleteDeviceAsync(azureCreateId);
+                    azureIoTHub.DeleteDevice(azureCreateId);
                 }
                 catch (Exception ex2)
                 {

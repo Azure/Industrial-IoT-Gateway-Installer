@@ -130,9 +130,6 @@
   <data name="NewAzureDevice" xml:space="preserve">
     <value>Install Azure IoT Edge on this Computer</value>
   </data>
-  <data name="AzureDeviceId" xml:space="preserve">
-    <value>Devices already registered with this IoT Hub:</value>
-  </data>
   <data name="CreateEdgeButton" xml:space="preserve">
     <value>Install</value>
   </data>
