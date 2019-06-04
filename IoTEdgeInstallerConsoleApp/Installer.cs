@@ -318,7 +318,7 @@ namespace IoTEdgeInstaller
                 else
                 {
                     // check if device exists already
-                    var deviceEntity = azureIoTHub.GetDevice(azureCreateId);
+                    var deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
                     if (deviceEntity != null)
                     {
                         char decision = 'a';
@@ -330,7 +330,7 @@ namespace IoTEdgeInstaller
                         }
                         if (decision == 'y')
                         {
-                            azureIoTHub.DeleteDevice(azureCreateId);
+                            azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
                         }
                         else
                         {
@@ -339,16 +339,16 @@ namespace IoTEdgeInstaller
                     }
                     
                     // create the device
-                    azureIoTHub.CreateIoTEdgeDevice(azureCreateId);
+                    azureIoTHub.CreateIoTEdgeDevice(Program.RunPSCommand, azureCreateId);
 
                     // retrieve the newly created device
-                    deviceEntity = azureIoTHub.GetDevice(azureCreateId);
+                    deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
                         {
                             // installation failed so delete the device again
-                            azureIoTHub.DeleteDevice(azureCreateId);
+                            azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
                         }
                     }
                     else
@@ -364,7 +364,7 @@ namespace IoTEdgeInstaller
                 try
                 {
                     // installation failed so delete the device again (if neccessary)
-                    azureIoTHub.DeleteDevice(azureCreateId);
+                    azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
                 }
                 catch (Exception ex2)
                 {

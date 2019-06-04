@@ -83,7 +83,9 @@ namespace IoTEdgeInstaller
 
     public class AzureIoTHub
     {
+        public delegate void ShowProgress(double percentProgress, bool isAbsolute);
         public delegate void ShowError(string error);
+        public delegate Collection<string> RunPSCommand(string command);
 
         public AzureIoTHub(string name, string connectionString, string subscriptionName)
         {
@@ -95,61 +97,64 @@ namespace IoTEdgeInstaller
 
         public string SubscriptionName { get; set; }
 
-        public AzureDeviceEntity GetDevice(string deviceId)
+        public AzureDeviceEntity GetDevice(RunPSCommand PSCallback, string deviceId)
         {
             //az iot hub device-identity show --device-id myEdgeDevice --hub-name {hub_name}
-            /*           if (device != null)
-                       {
-                           var deviceEntity = new AzureDeviceEntity()
-                           {
-                               Id = device.Id
-                           };
+            Collection<string> results = PSCallback?.Invoke($"az iot hub device-identity show --device-id {deviceId} --hub-name {Name}");
+            if (results != null && results.Count != 0)
+            {
+                var deviceEntity = new AzureDeviceEntity();
+                
+                //TODO
+                //deviceEntity.Id = device.Id
+                
+                //if (device.Capabilities != null)
+                //{
+                //    deviceEntity.IotEdge = device.Capabilities.IotEdge;
+                //}
 
-                           if (device.Capabilities != null)
-                           {
-                               deviceEntity.IotEdge = device.Capabilities.IotEdge;
-                           }
+                ////az iot hub device-identity show-connection-string --device-id myEdgeDevice --hub-name {hub_name}
+                //if (device.Authentication != null &&
+                //    device.Authentication.SymmetricKey != null)
+                //{
+                //    deviceEntity.PrimaryKey = device.Authentication.SymmetricKey.PrimaryKey;
+                //}
 
-                           //az iot hub device-identity show-connection-string --device-id myEdgeDevice --hub-name {hub_name}
-                           if (device.Authentication != null &&
-                               device.Authentication.SymmetricKey != null)
-                           {
-                               deviceEntity.PrimaryKey = device.Authentication.SymmetricKey.PrimaryKey;
-                           }
+                //if (deviceEntity.IotEdge)
+                //{
+                //    var moduleList = new List<AzureModuleEntity>();
+                //    //az iot hub module-identity list --device-id myEdgeDevice --hub-name {hub_name}
+                //    if (modules != null)
+                //    {
+                //        foreach (var m in modules)
+                //        {
+                //            var entity = new AzureModuleEntity()
+                //            {
+                //                Id = m.Id,
+                //                DeviceId = m.DeviceId,
+                //            };
+                //            moduleList.Add(entity);
+                //        }
+                //    }
+                //    deviceEntity.Modules = moduleList;
+                //}
 
-                           if (deviceEntity.IotEdge)
-                           {
-                               var moduleList = new List<AzureModuleEntity>();
-                               //az iot hub module-identity list --device-id myEdgeDevice --hub-name {hub_name}
-                               if (modules != null)
-                               {
-                                   foreach (var m in modules)
-                                   {
-                                       var entity = new AzureModuleEntity()
-                                       {
-                                           Id = m.Id,
-                                           DeviceId = m.DeviceId,
-                                       };
-                                       moduleList.Add(entity);
-                                   }
-                               }
-                               deviceEntity.Modules = moduleList;
-                           }
-                           return deviceEntity;
-                       }*/
+                return deviceEntity;
+            }
+
             return null;
         }
 
-        public bool CreateIoTEdgeDevice(string id)
+        public bool CreateIoTEdgeDevice(RunPSCommand PSCallback, string deviceId)
         {
-            //az iot hub device-identity create --device-id myEdgeDevice --hub-name {hub_name} --edge-enabled
-            return false;
+            Collection<string> results = PSCallback?.Invoke($"az iot hub device-identity create --device-id {deviceId} --hub-name {Name} --edge-enabled");
+            return (results != null && results.Count != 0);
         }
 
-        public bool DeleteDevice(string id)
+        public bool DeleteDevice(RunPSCommand PSCallback, string deviceId)
         {
-            //az iot hub device-identity delete --device-id myEdgeDevice --hub-name {hub_name}
-            return false;
+            Collection<string> results = PSCallback?.Invoke($"az iot hub device-identity delete --device-id {deviceId} --hub-name {Name}");
+            return (results != null && results.Count != 0);
         }
     }
 
