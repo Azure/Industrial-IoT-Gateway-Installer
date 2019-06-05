@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,13 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="iiotedgedeploymentmanifest.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="iiotedgedeploymentmanifest.json">
+    <EmbeddedResource Include="iiotedgedeploymentmanifest.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
