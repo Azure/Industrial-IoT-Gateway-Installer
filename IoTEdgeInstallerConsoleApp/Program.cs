@@ -66,10 +66,6 @@ namespace IoTEdgeInstallerConsoleApp
 
         static void Main(string[] args)
         {
-            Console.WriteLine("OS: " + Environment.OSVersion.Platform.ToString());
-            Console.WriteLine("TODO: Remove: Press ENTER when debugger is connected.");
-            Console.ReadLine();
-
 #if !DEBUG
             // Try to elevate to admin
             try
