@@ -146,7 +146,7 @@
     <value>Please restart this app as Administrator/sudo.</value>
   </data>
   <data name="AzureCLI" xml:space="preserve">
-    <value>We first need to install the Azure CLI for Windows. The Web installer will now launch. Please reboot after the installation is complete.</value>
+    <value>We first need to install the Azure CLI. The installer will now launch. Please reboot after the installation is complete.</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>This part of the installation is completed.</value>

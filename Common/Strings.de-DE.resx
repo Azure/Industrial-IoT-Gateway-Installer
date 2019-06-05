@@ -124,7 +124,7 @@
     <value>Bitte started Sie diese App als Administrator/sudo neu.</value>
   </data>
   <data name="AzureCLI" xml:space="preserve">
-    <value>Wir muessen zunaechst Azure CLI fuer Windows installieren. Der Web-Installer dafuer wird nun ausgefuehrt. Bitte starten Sie den Computer danach neu.</value>
+    <value>Wir muessen zunaechst Azure CLI installieren. Der Installer dafuer wird nun ausgefuehrt. Bitte starten Sie den Computer danach neu.</value>
   </data>
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
     <value>Geben Sie Ihrem IoT Edge Geraet einen Namen:</value>
