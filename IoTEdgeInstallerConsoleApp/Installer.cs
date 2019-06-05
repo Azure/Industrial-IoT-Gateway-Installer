@@ -133,14 +133,13 @@ namespace IoTEdgeInstaller
 
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
-                    // TODO:
-                    //"curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > ./microsoft-prod.list";
-                    //"sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/";
-                    //"curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg";
-                    //"sudo cp ./microsoft.gpg /etc/apt/trusted.gpg.d/";
-                    //"sudo apt-get update";
-                    //"sudo apt-get --assume-yes install moby-engine";
-                    //"sudo apt-get --assume-yes install moby-cli";
+                    "curl -N https://packages.microsoft.com/config/ubuntu/18.04/prod.list > ./microsoft-prod.list".Bash();
+                    "sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/".Bash();
+                    "curl -N https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg".Bash();
+                    "sudo cp ./microsoft.gpg /etc/apt/trusted.gpg.d/".Bash();
+                    "sudo apt-get update".Bash();
+                    "sudo apt-get --assume-yes install moby-engine".Bash();
+                    "sudo apt-get --assume-yes install moby-cli".Bash();
                 }
                 else if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
@@ -239,11 +238,10 @@ namespace IoTEdgeInstaller
                 }
                 else if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
-                    // TODO:
-                    //"sudo apt-get update";
-                    //"sudo apt-get --assume-yes install iotedge";
-                    //$"sudo sed -i 's/<ADD DEVICE CONNECTION STRING HERE>/HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}/g' /etc/iotedge/config.yaml";
-                    //"sudo systemctl restart iotedge";
+                    "sudo apt-get update".Bash();
+                    "sudo apt-get --assume-yes install iotedge".Bash();
+                    $"sudo sed -i 's/<ADD DEVICE CONNECTION STRING HERE>/HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}/g' /etc/iotedge/config.yaml".Bash();
+                    "sudo systemctl restart iotedge".Bash();
                 }
                 else
                 {

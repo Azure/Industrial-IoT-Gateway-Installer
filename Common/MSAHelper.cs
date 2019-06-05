@@ -11,6 +11,27 @@ namespace IoTEdgeInstaller
         SignedOut
     }
 
+    public static class ShellHelper
+    {
+        public static int Bash(this string cmd)
+        {
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{cmd.Replace("\"", "\\\"")}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            process.WaitForExit();
+            return process.ExitCode;
+        }
+    }
+
     public class MSAHelper
     {
         public static SigninStates CurrentState { get; private set; } = SigninStates.SignedOut;
@@ -43,9 +64,9 @@ namespace IoTEdgeInstaller
                     }
                     else if (Environment.OSVersion.Platform == PlatformID.Unix)
                     {
-                        Process.Start(new ProcessStartInfo("sudo apt-get update")).WaitForExit();
-                        Process.Start(new ProcessStartInfo("sudo apt --assume-yes install curl")).WaitForExit();
-                        Process.Start(new ProcessStartInfo("curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash"));
+                        "sudo apt-get update".Bash();
+                        "sudo apt --assume-yes install curl".Bash();
+                        "curl -sL -N https://aka.ms/InstallAzureCLIDeb | sudo bash".Bash();
                     }
                     else
                     {
