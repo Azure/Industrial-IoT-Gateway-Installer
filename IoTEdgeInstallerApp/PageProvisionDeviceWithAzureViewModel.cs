@@ -201,6 +201,10 @@ namespace IoTEdgeInstaller
             {
                 // check if setup already
                 PowerShell PS = PowerShell.Create();
+                PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+                PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+
                 PS.AddScript("get-vmswitch");
                 Collection<PSObject> results = PS.Invoke();
                 PS.Streams.ClearStreams();
@@ -345,8 +349,7 @@ namespace IoTEdgeInstaller
             _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
             SetUIState(ShowMainProgressUI);
             _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Installing, DispatcherPriority.Background);
-
-
+            
             PowerShell PS = PowerShell.Create();
             PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
             PS.Streams.Error.DataAdded += PSErrorStreamHandler;

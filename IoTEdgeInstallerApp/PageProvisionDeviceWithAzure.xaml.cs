@@ -58,11 +58,39 @@ namespace IoTEdgeInstaller
             MessageBox.Show(error, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private void PSErrorStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            string text = ((PSDataCollection<ErrorRecord>)sender)[e.Index].ToString();
+
+            // supress encoding exceptions
+            if (!text.Contains("Exception setting \"OutputEncoding\""))
+            {
+                _viewModel.OutputLB += text;
+                _viewModel.OutputLB += "\n";
+            }
+        }
+
+        private void PSWarningStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            _viewModel.OutputLB += ((PSDataCollection<WarningRecord>)sender)[e.Index].ToString();
+            _viewModel.OutputLB += "\n";
+        }
+
+        private void PSInfoStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            _viewModel.OutputLB += ((PSDataCollection<InformationRecord>)sender)[e.Index].ToString();
+            _viewModel.OutputLB += "\n";
+        }
+
         public Collection<string> RunPSCommand(string command)
         {
             Collection<string> returnValues = new Collection<string>();
             using (PowerShell ps = PowerShell.Create())
             {
+                ps.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                ps.Streams.Error.DataAdded += PSErrorStreamHandler;
+                ps.Streams.Information.DataAdded += PSInfoStreamHandler;
+
                 ps.AddScript(command);
                 Collection<PSObject> results = ps.Invoke();
                 ps.Streams.ClearStreams();

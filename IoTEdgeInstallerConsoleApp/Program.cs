@@ -20,11 +20,36 @@ namespace IoTEdgeInstallerConsoleApp
             Console.WriteLine("Error: " + error);
         }
 
+        private static void PSErrorStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            string text = ((PSDataCollection<ErrorRecord>)sender)[e.Index].ToString();
+
+            // supress encoding exceptions
+            if (!text.Contains("Exception setting \"OutputEncoding\""))
+            {
+                Console.WriteLine(text);
+            }
+        }
+
+        private static void PSWarningStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            Console.WriteLine(((PSDataCollection<WarningRecord>)sender)[e.Index].ToString());
+        }
+
+        private static void PSInfoStreamHandler(object sender, DataAddedEventArgs e)
+        {
+            Console.WriteLine(((PSDataCollection<InformationRecord>)sender)[e.Index].ToString());
+        }
+
         public static Collection<string> RunPSCommand(string command)
         {
             Collection<string> returnValues = new Collection<string>();
             using (PowerShell ps = PowerShell.Create())
             {
+                ps.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                ps.Streams.Error.DataAdded += PSErrorStreamHandler;
+                ps.Streams.Information.DataAdded += PSInfoStreamHandler;
+
                 ps.AddScript(command);
                 Collection<PSObject> results = ps.Invoke();
                 ps.Streams.ClearStreams();
