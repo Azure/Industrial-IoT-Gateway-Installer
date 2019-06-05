@@ -42,6 +42,12 @@ namespace IoTEdgeInstaller
                                 hubName = hubName.Substring(hubName.IndexOf("\"") + 1);
                                 hubName = hubName.Substring(0, hubName.IndexOf("\""));
 
+                                // filter
+                                if (hubName == "$fallback" || hubName == "S1" || hubName == "F1" || hubName == "B1")
+                                {
+                                    continue;
+                                }
+
                                 tasks.Add(Task.Run(() =>
                                 {
                                     Collection<string> results2 = PSCallback("az iot hub show-connection-string --name '" + hubName + "'");
@@ -52,13 +58,10 @@ namespace IoTEdgeInstaller
                                             string connectionString = results2[j];
                                             if (connectionString.Contains("\"connectionString\""))
                                             {
-                                                connectionString = connectionString.Substring(connectionString.IndexOf(":"));
-                                                connectionString = connectionString.Substring(connectionString.IndexOf("\"") + 1);
-                                                connectionString = connectionString.Substring(0, connectionString.IndexOf("\""));
-
+                                                // we have access
                                                 lock (hubListLock)
                                                 {
-                                                    hubList.Add(new AzureIoTHub(hubName + " (" + subscriptionName + ")", connectionString, subscriptionName));
+                                                    hubList.Add(new AzureIoTHub(hubName, subscriptionName));
                                                 }
                                             }
                                         }
@@ -69,6 +72,7 @@ namespace IoTEdgeInstaller
                     }
                  
                     Task.WhenAll(tasks).Wait();
+                    tasks.Clear();
                     progressCallback?.Invoke(progressPerSubscription, false);
                 }
             }
@@ -85,15 +89,18 @@ namespace IoTEdgeInstaller
     {
         public delegate Collection<string> RunPSCommand(string command);
 
-        public AzureIoTHub(string name, string connectionString, string subscriptionName)
+        public AzureIoTHub(string name, string subscriptionName)
         {
             Name = name;
             SubscriptionName = subscriptionName;
+            DisplayName = Name + " (" + SubscriptionName + ")";
         }
 
         public string Name { get; set; }
 
         public string SubscriptionName { get; set; }
+
+        public string DisplayName { get; set; }
 
         public AzureDeviceEntity GetDevice(RunPSCommand PSCallback, string deviceId)
         {
@@ -101,40 +108,49 @@ namespace IoTEdgeInstaller
             if (results != null && results.Count != 0)
             {
                 var deviceEntity = new AzureDeviceEntity();
-                
-                //TODO
-                //deviceEntity.Id = device.Id
-                
-                //if (device.Capabilities != null)
-                //{
-                //    deviceEntity.IotEdge = device.Capabilities.IotEdge;
-                //}
+                deviceEntity.Id = deviceId;
 
-                ////az iot hub device-identity show-connection-string --device-id myEdgeDevice --hub-name {hub_name}
-                //if (device.Authentication != null &&
-                //    device.Authentication.SymmetricKey != null)
-                //{
-                //    deviceEntity.PrimaryKey = device.Authentication.SymmetricKey.PrimaryKey;
-                //}
+                for (int i = 0; i < results.Count; i++)
+                {
+                    string result = results[i];
+                    if (result.Contains("\"iotEdge\": true"))
+                    {
+                        deviceEntity.IotEdge = true;
+                        continue;
+                    }
 
-                //if (deviceEntity.IotEdge)
-                //{
-                //    var moduleList = new List<AzureModuleEntity>();
-                //    //az iot hub module-identity list --device-id myEdgeDevice --hub-name {hub_name}
-                //    if (modules != null)
-                //    {
-                //        foreach (var m in modules)
-                //        {
-                //            var entity = new AzureModuleEntity()
-                //            {
-                //                Id = m.Id,
-                //                DeviceId = m.DeviceId,
-                //            };
-                //            moduleList.Add(entity);
-                //        }
-                //    }
-                //    deviceEntity.Modules = moduleList;
-                //}
+                    if (result.Contains("primaryKey"))
+                    {
+                        result = result.Substring(result.IndexOf(":"));
+                        result = result.Substring(result.IndexOf("\"") + 1);
+                        result = result.Substring(0, result.IndexOf("\""));
+                        deviceEntity.PrimaryKey = result;
+                    }
+                }
+
+                if (deviceEntity.IotEdge)
+                {
+                    deviceEntity.Modules = new List<AzureModuleEntity>();
+
+                    Collection<string> results2 = PSCallback?.Invoke($"az iot hub module-identity list --device-id {deviceId} --hub-name {Name}");
+                    if (results2 != null && results2.Count != 0)
+                    {
+                        for (int i = 0; i < results2.Count; i++)
+                        {
+                            string result = results2[i];
+                            if (result.Contains("moduleId"))
+                            {
+                                var entity = new AzureModuleEntity();
+                                result = result.Substring(result.IndexOf(":"));
+                                result = result.Substring(result.IndexOf("\"") + 1);
+                                result = result.Substring(0, result.IndexOf("\""));
+                                entity.Id = result;
+                                entity.DeviceId = deviceEntity.Id;
+                                deviceEntity.Modules.Add(entity);
+                            }
+                        }
+                    }
+                }
 
                 return deviceEntity;
             }
@@ -151,7 +167,7 @@ namespace IoTEdgeInstaller
         public bool DeleteDevice(RunPSCommand PSCallback, string deviceId)
         {
             Collection<string> results = PSCallback?.Invoke($"az iot hub device-identity delete --device-id {deviceId} --hub-name {Name}");
-            return (results != null && results.Count != 0);
+            return (results != null);
         }
     }
 

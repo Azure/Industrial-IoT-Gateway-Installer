@@ -139,6 +139,7 @@ namespace IoTEdgeInstaller
 
         private void ButtonCreateAzureCreateEdge_Click(object sender, RoutedEventArgs e)
         {
+            _viewModel.OutputLB = string.Empty;
             _viewModel.CreateAzureIoTEdgeDevice();
         }
     }

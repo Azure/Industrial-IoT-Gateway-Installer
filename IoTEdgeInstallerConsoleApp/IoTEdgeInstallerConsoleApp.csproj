@@ -6,7 +6,6 @@
     <StartupObject>IoTEdgeInstallerConsoleApp.Program</StartupObject>
     <ApplicationIcon />
     <Win32Resource />
-    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

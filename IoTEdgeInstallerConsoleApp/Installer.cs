@@ -256,16 +256,8 @@ namespace IoTEdgeInstaller
                 {
                     Console.WriteLine(Strings.Deployment);
 
-                    // first set the Azure subscription for the selected IoT Hub
-                    string cmd = $"Az account set --subscription '{iotHub.SubscriptionName}'";
-                    PS.AddScript(cmd);
+                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json");
                     Collection<PSObject> results = PS.Invoke();
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
-
-                    cmd = $"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json";
-                    PS.AddScript(cmd);
-                    results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
                     if (results.Count == 0)
@@ -320,6 +312,12 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
+                    // first set the Azure subscription for the selected IoT Hub
+                    PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
+                    Collection<PSObject> results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+
                     // check if device exists already
                     var deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
                     if (deviceEntity != null)
