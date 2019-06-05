@@ -41,7 +41,7 @@ namespace IoTEdgeInstaller
             for (int i = 0; i < hubList.Count; i++)
             {
                 var hub = hubList[i];
-                Console.WriteLine(i.ToString() + ": " + hub.Name);
+                Console.WriteLine(i.ToString() + ": " + hub.DisplayName);
             }
 
             bool selectionSuccessful = false;
@@ -220,7 +220,7 @@ namespace IoTEdgeInstaller
                         }
 
                         Console.WriteLine(Strings.Install);
-                        newProcessInfo.Arguments = $"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck";
+                        newProcessInfo.Arguments = $"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck";
                         process = Process.Start(newProcessInfo);
                         process.WaitForExit();
                         if (process.ExitCode != 0)
@@ -240,7 +240,7 @@ namespace IoTEdgeInstaller
                 {
                     "sudo apt-get update".Bash();
                     "sudo apt-get --assume-yes install iotedge".Bash();
-                    $"sudo sed -i 's/<ADD DEVICE CONNECTION STRING HERE>/HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}/g' /etc/iotedge/config.yaml".Bash();
+                    $"sudo sed -i 's/<ADD DEVICE CONNECTION STRING HERE>/HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}/g' /etc/iotedge/config.yaml".Bash();
                     "sudo systemctl restart iotedge".Bash();
                 }
                 else
@@ -253,7 +253,7 @@ namespace IoTEdgeInstaller
                 {
                     Console.WriteLine(Strings.Deployment);
 
-                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json");
+                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./iiotedgedeploymentmanifest.json");
                     Collection<PSObject> results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();

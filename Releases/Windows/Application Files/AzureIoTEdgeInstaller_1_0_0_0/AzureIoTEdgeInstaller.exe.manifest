@@ -42,26 +42,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AzureIoTEdgeInstaller.exe" size="46080">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AzureIoTEdgeInstaller.exe" size="52736">
       <assemblyIdentity name="AzureIoTEdgeInstaller" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>NodNX25GueKqXjK9BFa1mSy2uVVbN4MASuQTFbPrlW4=</dsig:DigestValue>
+        <dsig:DigestValue>TrSvUsi1H8s7kjtAKncbbrYZsIW5J7LbFWfQFe99s/A=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Common.dll" size="19456">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Common.dll" size="20992">
       <assemblyIdentity name="Common" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>dhmG8LhbEQ7yHAxRPKENPRUcLZJO+c589ruUQ17pVeE=</dsig:DigestValue>
+        <dsig:DigestValue>NYZbRtdgCgC+3zSGd8/eZDWXR0Rdc05cgothq/Ifgzk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -73,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ixFsYN0621XU4m4grfDMOHnh+vsbWPz/RBT6a9ufFug=</dsig:DigestValue>
+        <dsig:DigestValue>cnXT9ANuOaKkXRJL8RpneoT/XG09EFgjfdIlKtGmY+s=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

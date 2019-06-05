@@ -277,7 +277,7 @@ namespace IoTEdgeInstaller
                 }
 
                 OutputLB += (Strings.Install + "\n");
-                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck");
+                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck");
                 Collection<PSObject> results = PS.Invoke();
                 PS.Streams.ClearStreams();
                 PS.Commands.Clear();
@@ -293,7 +293,7 @@ namespace IoTEdgeInstaller
                 {
                     OutputLB += (Strings.Deployment + "\n");
 
-                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name.Substring(0, iotHub.Name.IndexOf(" "))} --content ./iiotedgedeploymentmanifest.json");
+                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./iiotedgedeploymentmanifest.json");
                     results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
