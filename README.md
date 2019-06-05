@@ -1,6 +1,6 @@
 
 # Azure IoT Edge Installer
-This installer installs Azure IoT Edge on a local computer for both Windows 10 (using both a desktop app and a console app)
+This installer installs Azure IoT Edge on a local computer for both Windows 10 (supporting both a desktop app or a console app)
 as well as Linux (currently Ubuntu is supported only) in a simple, step-by-step manner. It installs all prerequisits and optionally installs
 the Azure Industrial IoT Edge modules OPC Twin (see https://github.com/Azure/azure-iiot-opc-twin-module) and OPC Publisher
 (see https://github.com/Azure/iot-edge-opc-publisher). It also enumerates all IoT Hubs the user has access to for easy selection
