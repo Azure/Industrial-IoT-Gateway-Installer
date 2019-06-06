@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace IoTEdgeInstaller
@@ -12,6 +13,27 @@ namespace IoTEdgeInstaller
         public delegate Collection<string> RunPSCommand(string command);
 
         private static object hubListLock = new object();
+
+        public static string DeploymentManifestName = "IoTEdgeInstaller.iiotedgedeploymentmanifest.json";
+
+        public static bool LoadDeploymentManifest()
+        {
+            
+            Stream istrm = typeof(AzureIoT).Assembly.GetManifestResourceStream(DeploymentManifestName);
+            if (istrm != null)
+            {
+                // store in app directory
+                FileStream ostrm = File.Create(Directory.GetCurrentDirectory() + "/" + DeploymentManifestName);
+                istrm.CopyTo(ostrm);
+
+                ostrm.Flush();
+                ostrm.Dispose();
+                istrm.Dispose();
+                return true;
+            }
+
+            return false;
+        }
 
         public static List<AzureIoTHub> GetIotHubList(
             ShowProgress progressCallback,

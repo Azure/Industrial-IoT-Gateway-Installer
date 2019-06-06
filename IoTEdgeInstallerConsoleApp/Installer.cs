@@ -253,7 +253,8 @@ namespace IoTEdgeInstaller
                 {
                     Console.WriteLine(Strings.Deployment);
 
-                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./iiotedgedeploymentmanifest.json");
+                    AzureIoT.LoadDeploymentManifest();
+                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestName}");
                     Collection<PSObject> results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();

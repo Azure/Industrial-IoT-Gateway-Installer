@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="iiotedgedeploymentmanifest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
