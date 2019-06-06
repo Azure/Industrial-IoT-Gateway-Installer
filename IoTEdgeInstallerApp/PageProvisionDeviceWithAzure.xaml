@@ -366,7 +366,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <CheckBox x:Name="CheckBox" Visibility="{Binding CanChangeDevice}" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,10,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#121416"></CheckBox>
+                    <CheckBox x:Name="CheckBox" Visibility="{Binding CanChangeDevice}" IsChecked="True" Height="25" Width="300" HorizontalAlignment="Left" Margin="0,15,0,0" FontSize="15" FontFamily="./Properties/#Selawik" Foreground="#AFB9C3" Background="#AFB9C3"></CheckBox>
                     <Button Margin="0,10,0,0" Width="300"  x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Visibility="{Binding CanChangeDevice}" Click="ButtonCreateAzureCreateEdge_Click" />
                     <TextBlock x:Name="IoTEdgeTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding IsIoTEdgeDevice}"/>
                     <StackPanel Orientation="Horizontal" Visibility="{Binding IsIoTEdgeDevice}">
