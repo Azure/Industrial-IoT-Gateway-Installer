@@ -41,9 +41,15 @@ namespace IoTEdgeInstaller
             RunPSCommand PSCallback)
         {
             List<AzureIoTHub> hubList = new List<AzureIoTHub>();
-
+            
             try
             {
+                if (MSAHelper.Subscriptions.Count == 0)
+                {
+                    // no subscritions means no IoT Hubs
+                    return hubList;
+                }
+
                 double progressPerSubscription = 85.0f / MSAHelper.Subscriptions.Count;
                 for (int k = 0; k < MSAHelper.Subscriptions.Count; k++)
                 {

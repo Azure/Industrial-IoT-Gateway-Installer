@@ -15,8 +15,8 @@ namespace IoTEdgeInstaller
         private static Installer _instance = null;
         private static object _creationLock = new object();
                
-        private List<NicsEntity> nics = new List<NicsEntity>();
-        private int selectedNicIndex = 0;
+        private List<NicsEntity> _nicList = new List<NicsEntity>();
+        private int _selectedNicIndex = 0;
         
         private Installer() { }
 
@@ -36,7 +36,7 @@ namespace IoTEdgeInstaller
             return _instance;
         }
 
-        private AzureIoTHub ShowAzureIoTHubList(List<AzureIoTHub> hubList)
+        public AzureIoTHub SelectIoTHub(List<AzureIoTHub> hubList)
         {
             for (int i = 0; i < hubList.Count; i++)
             {
@@ -64,62 +64,52 @@ namespace IoTEdgeInstaller
             return hubList[(int) index];
         }
 
-        public AzureIoTHub DiscoverAzureIoTHubs()
+        public void SelectNic()
         {
-            return ShowAzureIoTHubList(AzureIoT.GetIotHubList(Program.ConsoleShowProgress, Program.ConsoleShowError, Program.RunPSCommand));
-        }
-
-        public void GetNicList()
-        {
-            var interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (var nic in interfaces)
-            {
-                if (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet
-                 || nic.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
-                 || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                {
-                    var entity = new NicsEntity
-                    {
-                        Name = nic.Name,
-                        Description = nic.Description
-                    };
-                    nics.Add(entity);
-                }
-            }
-
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                ShowNicList(nics);
-            }
-        }
-
-        private void ShowNicList(IList<NicsEntity> nicList)
-        {
-            Console.WriteLine();
-            Console.WriteLine(Strings.Nic + " [0..n]:");
-
-            for (int i = 0; i < nicList.Count; i++)
-            {
-                var nic = nicList[i];
-                Console.WriteLine(i.ToString() + ": " + nic.Name + " (" + nic.Description + ")");
-            }
-
-            bool selectionSuccessful = false;
-            uint index = 0;
-            while (!selectionSuccessful)
-            {
-                Console.WriteLine();
-                string selection = Console.ReadLine();
-                if (uint.TryParse(selection, out index))
+                var interfaces = NetworkInterface.GetAllNetworkInterfaces();
+                foreach (var nic in interfaces)
                 {
-                    if (index < nicList.Count)
+                    if (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet
+                     || nic.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
+                     || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
                     {
-                        selectionSuccessful = true;
+                        var entity = new NicsEntity
+                        {
+                            Name = nic.Name,
+                            Description = nic.Description
+                        };
+                        _nicList.Add(entity);
                     }
                 }
-            }
 
-            selectedNicIndex = (int)index;
+                Console.WriteLine();
+                Console.WriteLine(Strings.Nic + " [0..n]:");
+
+                for (int i = 0; i < _nicList.Count; i++)
+                {
+                    var nic = _nicList[i];
+                    Console.WriteLine(i.ToString() + ": " + nic.Name + " (" + nic.Description + ")");
+                }
+
+                bool selectionSuccessful = false;
+                uint index = 0;
+                while (!selectionSuccessful)
+                {
+                    Console.WriteLine();
+                    string selection = Console.ReadLine();
+                    if (uint.TryParse(selection, out index))
+                    {
+                        if (index < _nicList.Count)
+                        {
+                            selectionSuccessful = true;
+                        }
+                    }
+                }
+
+                _selectedNicIndex = (int)index;
+            }
         }
 
         private bool SetupPrerequisits()
@@ -163,7 +153,7 @@ namespace IoTEdgeInstaller
                         }
                     }
 
-                    PS.AddScript($"new-vmswitch -name host -NetAdapterName {nics.ElementAt(selectedNicIndex).Name} -AllowManagementOS $true");
+                    PS.AddScript($"new-vmswitch -name host -NetAdapterName {_nicList.ElementAt(_selectedNicIndex).Name} -AllowManagementOS $true");
                     results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
@@ -302,58 +292,59 @@ namespace IoTEdgeInstaller
             PS.Streams.Error.DataAdded += PSErrorStreamHandler;
             PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
-            try
+            if (!SetupPrerequisits())
             {
-                if (!SetupPrerequisits())
+                Console.WriteLine("Error: " + Strings.PreRequisitsFailed);
+                return;
+            }
+           
+            // first set the Azure subscription for the selected IoT Hub
+            PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
+            Collection<PSObject> results = PS.Invoke();
+            PS.Streams.ClearStreams();
+            PS.Commands.Clear();
+
+            // check if device exists already
+            var deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
+            if (deviceEntity != null)
+            {
+                char decision = 'a';
+                while (decision != 'y' && decision != 'n')
                 {
-                    Console.WriteLine("Error: " + Strings.PreRequisitsFailed);
+                    Console.WriteLine();
+                    Console.Write(Strings.DeletedDevice + " [y/n]: ");
+                    decision = Console.ReadKey().KeyChar;
+                }
+                Console.WriteLine();
+
+                if (decision == 'y')
+                {
+                    azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
                 }
                 else
                 {
-                    // first set the Azure subscription for the selected IoT Hub
-                    PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
-                    Collection<PSObject> results = PS.Invoke();
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
+                    return;
+                }
+            }
 
-                    // check if device exists already
-                    var deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
-                    if (deviceEntity != null)
-                    {
-                        char decision = 'a';
-                        while (decision != 'y' && decision != 'n')
-                        {
-                            Console.WriteLine();
-                            Console.Write(Strings.DeletedDevice + "? [y/n]: ");
-                            decision = Console.ReadKey().KeyChar;
-                        }
-                        if (decision == 'y')
-                        {
-                            azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    
-                    // create the device
-                    azureIoTHub.CreateIoTEdgeDevice(Program.RunPSCommand, azureCreateId);
+            try
+            {
+                // create the device
+                azureIoTHub.CreateIoTEdgeDevice(Program.RunPSCommand, azureCreateId);
 
-                    // retrieve the newly created device
-                    deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
-                    if (deviceEntity != null)
+                // retrieve the newly created device
+                deviceEntity = azureIoTHub.GetDevice(Program.RunPSCommand, azureCreateId);
+                if (deviceEntity != null)
+                {
+                    if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
                     {
-                        if (!InstallIoTEdge(deviceEntity, azureIoTHub, installIIoTModules))
-                        {
-                            // installation failed so delete the device again
-                            azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
-                        }
+                        // installation failed so delete the device again
+                        azureIoTHub.DeleteDevice(Program.RunPSCommand, azureCreateId);
                     }
-                    else
-                    {
-                        Console.WriteLine("Error: " + Strings.CreateFailed);
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: " + Strings.CreateFailed);
                 }
             }
             catch (Exception ex)

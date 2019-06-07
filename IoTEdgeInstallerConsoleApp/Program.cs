@@ -96,16 +96,14 @@ namespace IoTEdgeInstallerConsoleApp
 
             Console.WriteLine();
             Console.WriteLine(Strings.Prerequisits);
-            MSAHelper.SignIn(ConsoleShowProgress, ConsoleShowError, RunPSCommand);
-
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
+            if (MSAHelper.SignIn(ConsoleShowProgress, ConsoleShowError, RunPSCommand))
             {
                 Console.WriteLine();
                 Console.WriteLine(Strings.GatheringIoTHubs);
-                AzureIoTHub hub = Installer.GetInstance().DiscoverAzureIoTHubs();
+                AzureIoTHub hub = Installer.GetInstance().SelectIoTHub(AzureIoT.GetIotHubList(ConsoleShowProgress, ConsoleShowError, RunPSCommand));
                 if (hub != null)
                 {
-                    Installer.GetInstance().GetNicList();
+                    Installer.GetInstance().SelectNic();
 
                     string azureDeviceID =  Environment.MachineName;
                     Console.WriteLine();

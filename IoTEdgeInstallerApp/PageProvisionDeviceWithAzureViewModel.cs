@@ -56,14 +56,6 @@ namespace IoTEdgeInstaller
             }
         }
 
-        public void DiscoverIoTEdgeModules(AzureDeviceEntity device)
-        {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
-            {
-                QueueUserWorkItem(GetAzureIoTEdgeModulesAsync, device);
-            }
-        }
-        
         public void SetUIState(SetUIStateType uiDelegate)
         {
             if (Application.Current.Dispatcher.CheckAccess())
@@ -141,36 +133,6 @@ namespace IoTEdgeInstaller
             }
 
             SelectedAzureModuleIndex = 0;
-        }
-
-        private async void GetAzureIoTEdgeModulesAsync(Object threadContext)
-        {
-            _parentPage.progressBar.Dispatcher.Invoke(() => _parentPage.progressBar.IsIndeterminate = true, DispatcherPriority.Background);
-            SetUIState(ShowMainProgressUI);
-
-            if (threadContext is AzureDeviceEntity azureDeviceEntity)
-            {
-                IoTEdgeDevice = azureDeviceEntity.IotEdge;
-                if (azureDeviceEntity.IotEdge)
-                {
-
-                    if (Application.Current.Dispatcher.CheckAccess())
-                    {
-                        SetAzureIoTEdgeModuleList(azureDeviceEntity.Modules);
-                    }
-                    else
-                    {
-                        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                        {
-                            SetAzureIoTEdgeModuleList(azureDeviceEntity.Modules);
-                        }));
-                    }
-                }
-                else
-                {
-                    SetUIState(HideMainProgressUI);
-                }
-            }
         }
 
         private void SetNicList()
@@ -348,37 +310,38 @@ namespace IoTEdgeInstaller
             PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
             var azureIoTHub = threadContext as AzureIoTHub;
-            try
+
+            if (!SetupHyperVSwitch())
             {
-                if (!SetupHyperVSwitch())
-                {
-                    MessageBox.Show(Strings.PreRequisitsFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                else
-                {
-                    // first set the Azure subscription for the selected IoT Hub
-                    PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
-                    Collection<PSObject> results = PS.Invoke();
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
+                MessageBox.Show(Strings.PreRequisitsFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                // first set the Azure subscription for the selected IoT Hub
+                PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
+                Collection<PSObject> results = PS.Invoke();
+                PS.Streams.ClearStreams();
+                PS.Commands.Clear();
 
-                    // check if device exists already
-                    var deviceEntity = azureIoTHub.GetDevice(_parentPage.RunPSCommand, _azureCreateId);
-                    if (deviceEntity != null)
+                // check if device exists already
+                var deviceEntity = azureIoTHub.GetDevice(_parentPage.RunPSCommand, _azureCreateId);
+                if (deviceEntity != null)
+                {
+                    MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.Yes)
                     {
-                        MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
-                        }
-                        else
-                        {
-                            SetUIState(HideMainProgressUI);
-                            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
-                            return;
-                        }
+                        azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
                     }
+                    else
+                    {
+                        SetUIState(HideMainProgressUI);
+                        _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
+                        return;
+                    }
+                }
 
+                try
+                {
                     // create the device
                     azureIoTHub.CreateIoTEdgeDevice(_parentPage.RunPSCommand, _azureCreateId);
 
@@ -397,20 +360,20 @@ namespace IoTEdgeInstaller
                         MessageBox.Show(Strings.CreateFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
 
-                try
-                {
-                    // installation failed so delete the device again (if neccessary)
-                    azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
-                    
-                }
-                catch (Exception ex2)
-                {
-                    MessageBox.Show(ex2.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    try
+                    {
+                        // installation failed so delete the device again (if neccessary)
+                        azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
+
+                    }
+                    catch (Exception ex2)
+                    {
+                        MessageBox.Show(ex2.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
 
