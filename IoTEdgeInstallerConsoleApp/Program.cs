@@ -67,26 +67,29 @@ namespace IoTEdgeInstallerConsoleApp
         static void Main(string[] args)
         {
 #if !DEBUG
-            // Try to elevate to admin
-            try
+            // Try to elevate to admin on Windows
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             {
-                var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-                if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
+                try
                 {
-                    var processInfo = new ProcessStartInfo("dotnet.exe");
-                    processInfo.Arguments = Assembly.GetExecutingAssembly().Location;
-                    processInfo.UseShellExecute = true;
-                    processInfo.Verb = "runas";
-                    Process.Start(processInfo);
+                    var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+                    if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
+                    {
+                        var processInfo = new ProcessStartInfo("dotnet.exe");
+                        processInfo.Arguments = Assembly.GetExecutingAssembly().Location;
+                        processInfo.UseShellExecute = true;
+                        processInfo.Verb = "runas";
+                        Process.Start(processInfo);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message + " " + Strings.Admin);
+                    Console.WriteLine(Strings.EnterToExist);
+                    Console.ReadLine();
                     return;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error: " + ex.Message + " " + Strings.Admin);
-                Console.WriteLine(Strings.EnterToExist);
-                Console.ReadLine();
-                return;
             }
 #endif
             Console.WriteLine(Strings.AboutSubtitle);
