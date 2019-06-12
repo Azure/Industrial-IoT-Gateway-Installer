@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AboutSubtitle" xml:space="preserve">
-    <value>Azure IoT Edge Installer</value>
+    <value>Azure Industrial IoT Gateway Installer</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Bitte started Sie diese App als Administrator/sudo neu.</value>

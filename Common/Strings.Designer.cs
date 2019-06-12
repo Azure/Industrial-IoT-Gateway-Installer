@@ -59,9 +59,9 @@ namespace IoTEdgeInstaller {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Azure IoT Edge Installer.
+        ///   Looks up a localized string similar to Azure Industrial IoT Gateway Installer.
         /// </summary>
         public static string AboutSubtitle {
             get {

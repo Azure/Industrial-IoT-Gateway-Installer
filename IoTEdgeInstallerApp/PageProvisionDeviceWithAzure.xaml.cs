@@ -131,6 +131,8 @@ namespace IoTEdgeInstaller
 
         private void _viewModel_HubEnumerationComplete(object sender, EventArgs e)
         {
+            _viewModel.OutputLB = string.Empty;
+            OutputBox.Width = 430;
             if (_viewModel.AzureIoTHubs.Count == 0)
             {
                 MessageBox.Show(Strings.ConnectToAzure_NoAzureIoTHub, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -139,7 +141,6 @@ namespace IoTEdgeInstaller
 
         private void ButtonCreateAzureCreateEdge_Click(object sender, RoutedEventArgs e)
         {
-            _viewModel.OutputLB = string.Empty;
             _viewModel.CreateAzureIoTEdgeDevice();
         }
     }

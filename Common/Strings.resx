@@ -121,7 +121,7 @@
     <value>Looks like you haven’t set up an Azure IoT Hub yet.</value>
   </data>
   <data name="AboutSubtitle" xml:space="preserve">
-    <value>Azure IoT Edge Installer</value>
+    <value>Azure Industrial IoT Gateway Installer</value>
     <comment>no loc</comment>
   </data>
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">

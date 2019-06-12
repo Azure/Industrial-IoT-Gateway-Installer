@@ -31,13 +31,13 @@
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/Azure/IoT-Edge-Installer/master/Releases/Windows/</InstallUrl>
     <UpdateUrl>https://raw.githubusercontent.com/Azure/IoT-Edge-Installer/master/Releases/Windows/</UpdateUrl>
-    <ProductName>Azure IoT Edge Installer</ProductName>
-    <PublisherName>Azure IoT Edge Installer</PublisherName>
+    <ProductName>Azure Industrial IoT Gateway Installer</ProductName>
+    <PublisherName>Azure Industrial IoT Gateway Installer</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <TrustUrlParameters>true</TrustUrlParameters>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
