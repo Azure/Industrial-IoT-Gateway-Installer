@@ -6,6 +6,9 @@
     <StartupObject>IoTEdgeInstallerConsoleApp.Program</StartupObject>
     <ApplicationIcon />
     <Win32Resource />
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Console.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
