@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>76D7AD242FB3105691B8B933F9B8E3C6088B350B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>9691635667DE0F3E3733D810C903AE9A07E0369C</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>IoTEdgeInstaller_TemporaryKey.pfx</ManifestKeyFile>
@@ -99,6 +99,9 @@
     <StartupObject>IoTEdgeInstaller.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />

@@ -255,7 +255,18 @@ namespace IoTEdgeInstaller
                 {
                     OutputLB += (Strings.Deployment + "\n");
 
-                    AzureIoT.LoadDeploymentManifest();
+                    if (!AzureIoT.CreateDriveMappingDirectory())
+                    {
+                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+
+                    if (!AzureIoT.LoadDeploymentManifest())
+                    {
+                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        return false;
+                    }
+
                     PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestName}");
                     results = PS.Invoke();
                     PS.Streams.ClearStreams();
