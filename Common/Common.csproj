@@ -8,10 +8,4 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="iiotedgedeploymentmanifest.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
 </Project>

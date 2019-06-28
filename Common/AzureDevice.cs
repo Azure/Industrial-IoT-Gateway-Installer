@@ -14,16 +14,26 @@ namespace IoTEdgeInstaller
 
         private static object hubListLock = new object();
 
-        public static string DeploymentManifestName = "IoTEdgeInstaller.iiotedgedeploymentmanifest.json";
+        public static string DeploymentManifestNameWindows = "IoTEdgeInstaller.iiotedgedeploymentmanifestwindows.json";
+        public static string DeploymentManifestNameLinux = "IoTEdgeInstaller.iiotedgedeploymentmanifestlinux.json";
 
         public static bool LoadDeploymentManifest()
         {
-            
-            Stream istrm = typeof(AzureIoT).Assembly.GetManifestResourceStream(DeploymentManifestName);
+            string manifestName = string.Empty;
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                manifestName = DeploymentManifestNameWindows;
+            }
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                manifestName = DeploymentManifestNameLinux;
+            }
+
+            Stream istrm = typeof(AzureIoT).Assembly.GetManifestResourceStream(manifestName);
             if (istrm != null)
             {
                 // store in app directory
-                FileStream ostrm = File.Create(Directory.GetCurrentDirectory() + "/" + DeploymentManifestName);
+                FileStream ostrm = File.Create(Directory.GetCurrentDirectory() + "/" + manifestName);
                 istrm.CopyTo(ostrm);
 
                 ostrm.Flush();

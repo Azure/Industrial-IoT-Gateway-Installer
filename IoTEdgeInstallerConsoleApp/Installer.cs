@@ -255,7 +255,20 @@ namespace IoTEdgeInstaller
                         return false;
                     }
 
-                    PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestName}");
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    {
+                        PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameWindows}");
+                    }
+                    else if (Environment.OSVersion.Platform == PlatformID.Unix)
+                    {
+                        PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameLinux}");
+                    }
+                    else
+                    {
+                        Console.WriteLine(Strings.OSNotSupported);
+                        return false;
+                    }
+
                     Collection<PSObject> results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
