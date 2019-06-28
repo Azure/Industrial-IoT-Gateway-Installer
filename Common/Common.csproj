@@ -8,4 +8,9 @@
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="iiotedgedeploymentmanifestlinux.json" />
+    <EmbeddedResource Include="iiotedgedeploymentmanifestwindows.json" />
+  </ItemGroup>
+
 </Project>
