@@ -6,6 +6,7 @@
     <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>Common.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
+    <HighEntropyVA>true</HighEntropyVA>
   </PropertyGroup>
 
   <ItemGroup>
