@@ -10,6 +10,7 @@
     <AssemblyOriginatorKeyFile>Console.snk</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
     <HighEntropyVA>true</HighEntropyVA>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
