@@ -38,7 +38,7 @@
               "restartPolicy": "always",
               "settings": {
                 "image": "mcr.microsoft.com/iotedge/opc-twin:latest",
-                "createOptions": "{\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"NetworkMode\":\"host\",\"CapAdd\":[\"NET_ADMIN\"]}}"
+                "createOptions": "{\"Hostname\":\"opctwin\",\"Cmd\":[\"PkiRootPath=/mount\"],\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"/IoTEdgeMapping\",\"Target\":\"/mount\"}],\"NetworkMode\":\"host\",\"CapAdd\":[\"NET_ADMIN\"]}}"
               }
             },
             "opcpublisher": {
