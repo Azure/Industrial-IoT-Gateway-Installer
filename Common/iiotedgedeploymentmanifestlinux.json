@@ -47,7 +47,7 @@
               "status": "running",
               "restartPolicy": "always",
               "settings": {
-                "image": "mcr.microsoft.com/iotedge/opc-publisher:latest",
+                "image": "mcr.microsoft.com/iotedge/opc-publisher:2.4.1",
                 "createOptions": "{\"Hostname\":\"publisher\",\"Cmd\":[\"publisher\",\"--ap=/publisher\",\"--pf=/publisher/publishednodes.json\",\"--di=60\",\"--to\",\"--aa\",\"--si=0\",\"--ms=0\"],\"ExposedPorts\":{\"62222/tcp\":{}},\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"/IoTEdgeMapping\",\"Target\":\"/publisher\"}],\"NetworkMode\":\"host\",\"PortBindings\":{\"62222/tcp\":[{\"HostPort\":\"62222\"}]}}}"
               }
             }
