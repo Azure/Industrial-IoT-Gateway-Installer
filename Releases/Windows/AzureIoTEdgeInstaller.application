@@ -15,7 +15,7 @@
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="Application Files\AzureIoTEdgeInstaller_1_0_0_13\AzureIoTEdgeInstaller.exe.manifest" size="75548">
-      <assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="1.0.0.13" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+      <assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="1.0.0.13" publicKeyToken="1975b8453054a2b5" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
