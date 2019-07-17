@@ -15,13 +15,13 @@
   </compatibleFrameworks>
   <dependency>
     <dependentAssembly dependencyType="install" codebase="Application Files\AzureIoTEdgeInstaller_1_0_0_15\AzureIoTEdgeInstaller.exe.manifest" size="74102">
-      <assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="1.0.0.15" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+      <assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="1.0.0.15" publicKeyToken="1975b8453054a2b5" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>rY4wyWC8+qYxguj7iu9Qm9cslznMQt1eeLnikZnl+I0=</dsig:DigestValue>
+        <dsig:DigestValue>tG8nSm2F+rT8tf30rJEBQz08bFhTc3xl5HkzHQfnaxU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
