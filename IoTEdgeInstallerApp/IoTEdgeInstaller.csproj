@@ -29,7 +29,7 @@
     <UpdateIntervalUnits>Days</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
+    <MapFileExtensions>false</MapFileExtensions>
     <InstallUrl>https://raw.githubusercontent.com/Azure/IoT-Edge-Installer/master/Releases/Windows/</InstallUrl>
     <UpdateUrl>https://raw.githubusercontent.com/Azure/IoT-Edge-Installer/master/Releases/Windows/</UpdateUrl>
     <ProductName>Azure Industrial IoT Gateway Installer</ProductName>
