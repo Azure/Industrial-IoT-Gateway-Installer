@@ -1,3 +1,8 @@
 *.manifest binary
 *.application binary
 *.deploy binary
+*.dll binary
+*.exe binary
+*.pdb binary
+*.config binary
+*.ttf binary
