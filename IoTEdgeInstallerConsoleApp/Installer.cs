@@ -179,7 +179,7 @@ namespace IoTEdgeInstaller
                         }
                     }
 
-                    PS.AddScript($"new-vmswitch -name host -NetAdapterName {_nicList.ElementAt(_selectedNicIndex).Name} -AllowManagementOS $true");
+                    PS.AddScript($"new-vmswitch -name host -NetAdapterName '{_nicList.ElementAt(_selectedNicIndex).Name}' -AllowManagementOS $true");
                     results = PS.Invoke();
                     PS.Streams.ClearStreams();
                     PS.Commands.Clear();
