@@ -167,8 +167,34 @@ namespace IoTEdgeInstaller
                 PS.Streams.Error.DataAdded += PSErrorStreamHandler;
                 PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
-                PS.AddScript("get-vmswitch");
+                // check if Hyper-V is enabled
+                PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online");
+                PS.AddScript("if($hyperv.State -eq 'Enabled') { write 'enabled' }");
                 Collection<PSObject> results = PS.Invoke();
+                PS.Streams.ClearStreams();
+                PS.Commands.Clear();
+                if (results.Count == 0)
+                {
+                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+                bool enabled = false;
+                foreach (var result in results)
+                {
+                    if (result.ToString().Contains("enabled"))
+                    {
+                        enabled = true;
+                        break;
+                    }
+                }
+                if (!enabled)
+                {
+                    MessageBox.Show(Strings.HyperVNotEnabled, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                PS.AddScript("get-vmswitch");
+                results = PS.Invoke();
                 PS.Streams.ClearStreams();
                 PS.Commands.Clear();
                 if (results.Count == 0)

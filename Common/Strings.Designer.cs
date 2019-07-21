@@ -342,5 +342,16 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("UseHostname", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Please first enable Hyper-V on this computer and then re-run this installer!.
+        /// </summary>
+        public static string HyperVNotEnabled
+        {
+            get
+            {
+                return ResourceManager.GetString("HyperVNotEnabled", resourceCulture);
+            }
+        }
     }
 }

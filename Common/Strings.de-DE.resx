@@ -210,4 +210,7 @@
   <data name="UseHostname" xml:space="preserve">
     <value>Einfach Enter druecken, um den Hostnamen zu nutzen</value>
   </data>
+  <data name="HyperVNotEnabled" xml:space="preserve">
+    <value>Bitte zuerst Hyper-V auf diesem Computer einschalten und dann den Installer nochmal ausfuehren!</value>
+  </data>
 </root>
