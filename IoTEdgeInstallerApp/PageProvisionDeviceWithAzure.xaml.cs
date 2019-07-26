@@ -87,9 +87,9 @@ namespace IoTEdgeInstaller
             Collection<string> returnValues = new Collection<string>();
             using (PowerShell ps = PowerShell.Create())
             {
-                ps.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                ps.Streams.Error.DataAdded += PSErrorStreamHandler;
-                ps.Streams.Information.DataAdded += PSInfoStreamHandler;
+                //ps.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                //ps.Streams.Error.DataAdded += PSErrorStreamHandler;
+                //ps.Streams.Information.DataAdded += PSInfoStreamHandler;
 
                 ps.AddScript(command);
                 Collection<PSObject> results = ps.Invoke();

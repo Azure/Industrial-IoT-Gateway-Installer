@@ -32,23 +32,21 @@
           },
           "modules": {
             "opctwin": {
-              "version": "1.0",
               "type": "docker",
               "status": "running",
               "restartPolicy": "always",
               "settings": {
                 "image": "mcr.microsoft.com/iotedge/opc-twin:latest",
-                "createOptions": "{\"Hostname\":\"opctwin\",\"Cmd\":[\"PkiRootPath=C:\\\\mount\",\"AutoAccept=true\"],\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"C:\\\\IoTEdgeMapping\",\"Target\":\"C:\\\\mount\"}],\"NetworkMode\":\"host\",\"CapAdd\":[\"NET_ADMIN\"]}}"
+                "createOptions": "{\"Hostname\":\"opctwin\",\"Cmd\":[\"PkiRootPath=C:\\\\mount\",\"AutoAccept=true\"],\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"C:\\\\IoTEdgeMapping\",\"Target\":\"C:\\\\mount\"}],\"CapAdd\":[\"NET_ADMIN\"]}}"
               }
             },
             "opcpublisher": {
-              "version": "2.0",
               "type": "docker",
               "status": "running",
               "restartPolicy": "always",
               "settings": {
                 "image": "mcr.microsoft.com/iotedge/opc-publisher:2.4.1",
-                "createOptions": "{\"Hostname\":\"publisher\",\"Cmd\":[\"publisher\",\"--ap=C:\\\\publisher\",\"--pf=C:\\\\publisher\\\\publishednodes.json\",\"--di=60\",\"--to\",\"--aa\",\"--si=0\",\"--ms=0\"],\"ExposedPorts\":{\"62222/tcp\":{}},\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}},\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"C:\\\\IoTEdgeMapping\",\"Target\":\"C:\\\\publisher\"}],\"NetworkMode\":\"host\",\"PortBindings\":{\"62222/tcp\":[{\"HostPort\":\"62222\"}]}}}"
+                "createOptions": "{\"Hostname\":\"publisher\",\"Cmd\":[\"publisher\",\"--ap=C:\\\\publisher\",\"--pf=C:\\\\publisher\\\\publishednodes.json\",\"--di=60\",\"--to\",\"--aa\",\"--si=0\",\"--ms=0\"],\"ExposedPorts\":{\"62222/tcp\":{}},\"HostConfig\":{\"Mounts\":[{\"Type\":\"bind\",\"Source\":\"C:\\\\IoTEdgeMapping\",\"Target\":\"C:\\\\publisher\"}],\"PortBindings\":{\"62222/tcp\":[{\"HostPort\":\"62222\"}]}}}"
               }
             }
           }

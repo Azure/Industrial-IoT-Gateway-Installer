@@ -182,7 +182,7 @@
     <value>A device with this name exists already for this IoT Hub. Do you want to overwrite the device?</value>
   </data>
   <data name="Nic" xml:space="preserve">
-    <value>Pick a local network interface for IoT Edge:</value>
+    <value>Pick a local network interface for IoT Edge to use as the 'host' network (optional, not used by default):</value>
   </data>
   <data name="VSwitchExists" xml:space="preserve">
     <value>Aborting setup of HyperV Virtual Switch 'host' as it already exists.</value>
@@ -206,7 +206,7 @@
     <value>This Operating System is unfortunately not supported.</value>
   </data>
   <data name="InstallIIoT" xml:space="preserve">
-    <value>Additionally install Industrial IoT modules</value>
+    <value>Install Industrial Modules (OPC Twin &amp; Publisher)</value>
   </data>
   <data name="UseHostname" xml:space="preserve">
     <value>Simply press Enter to use the host name</value>

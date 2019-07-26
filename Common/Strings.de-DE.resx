@@ -175,7 +175,7 @@
     <value>Azure IoT Edge auf diesem Computer installieren</value>
   </data>
   <data name="Nic" xml:space="preserve">
-    <value>Suchen Sie eine lokale Netwerkschnittstelle aus, die IoT Edge verwenden soll:</value>
+    <value>Suchen Sie eine lokale Netwerkschnittstelle aus, die IoT Edge (optional, z. Z. nicht genutzt) als 'host' Netzwerk verwenden soll:</value>
   </data>
   <data name="Prerequisits" xml:space="preserve">
     <value>Ueberpruefe Vorrausetzungen zur Installation...</value>
@@ -205,7 +205,7 @@
     <value>Dieses Betriebssystem wird leider nicht unterstuezt.</value>
   </data>
   <data name="InstallIIoT" xml:space="preserve">
-    <value>Zusaetzlich die Industrial IoT Module installieren</value>
+    <value>Industrial Module (OPC Twin &amp; Publisher) installieren</value>
   </data>
   <data name="UseHostname" xml:space="preserve">
     <value>Einfach Enter druecken, um den Hostnamen zu nutzen</value>

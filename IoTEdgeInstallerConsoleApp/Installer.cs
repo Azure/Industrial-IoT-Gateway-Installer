@@ -117,9 +117,9 @@ namespace IoTEdgeInstaller
             try
             {
                 PowerShell PS = PowerShell.Create();
-                PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-                PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+                //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+                //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
@@ -338,9 +338,9 @@ namespace IoTEdgeInstaller
         public void CreateAzureIoTEdgeDevice(AzureIoTHub azureIoTHub, string azureCreateId, bool installIIoTModules)
         {
             PowerShell PS = PowerShell.Create();
-            PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-            PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-            PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+            //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+            //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+            //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
             if (!SetupPrerequisits())
             {

@@ -163,9 +163,9 @@ namespace IoTEdgeInstaller
             {
                 // check if setup already
                 PowerShell PS = PowerShell.Create();
-                PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-                PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+                //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+                //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+                //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
                 // check if Hyper-V is enabled
                 PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online");
@@ -342,9 +342,9 @@ namespace IoTEdgeInstaller
             _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Installing, DispatcherPriority.Background);
             
             PowerShell PS = PowerShell.Create();
-            PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-            PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-            PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+            //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+            //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+            //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
             var azureIoTHub = threadContext as AzureIoTHub;
 
