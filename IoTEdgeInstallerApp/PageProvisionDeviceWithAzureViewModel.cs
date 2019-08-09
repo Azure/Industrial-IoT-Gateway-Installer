@@ -167,18 +167,41 @@ namespace IoTEdgeInstaller
                 //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
                 //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
-                // check if Hyper-V is enabled
-                PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online");
-                PS.AddScript("if($hyperv.State -eq 'Enabled') { write 'enabled' }");
+                // check if bitlocker is enabled
+                PS.AddScript("manage-bde -status C:");
                 Collection<PSObject> results = PS.Invoke();
                 PS.Streams.ClearStreams();
                 PS.Commands.Clear();
                 if (results.Count == 0)
                 {
-                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
+                    Console.WriteLine("Error: " + "Could not check status of Bitlocker");
                 }
                 bool enabled = false;
+                foreach (var result in results)
+                {
+                    if (result.ToString().Contains("Protection On"))
+                    {
+                        enabled = true;
+                        break;
+                    }
+                }
+                if (!enabled)
+                {
+                    Console.WriteLine("Error: " + "Bitlocker not enabled. We recommend endabling it on the system drive (C:) as IoT Edge modules store secrets there!");
+                }
+
+                // check if Hyper-V is enabled
+                PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online");
+                PS.AddScript("if($hyperv.State -eq 'Enabled') { write 'enabled' }");
+                results = PS.Invoke();
+                PS.Streams.ClearStreams();
+                PS.Commands.Clear();
+                if (results.Count == 0)
+                {
+                    MessageBox.Show(Strings.HyperVNotEnabled, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+                enabled = false;
                 foreach (var result in results)
                 {
                     if (result.ToString().Contains("enabled"))
