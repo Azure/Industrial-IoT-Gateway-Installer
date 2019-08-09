@@ -353,5 +353,27 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("HyperVNotEnabled", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to We recommend endabling Bitlocker on drive C: as IoT Edge modules store secrets there!
+        /// </summary>
+        public static string BitlockerDisabled
+        {
+            get
+            {
+                return ResourceManager.GetString("BitlockerDisabled", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Could not check status of Bitlocker.
+        /// </summary>
+        public static string BitLockerStatus
+        {
+            get
+            {
+                return ResourceManager.GetString("BitLockerStatus", resourceCulture);
+            }
+        }
     }
 }

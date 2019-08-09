@@ -121,34 +121,34 @@
     <value>Azure Industrial IoT Gateway Installer</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value>Bitte started Sie diese App als Administrator/sudo neu.</value>
+    <value>Bitte starten Sie diese App als Administrator/sudo neu.</value>
   </data>
   <data name="AzureCLI" xml:space="preserve">
-    <value>Wir muessen zunaechst Azure CLI installieren. Der Installer dafuer wird nun ausgefuehrt. Bitte starten Sie den Computer danach neu.</value>
+    <value>Wir müssen zunächst Azure CLI installieren. Der Installer dafür wird nun ausgeführt. Bitte starten Sie den Computer danach neu.</value>
   </data>
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
-    <value>Geben Sie Ihrem IoT Edge Geraet einen Namen:</value>
+    <value>Geben Sie Ihrem IoT Edge Gerät einen Namen:</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Dieser Teil der Installation ist abgeschlossen.</value>
   </data>
   <data name="ConnectToAzure_NoAzureIoTHub" xml:space="preserve">
-    <value>Es sieht so aus als haetten Sie noch keinen Azure IoT Hub angelegt.</value>
+    <value>Es sieht so aus als hätten Sie noch keinen Azure IoT Hub angelegt.</value>
   </data>
   <data name="CreateEdgeButton" xml:space="preserve">
     <value>Installieren</value>
   </data>
   <data name="CreateFailed" xml:space="preserve">
-    <value>Das IoT Edge Geraet konnte nicht fuer den selektierten IoT Hub angelegt werden.</value>
+    <value>Das IoT Edge Gerät konnte nicht für den selektierten IoT Hub angelegt werden.</value>
   </data>
   <data name="DeletedDevice" xml:space="preserve">
-    <value>Ein Geraet mit diesem Namen existiert bereits auf diesem IoT Hub. Wollen Sie das Geraet ersaezten?</value>
+    <value>Ein Gerät mit diesem Namen existiert bereits auf diesem IoT Hub. Wollen Sie das Gerät ersetzen?</value>
   </data>
   <data name="DeployFailed" xml:space="preserve">
     <value>Das Anlegen der IoT Edge Container Module ist fehlgeschlagen.</value>
   </data>
   <data name="Deployment" xml:space="preserve">
-    <value>Lege IoT Edge Container, die im Deployment Script angegeben sind, an...</value>
+    <value>Lege IoT Edge Container, die im Deployment Skript angegeben sind, an...</value>
   </data>
   <data name="GatheringIoTHubs" xml:space="preserve">
     <value>Sammle IoT Hubs, auf die Sie Zugang haben...</value>
@@ -169,22 +169,22 @@
     <value>Suchen Sie einen IoT Hub aus:</value>
   </data>
   <data name="LoginFailedAlertMessage" xml:space="preserve">
-    <value>Das Einloggen in Azure hat nicht geklappt.</value>
+    <value>Das Einloggen in Azure hat nicht funktioniert.</value>
   </data>
   <data name="NewAzureDevice" xml:space="preserve">
     <value>Azure IoT Edge auf diesem Computer installieren</value>
   </data>
   <data name="Nic" xml:space="preserve">
-    <value>Suchen Sie eine lokale Netwerkschnittstelle aus, die IoT Edge (optional, z. Z. nicht genutzt) als 'host' Netzwerk verwenden soll:</value>
+    <value>Suchen Sie eine lokale Netzwerk-Schnittstelle aus, die IoT Edge (optional, z. Z. nicht genutzt) als 'host' Netzwerk verwenden soll:</value>
   </data>
   <data name="Prerequisits" xml:space="preserve">
-    <value>Ueberpruefe Vorrausetzungen zur Installation...</value>
+    <value>Überprüfe Vorrausetzungen zur Installation...</value>
   </data>
   <data name="PreRequisitsFailed" xml:space="preserve">
-    <value>Die Vorraussetzungen zur IoT Edge installation sind noch nicht gegeben. Bitte probieren Sie die Installation erneut, sobald diese gegeben sind.</value>
+    <value>Die Voraussetzungen zur IoT Edge Installation sind noch nicht gegeben. Bitte probieren Sie die Installation erneut, sobald diese gegeben sind.</value>
   </data>
   <data name="Reboot" xml:space="preserve">
-    <value>Bitte starten Sie Windows neu, um die Installation abzuschliessen.</value>
+    <value>Bitte starten Sie Windows neu, um die Installation abzuschließen.</value>
   </data>
   <data name="Uninstall" xml:space="preserve">
     <value>Vorige Installationen von IoT Edge werden jetzt entfernt, falls erforderlich...</value>
@@ -193,24 +193,30 @@
     <value>Das Deinstallieren von der IoT Edge Laufzeitumgebung ist fehlgeschlagen.</value>
   </data>
   <data name="VSwitchExists" xml:space="preserve">
-    <value>Das Anlegen der HyperV virtuellen Switch 'host' wird abgebrochen da sie bereits existiert.</value>
+    <value>Das Anlegen der Hyper-V virtuellen Switch 'host' wird abgebrochen da sie bereits existiert.</value>
   </data>
   <data name="VSwitchSetupFailed" xml:space="preserve">
-    <value>Das Anlegen der HyperV virtuellen Switch 'host' ist fehlgeschlagen.</value>
+    <value>Das Anlegen der Hyper-V virtuellen Switch 'host' ist fehlgeschlagen.</value>
   </data>
   <data name="EnterToExist" xml:space="preserve">
-    <value>Druecken Sie Enter, um das Program zu verlassen.</value>
+    <value>Drücken Sie Enter, um das Programm zu verlassen.</value>
   </data>
   <data name="OSNotSupported" xml:space="preserve">
-    <value>Dieses Betriebssystem wird leider nicht unterstuezt.</value>
+    <value>Dieses Betriebssystem wird leider nicht unterstützt.</value>
   </data>
   <data name="InstallIIoT" xml:space="preserve">
     <value>Industrial Module (OPC Twin &amp; Publisher) installieren</value>
   </data>
   <data name="UseHostname" xml:space="preserve">
-    <value>Einfach Enter druecken, um den Hostnamen zu nutzen</value>
+    <value>Einfach Enter drücken, um den Hostnamen zu nutzen</value>
   </data>
   <data name="HyperVNotEnabled" xml:space="preserve">
-    <value>Bitte zuerst Hyper-V auf diesem Computer einschalten und dann den Installer nochmal ausfuehren!</value>
+    <value>Bitte zuerst Hyper-V auf diesem Computer einschalten und dann den Installer nochmal ausführen!</value>
+  </data>
+  <data name="BitlockerDisabled" xml:space="preserve">
+    <value>Wir empfehlen Bitlocker für das Laufwerk C: einzuschalten, denn dort speichern IoT Edge Module Sicherheitsschlüssel!</value>
+  </data>
+  <data name="BitLockerStatus" xml:space="preserve">
+    <value>Der Status von Bitlocker konnte nicht überprüft werden.</value>
   </data>
 </root>

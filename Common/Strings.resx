@@ -214,4 +214,10 @@
   <data name="HyperVNotEnabled" xml:space="preserve">
     <value>Please first enable Hyper-V on this computer and then re-run this installer!</value>
   </data>
+  <data name="BitlockerDisabled" xml:space="preserve">
+    <value>We recommend endabling Bitlocker on drive C: as IoT Edge modules store secrets there!</value>
+  </data>
+  <data name="BitLockerStatus" xml:space="preserve">
+    <value>Could not check status of Bitlocker.</value>
+  </data>
 </root>

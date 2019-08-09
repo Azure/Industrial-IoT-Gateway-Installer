@@ -140,7 +140,7 @@ namespace IoTEdgeInstaller
                     PS.Commands.Clear();
                     if (results.Count == 0)
                     {
-                        Console.WriteLine("Error: " + "Could not check status of Bitlocker");
+                        Console.WriteLine("Error: " + Strings.BitLockerStatus);
                     }
                     bool enabled = false;
                     foreach (var result in results)
@@ -153,7 +153,7 @@ namespace IoTEdgeInstaller
                     }
                     if (!enabled)
                     {
-                        Console.WriteLine("Error: " + "Bitlocker not enabled. We recommend endabling it on the system drive (C:) as IoT Edge modules store secrets there!");
+                        Console.WriteLine(Strings.BitlockerDisabled);
                     }
 
                     // check if Hyper-V is enabled
