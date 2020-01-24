@@ -19,7 +19,7 @@ namespace IoTEdgeInstaller {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Strings {
@@ -29,7 +29,7 @@ namespace IoTEdgeInstaller {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Strings() {
+        internal Strings() {
         }
         
         /// <summary>
@@ -59,7 +59,7 @@ namespace IoTEdgeInstaller {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Azure Industrial IoT Gateway Installer.
         /// </summary>
@@ -79,7 +79,7 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We first need to install the Azure CLI for Windows. The Web installer will now launch. Please reboot after the installation is complete..
+        ///   Looks up a localized string similar to We first need to install the Azure CLI. The installer will now launch. Please reboot after the installation is complete..
         /// </summary>
         public static string AzureCLI {
             get {
@@ -93,6 +93,24 @@ namespace IoTEdgeInstaller {
         public static string AzureCreateDeviceIdDesc {
             get {
                 return ResourceManager.GetString("AzureCreateDeviceIdDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We recommend endabling Bitlocker on drive C: as IoT Edge modules store secrets there!.
+        /// </summary>
+        public static string BitlockerDisabled {
+            get {
+                return ResourceManager.GetString("BitlockerDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not check status of Bitlocker..
+        /// </summary>
+        public static string BitLockerStatus {
+            get {
+                return ResourceManager.GetString("BitLockerStatus", resourceCulture);
             }
         }
         
@@ -131,7 +149,7 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("CreateFailed", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to A device with this name exists already for this IoT Hub. Do you want to overwrite the device?.
         /// </summary>
@@ -178,6 +196,15 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please first enable Hyper-V on this computer and then re-run this installer!.
+        /// </summary>
+        public static string HyperVNotEnabled {
+            get {
+                return ResourceManager.GetString("HyperVNotEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installing new IoT Edge and Moby Docker instance....
         /// </summary>
         public static string Install {
@@ -192,6 +219,15 @@ namespace IoTEdgeInstaller {
         public static string InstallFailed {
             get {
                 return ResourceManager.GetString("InstallFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install Industrial Modules (OPC Twin &amp; Publisher).
+        /// </summary>
+        public static string InstallIIoT {
+            get {
+                return ResourceManager.GetString("InstallIIoT", resourceCulture);
             }
         }
         
@@ -241,7 +277,7 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pick a local network interface for IoT Edge:.
+        ///   Looks up a localized string similar to Pick a local network interface for IoT Edge to use as the &apos;host&apos; network (optional, not used by default):.
         /// </summary>
         public static string Nic {
             get {
@@ -277,7 +313,7 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please restart Windows to complete the installation..
+        ///   Looks up a localized string similar to Please restart your system to complete the installation..
         /// </summary>
         public static string Reboot {
             get {
@@ -304,6 +340,15 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Simply press Enter to use the host name.
+        /// </summary>
+        public static string UseHostname {
+            get {
+                return ResourceManager.GetString("UseHostname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Aborting setup of HyperV Virtual Switch &apos;host&apos; as it already exists..
         /// </summary>
         public static string VSwitchExists {
@@ -318,61 +363,6 @@ namespace IoTEdgeInstaller {
         public static string VSwitchSetupFailed {
             get {
                 return ResourceManager.GetString("VSwitchSetupFailed", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Additionally install Industrial IoT modules.
-        /// </summary>
-        public static string InstallIIoT
-        {
-            get
-            {
-                return ResourceManager.GetString("InstallIIoT", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Simply press Enter to use the host name.
-        /// </summary>
-        public static string UseHostname
-        {
-            get
-            {
-                return ResourceManager.GetString("UseHostname", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Please first enable Hyper-V on this computer and then re-run this installer!.
-        /// </summary>
-        public static string HyperVNotEnabled
-        {
-            get
-            {
-                return ResourceManager.GetString("HyperVNotEnabled", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to We recommend endabling Bitlocker on drive C: as IoT Edge modules store secrets there!
-        /// </summary>
-        public static string BitlockerDisabled
-        {
-            get
-            {
-                return ResourceManager.GetString("BitlockerDisabled", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to Could not check status of Bitlocker.
-        /// </summary>
-        public static string BitLockerStatus
-        {
-            get
-            {
-                return ResourceManager.GetString("BitLockerStatus", resourceCulture);
             }
         }
     }
