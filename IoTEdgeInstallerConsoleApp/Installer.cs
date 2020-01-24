@@ -306,11 +306,11 @@ namespace IoTEdgeInstaller
 
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameWindows}");
+                        PS.AddScript($"az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameWindows}");
                     }
                     else if (Environment.OSVersion.Platform == PlatformID.Unix)
                     {
-                        PS.AddScript($"Az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameLinux}");
+                        PS.AddScript($"az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameLinux}");
                     }
                     else
                     {
@@ -372,7 +372,7 @@ namespace IoTEdgeInstaller
             }
            
             // first set the Azure subscription for the selected IoT Hub
-            PS.AddScript($"Az account set --subscription '{azureIoTHub.SubscriptionName}'");
+            PS.AddScript($"az account set --subscription '{azureIoTHub.SubscriptionName}'");
             Collection<PSObject> results = PS.Invoke();
             PS.Streams.ClearStreams();
             PS.Commands.Clear();
