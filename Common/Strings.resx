@@ -170,7 +170,7 @@
     <value>Uninstalling IoT Edge runtime failed.</value>
   </data>
   <data name="Reboot" xml:space="preserve">
-    <value>Please restart Windows to complete the installation.</value>
+    <value>Please restart your system to complete the installation.</value>
   </data>
   <data name="CreateFailed" xml:space="preserve">
     <value>Creating IoT Edge device on selected IoT Hub failed.</value>
