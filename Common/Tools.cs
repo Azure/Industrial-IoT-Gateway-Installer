@@ -41,15 +41,6 @@ namespace IoTEdgeInstaller
 
     public class Tools
     {
-        public static void InstallLinuxPrereqs()
-        {
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
-            {
-                "sudo apt-get update".Bash();
-                "sudo apt --assume-yes install curl".Bash();
-            }
-        }
-
         public static bool CreateDriveMappingDirectory()
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)

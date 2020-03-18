@@ -38,6 +38,8 @@ namespace IoTEdgeInstaller
            
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
+                    "sudo apt-get update".Bash();
+                    "sudo apt --assume-yes install curl".Bash(); 
                     "curl -N https://packages.microsoft.com/config/ubuntu/18.04/prod.list > ./microsoft-prod.list".Bash();
                     "sudo cp ./microsoft-prod.list /etc/apt/sources.list.d/".Bash();
                     "curl -N https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg".Bash();
