@@ -186,8 +186,6 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                OutputLB += (Strings.Deployment + "\n");
-
                 if (!Tools.CreateDriveMappingDirectory())
                 {
                     MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);

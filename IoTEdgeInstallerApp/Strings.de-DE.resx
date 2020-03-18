@@ -141,9 +141,6 @@
   <data name="DeployFailed" xml:space="preserve">
     <value>Das Anlegen der IoT Edge Container Module ist fehlgeschlagen.</value>
   </data>
-  <data name="Deployment" xml:space="preserve">
-    <value>Lege IoT Edge Container, die im Deployment Skript angegeben sind, an...</value>
-  </data>
   <data name="Install" xml:space="preserve">
     <value>Installiere eine neue IoT Edge und Moby Docker Instanz...</value>
   </data>

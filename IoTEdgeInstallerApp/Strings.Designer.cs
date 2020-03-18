@@ -151,15 +151,6 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deploying IoT Edge Containers specified in Deployment Script....
-        /// </summary>
-        public static string Deployment {
-            get {
-                return ResourceManager.GetString("Deployment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Press Enter to exit..
         /// </summary>
         public static string EnterToExist {

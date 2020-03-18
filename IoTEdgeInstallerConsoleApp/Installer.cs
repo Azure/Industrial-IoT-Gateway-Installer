@@ -146,11 +146,6 @@ namespace IoTEdgeInstaller
         {
             if (deviceEntity != null)
             {
-                PowerShell PS = PowerShell.Create();
-                PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-                PS.Streams.Information.DataAdded += PSInfoStreamHandler;
-
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                 {
                     try
@@ -200,23 +195,12 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                Console.WriteLine(Strings.Deployment);
-
                 if (!Tools.CreateDriveMappingDirectory())
                 {
                     Console.WriteLine("Error: " + Strings.DeployFailed);
                     return false;
                 }
 
-                Collection<PSObject> results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-                if (results.Count == 0)
-                {
-                    Console.WriteLine("Error: " + Strings.DeployFailed);
-                    return false;
-                }
-            
                 Console.WriteLine();
                 Console.WriteLine(Strings.Completed);
                 Console.WriteLine(Strings.Reboot);
