@@ -166,7 +166,7 @@
     <value>Status der IoT Edge Module:</value>
   </data>
   <data name="IoTHubs" xml:space="preserve">
-    <value>Suchen Sie einen IoT Hub aus:</value>
+    <value>Geben Sie Ihren IoT Hub Owner Connection String ein:&#13;(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]&#13;Dieser kann im Azure Portal unter Ihrem IoT Hub unter Shared Access Policies ausgelesen werden)</value>
   </data>
   <data name="LoginFailedAlertMessage" xml:space="preserve">
     <value>Das Einloggen in Azure hat nicht funktioniert.</value>

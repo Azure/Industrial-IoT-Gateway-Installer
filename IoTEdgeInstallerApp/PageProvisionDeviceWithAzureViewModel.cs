@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Azure.Devices;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Management.Automation;
-using System.Net.NetworkInformation;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -15,8 +12,6 @@ namespace IoTEdgeInstaller
     class PageProvisionDeviceWithAzureViewModel : INotifyPropertyChanged
     {
         private PageProvisionDeviceWithAzure _parentPage;
-
-        public event EventHandler HubEnumerationComplete;
 
         public delegate void SetUIStateType();
 
@@ -35,24 +30,21 @@ namespace IoTEdgeInstaller
             _parentPage = parentPage;
 
             AzureCreateId = Environment.MachineName;
-            SelectedLocationIndex = 0;
             MainProgressVisibility = Visibility.Visible;
-
-            AzureIoTHubs = new ObservableCollection<AzureIoTHub>();
-            AzureDevices = new ObservableCollection<AzureDeviceEntity>();
-            IoTEdgeModules = new ObservableCollection<AzureModuleEntity>();
-            Nics = new ObservableCollection<NicsEntity>();
         }
 
         public void CreateAzureIoTEdgeDevice()
         {
-            if (MSAHelper.CurrentState == SigninStates.SignedIn)
+            if ((DisplayName == null)
+             || (DisplayName == string.Empty)
+             || !DisplayName.StartsWith("Hostname=")
+             || !DisplayName.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey"))
             {
-                var azureIoTHub = AzureIoTHubs.ElementAt(SelectedAzureIoTHubIndex);
-                if (azureIoTHub != null)
-                {
-                    QueueUserWorkItem(CreateAzureIoTEdgeDevice, azureIoTHub);
-                }
+                MessageBox.Show(Strings.IoTHubs, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                QueueUserWorkItem(CreateAzureIoTEdgeDevice, new AzureIoTHub(DisplayName));
             }
         }
 
@@ -81,91 +73,19 @@ namespace IoTEdgeInstaller
             MainProgressVisibility = Visibility.Hidden;
         }
 
-        private void SetAzureIoTHubList(List<AzureIoTHub> hubList)
-        {
-            SetUIState(HideMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
-
-            AzureIoTHubs.Clear();
-            foreach (var hub in hubList)
-            {
-                AzureIoTHubs.Add(hub);
-            }
-
-            HubEnumerationComplete?.Invoke(this, EventArgs.Empty);
-        }
-
-        public async Task GetAzureIoTHubsAsync()
-        {
-            SetUIState(ShowMainProgressUI);
-            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.GatheringIoTHubs, DispatcherPriority.Background);
-
-            var hubList = AzureIoT.GetIotHubList(_parentPage.WindowsShowProgress, _parentPage.WindowsShowError, _parentPage.RunPSCommand);
-            
-            if (Application.Current.Dispatcher.CheckAccess())
-            {
-                SetAzureIoTHubList(hubList);
-            }
-            else
-            {
-                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                {
-                    SetAzureIoTHubList(hubList);
-                }));
-            }
-
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
-                SetNicList();
-            }));
-
-            ChangeDevice = AzureIoTHubs.Count == 0 ? false : true;
-        }
-
-        private void SetAzureIoTEdgeModuleList(IList<AzureModuleEntity> moduleList)
-        {
-            SetUIState(HideMainProgressUI);
-
-            IoTEdgeModules.Clear();
-            foreach (var module in moduleList)
-            {
-                IoTEdgeModules.Add(module);
-            }
-
-            SelectedAzureModuleIndex = 0;
-        }
-
-        private void SetNicList()
-        {
-            Nics.Clear();
-            var nics = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (var nic in nics)
-            {
-                if (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet
-                 || nic.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet
-                 || nic.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
-                {
-                    var entity = new NicsEntity
-                    {
-                        Name = nic.Name,
-                        Description = nic.Description
-                    };
-                    Nics.Add(entity);
-                }
-            }
-
-            SelectedNicIndex = 0;
-        }
-
-        private bool SetupHyperVSwitch()
+        private bool CheckPreReqs()
         {
             try
             {
+                // check if we are on 1809 build 17763, which is the only supported version of Windows 10 for IoT Edge
+                if (Environment.OSVersion.Version.Build != 17763)
+                {
+                    MessageBox.Show(Strings.OSNotSupported, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
                 // check if setup already
                 PowerShell PS = PowerShell.Create();
-                //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-                //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
 
                 // check if bitlocker is enabled
                 PS.AddScript("manage-bde -status C:");
@@ -215,38 +135,6 @@ namespace IoTEdgeInstaller
                     MessageBox.Show(Strings.HyperVNotEnabled, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
-
-                PS.AddScript("get-vmswitch");
-                results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-                if (results.Count == 0)
-                {
-                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
-
-                foreach(var vmSwitch in results)
-                {
-                    if (vmSwitch.ToString().Contains("(Name = 'host')"))
-                    {
-                        OutputLB += (Strings.VSwitchExists + "\n");
-                        return true;
-                    }
-                }
-
-                PS.AddScript($"new-vmswitch -name host -NetAdapterName '{Nics.ElementAt(SelectedNicIndex).Name}' -AllowManagementOS $true");
-                results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-                if (results.Count == 0)
-                {
-                    MessageBox.Show(Strings.VSwitchSetupFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
-
-                // It takes about 10 seconds for the network interfaces to come back up
-                Thread.Sleep(10000);
             }
             catch (Exception ex)
             {
@@ -257,7 +145,7 @@ namespace IoTEdgeInstaller
             return true;
         }
 
-        private bool InstallIoTEdge(AzureDeviceEntity deviceEntity, AzureIoTHub iotHub)
+        private bool InstallIoTEdge(Device deviceEntity, AzureIoTHub iotHub)
         {
             if (deviceEntity != null)
             {
@@ -288,7 +176,7 @@ namespace IoTEdgeInstaller
                 }
 
                 OutputLB += (Strings.Install + "\n");
-                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.PrimaryKey}' -SkipBatteryCheck");
+                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.Authentication.SymmetricKey.PrimaryKey}' -SkipBatteryCheck");
                 Collection<PSObject> results = PS.Invoke();
                 PS.Streams.ClearStreams();
                 PS.Commands.Clear();
@@ -298,33 +186,12 @@ namespace IoTEdgeInstaller
                     return false;
                 }
 
-                bool installIIoTModues = false;
-                _parentPage.CheckBox.Dispatcher.Invoke(() => installIIoTModues = (_parentPage.CheckBox.IsChecked == true), DispatcherPriority.Send);
-                if (installIIoTModues)
+                OutputLB += (Strings.Deployment + "\n");
+
+                if (!Tools.CreateDriveMappingDirectory())
                 {
-                    OutputLB += (Strings.Deployment + "\n");
-
-                    if (!AzureIoT.CreateDriveMappingDirectory())
-                    {
-                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                        return false;
-                    }
-
-                    if (!AzureIoT.LoadDeploymentManifest())
-                    {
-                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                        return false;
-                    }
-
-                    PS.AddScript($"az iot edge set-modules --device-id {deviceEntity.Id} --hub-name {iotHub.Name} --content ./{AzureIoT.DeploymentManifestNameWindows}");
-                    results = PS.Invoke();
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
-                    if (results.Count == 0)
-                    {
-                        MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                        return false;
-                    }
+                    MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
                 }
 
                 OutputLB += (Strings.Completed + "\n" + Strings.Reboot + "\n");
@@ -365,32 +232,22 @@ namespace IoTEdgeInstaller
             _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.Installing, DispatcherPriority.Background);
             
             PowerShell PS = PowerShell.Create();
-            //PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-            //PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-            //PS.Streams.Information.DataAdded += PSInfoStreamHandler;
-
             var azureIoTHub = threadContext as AzureIoTHub;
 
-            if (!SetupHyperVSwitch())
+            if (!CheckPreReqs())
             {
                 MessageBox.Show(Strings.PreRequisitsFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
-                // first set the Azure subscription for the selected IoT Hub
-                PS.AddScript($"az account set --subscription '{azureIoTHub.SubscriptionName}'");
-                Collection<PSObject> results = PS.Invoke();
-                PS.Streams.ClearStreams();
-                PS.Commands.Clear();
-
                 // check if device exists already
-                var deviceEntity = azureIoTHub.GetDevice(_parentPage.RunPSCommand, _azureCreateId);
+                Device deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
                 if (deviceEntity != null)
                 {
                     MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (result == MessageBoxResult.Yes)
                     {
-                        azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
+                        azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
                     }
                     else
                     {
@@ -403,16 +260,16 @@ namespace IoTEdgeInstaller
                 try
                 {
                     // create the device
-                    azureIoTHub.CreateIoTEdgeDevice(_parentPage.RunPSCommand, _azureCreateId);
-
+                    azureIoTHub.CreateIoTEdgeDeviceAsync(_azureCreateId).Wait();
+                    
                     // retrieve the newly created device
-                    deviceEntity = azureIoTHub.GetDevice(_parentPage.RunPSCommand, _azureCreateId);
+                    deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
                     if (deviceEntity != null)
                     {
                         if (!InstallIoTEdge(deviceEntity, azureIoTHub))
                         {
                             // installation failed so delete the device again
-                            azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
+                            azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
                         }
                     }
                     else
@@ -427,7 +284,7 @@ namespace IoTEdgeInstaller
                     try
                     {
                         // installation failed so delete the device again (if neccessary)
-                        azureIoTHub.DeleteDevice(_parentPage.RunPSCommand, _azureCreateId);
+                        azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
 
                     }
                     catch (Exception ex2)
@@ -439,161 +296,6 @@ namespace IoTEdgeInstaller
 
             SetUIState(HideMainProgressUI);
             _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
-        }
-
-        // list of Azure IoT hub shown in UI
-        public ObservableCollection<AzureIoTHub> AzureIoTHubs { get; }
-
-        // list of Azure devices shown in UI
-        public ObservableCollection<AzureDeviceEntity> AzureDevices { get; }
-
-        // list of IoTEdge modules shown in UI
-        public ObservableCollection<AzureModuleEntity> IoTEdgeModules { get; }
-
-        // list of Nics shown in UI
-        public ObservableCollection<NicsEntity> Nics { get; }
-
-        // control whether or not user can change either Azure or IoTCore device selection
-        private bool _canChangeDevice = false;
-
-        public bool ChangeDevice
-        {
-            get => _canChangeDevice;
-            set
-            {
-                if (value != _canChangeDevice)
-                {
-                    _canChangeDevice = value;
-                    NotifyPropertyChanged("CanChangeDevice");
-                }
-            }
-        }
-
-        public Visibility CanChangeDevice => _canChangeDevice ? Visibility.Visible : Visibility.Collapsed;
-
-        private bool _ioTEdgeDevice = false;
-
-        public bool IoTEdgeDevice
-        {
-            get => _ioTEdgeDevice;
-            set
-            {
-                if (value != _ioTEdgeDevice)
-                {
-                    _ioTEdgeDevice = value;
-                    NotifyPropertyChanged("IsIoTEdgeDevice");
-                }
-            }
-        }
-
-        public Visibility IsIoTEdgeDevice => _ioTEdgeDevice ? Visibility.Visible : Visibility.Collapsed;
-
-        private int _selectedAzureModuleIndex = 0;
-
-        public int SelectedAzureModuleIndex
-        {
-            get => _selectedAzureModuleIndex;
-            set
-            {
-                if (value != _selectedAzureModuleIndex)
-                {
-                    _selectedAzureModuleIndex = value;
-                    NotifyPropertyChanged("SelectedAzureModuleIndex");
-                }
-            }
-        }
-
-        // index of the selected Azure device
-        private int _selectedAzureDeviceIndex = 0;
-
-        public int SelectedAzureDeviceIndex
-        {
-            get => _selectedAzureDeviceIndex;
-            set
-            {
-                if (value != _selectedAzureDeviceIndex)
-                {
-                    _selectedAzureDeviceIndex = value;
-                    NotifyPropertyChanged("SelectedAzureDeviceIndex");
-                }
-            }
-        }
-
-        // index of the selected Azure Iot Hub
-        private int _selectedAzureIoTHubIndex = 0;
-
-        public int SelectedAzureIoTHubIndex
-        {
-            get => _selectedAzureIoTHubIndex;
-            set
-            {
-                if (value != _selectedAzureIoTHubIndex)
-                {
-                    _selectedAzureIoTHubIndex = value;
-                    NotifyPropertyChanged("SelectedAzureIoTHubIndex");
-                }
-            }
-        }
-
-        // index of the selected Azure Iot Hub
-        private int _selectedNicIndex = 0;
-
-        public int SelectedNicIndex
-        {
-            get => _selectedNicIndex;
-            set
-            {
-                if (value != _selectedNicIndex)
-                {
-                    _selectedNicIndex = value;
-                    NotifyPropertyChanged("SelectedNicIndex");
-                }
-            }
-        }
-
-        private string _azureCreateDescription;
-
-        public string AzureCreateDescription
-        {
-            get => _azureCreateDescription;
-            set
-            {
-                if (value != _azureCreateDescription)
-                {
-                    _azureCreateDescription = value;
-                    NotifyPropertyChanged("AzureCreateDescription");
-                }
-            }
-        }
-
-        private Visibility _azureCreateVisibility = Visibility.Hidden;
-
-        public Visibility AzureCreateVisibility
-        {
-            get => _azureCreateVisibility;
-            set
-            {
-                if (value != _azureCreateVisibility)
-                {
-                    _azureCreateVisibility = value;
-                    NotifyPropertyChanged("AzureCreateVisibility");
-                }
-            }
-        }
-
-        private string _azureCreateIdDesc;
-
-        public string AzureCreateIdDesc
-        {
-            get => _azureCreateIdDesc;
-            set
-            {
-                if (value != _azureCreateIdDesc)
-                {
-                    _azureCreateIdDesc = value;
-                    NotifyPropertyChanged("AzureCreateIdDesc");
-                }
-            }
         }
 
         private string _azureCreateId;
@@ -611,6 +313,21 @@ namespace IoTEdgeInstaller
             }
         }
 
+        private string _displayName;
+
+        public string DisplayName
+        {
+            get => _displayName;
+            set
+            {
+                if (value != _displayName)
+                {
+                    _displayName = value;
+                    NotifyPropertyChanged("DisplayName");
+                }
+            }
+        }
+
         private string _outputLB;
 
         public string OutputLB
@@ -622,21 +339,6 @@ namespace IoTEdgeInstaller
                 {
                     _outputLB = value;
                     NotifyPropertyChanged("OutputLB");
-                }
-            }
-        }
-
-        private int _selectedLocationIndex = 0;
-
-        public int SelectedLocationIndex
-        {
-            get => _selectedLocationIndex;
-            set
-            {
-                if (value != _selectedLocationIndex)
-                {
-                    _selectedLocationIndex = value;
-                    NotifyPropertyChanged("SelectedLocationIndex");
                 }
             }
         }

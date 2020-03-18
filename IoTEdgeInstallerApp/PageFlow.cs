@@ -15,7 +15,9 @@ namespace IoTEdgeInstaller
         }
 
         public Page CurrentPage { get; private set; }
+
         public Page NewPage { get; private set; }
+
         public bool Close { get; set; }
     }
 

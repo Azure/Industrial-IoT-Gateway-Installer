@@ -250,7 +250,7 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pick an IoT Hub:.
+        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:        ///(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
         /// </summary>
         public static string IoTHubs {
             get {

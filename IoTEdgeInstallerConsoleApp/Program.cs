@@ -46,10 +46,6 @@ namespace IoTEdgeInstallerConsoleApp
             Collection<string> returnValues = new Collection<string>();
             using (PowerShell ps = PowerShell.Create())
             {
-                //ps.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                //ps.Streams.Error.DataAdded += PSErrorStreamHandler;
-                //ps.Streams.Information.DataAdded += PSInfoStreamHandler;
-
                 ps.AddScript(command);
                 Collection<PSObject> results = ps.Invoke();
                 ps.Streams.ClearStreams();
@@ -93,45 +89,26 @@ namespace IoTEdgeInstallerConsoleApp
             }
 #endif
             Console.WriteLine(Strings.AboutSubtitle);
-
             Console.WriteLine();
             Console.WriteLine(Strings.Prerequisits);
-            if (MSAHelper.SignIn(ConsoleShowProgress, ConsoleShowError, RunPSCommand))
+            
+            string azureDeviceID = Environment.MachineName;
+            Console.WriteLine();
+            Console.WriteLine(Strings.AzureCreateDeviceIdDesc + " (" + Strings.UseHostname + " " + azureDeviceID + ")");
+            string input = Console.ReadLine();
+            if (input != string.Empty)
             {
-                Console.WriteLine();
-                Console.WriteLine(Strings.GatheringIoTHubs);
-                AzureIoTHub hub = Installer.GetInstance().SelectIoTHub(AzureIoT.GetIotHubList(ConsoleShowProgress, ConsoleShowError, RunPSCommand));
-                if (hub != null)
-                {
-                    Installer.GetInstance().SelectNic();
-
-                    string azureDeviceID =  Environment.MachineName;
-                    Console.WriteLine();
-                    Console.WriteLine(Strings.AzureCreateDeviceIdDesc + " (" + Strings.UseHostname + " " + azureDeviceID + ")");
-                    string input = Console.ReadLine();
-                    if (input != string.Empty)
-                    {
-                        azureDeviceID = input;
-                    }
-
-                    char decision = 'a';
-                    while (decision != 'y' && decision != 'n')
-                    {
-                        Console.WriteLine();
-                        Console.Write(Strings.InstallIIoT + "? [y/n]: ");
-                        decision = Console.ReadKey().KeyChar;
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine(Strings.Installing);
-                    Installer.GetInstance().CreateAzureIoTEdgeDevice(hub, azureDeviceID, decision == 'y');
-
-                    Console.WriteLine();
-                    Console.WriteLine(Strings.EnterToExist);
-                    Console.ReadLine();
-                }
+                azureDeviceID = input;
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine(Strings.Installing);
+            Installer.GetInstance().CreateAzureIoTEdgeDevice(azureDeviceID);
+
+            Console.WriteLine();
+            Console.WriteLine(Strings.EnterToExist);
+            Console.ReadLine();
         }
     }
 }

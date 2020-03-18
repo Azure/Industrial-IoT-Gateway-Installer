@@ -9,7 +9,7 @@ namespace IoTEdgeInstaller
         public MainWindow()
         {
             // Uncomment to test localization
-            // System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
+            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
 
             Title = Strings.AboutSubtitle;
 
