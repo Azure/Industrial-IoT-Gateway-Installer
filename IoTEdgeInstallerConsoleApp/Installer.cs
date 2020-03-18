@@ -239,7 +239,7 @@ namespace IoTEdgeInstaller
             string connectionString = string.Empty;
             while ((connectionString == string.Empty)
               && !connectionString.StartsWith("Hostname=")
-              && !connectionString.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey"))
+              && !connectionString.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey="))
             {
                 Console.WriteLine("\n" + Strings.IoTHubs + ":");
                 connectionString = Console.ReadLine();

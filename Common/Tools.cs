@@ -25,20 +25,6 @@ namespace IoTEdgeInstaller
         }
     }
 
-    public class NicsEntity : IComparable<NicsEntity>
-    {
-        public NicsEntity() { }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public int CompareTo(NicsEntity other)
-        {
-            return string.Compare(this.Name, other.Name, StringComparison.OrdinalIgnoreCase);
-        }
-    }
-
     public class Tools
     {
         public static bool CreateDriveMappingDirectory()

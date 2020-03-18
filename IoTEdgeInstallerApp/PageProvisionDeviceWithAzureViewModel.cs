@@ -38,7 +38,7 @@ namespace IoTEdgeInstaller
             if ((DisplayName == null)
              || (DisplayName == string.Empty)
              || !DisplayName.StartsWith("Hostname=")
-             || !DisplayName.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey"))
+             || !DisplayName.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey="))
             {
                 MessageBox.Show(Strings.IoTHubs, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
             }
