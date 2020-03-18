@@ -6,6 +6,27 @@ using System.Management.Automation;
 
 namespace IoTEdgeInstaller
 {
+    public static class ShellHelper
+    {
+        public static int Bash(this string cmd)
+        {
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{cmd.Replace("\"", "\\\"")}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            process.WaitForExit();
+            return process.ExitCode;
+        }
+    }
+
     class Installer
     {
         private static Installer _instance = null;

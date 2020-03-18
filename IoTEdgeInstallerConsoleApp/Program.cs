@@ -6,7 +6,7 @@ using System.Management.Automation;
 using System.Reflection;
 using System.Security.Principal;
 
-namespace IoTEdgeInstallerConsoleApp
+namespace IoTEdgeInstaller
 {
     class Program
     {
