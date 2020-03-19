@@ -185,6 +185,7 @@ namespace IoTEdgeInstaller
                 else if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
                     "sudo apt-get update".Bash();
+                    "sudo apt-get remove --purge iotedge".Bash();
                     "sudo apt-get --assume-yes install iotedge".Bash();
                     $"sudo sed -i 's/<ADD DEVICE CONNECTION STRING HERE>/HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.Authentication.SymmetricKey.PrimaryKey}/g' /etc/iotedge/config.yaml".Bash();
                     "sudo systemctl restart iotedge".Bash();
