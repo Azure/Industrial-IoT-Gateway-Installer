@@ -131,10 +131,7 @@
     <value>Install</value>
   </data>
   <data name="IoTHubs" xml:space="preserve">
-    <value>Enter your IoT Hub Owner Connection String:(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]You can get this from the Azure Portal under Shared Access Policies of your IoT Hub)</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Please restart this app as Administrator/sudo.</value>
+    <value>Enter your IoT Hub Owner Connection String:</value>
   </data>
   <data name="Completed" xml:space="preserve">
     <value>This part of the installation is completed.</value>
@@ -169,17 +166,8 @@
   <data name="Installing" xml:space="preserve">
     <value>Installing...</value>
   </data>
-  <data name="Prerequisits" xml:space="preserve">
-    <value>Checking Prerequisits...</value>
-  </data>
-  <data name="EnterToExist" xml:space="preserve">
-    <value>Press Enter to exit.</value>
-  </data>
   <data name="OSNotSupported" xml:space="preserve">
     <value>This Operating System is unfortunately not supported.</value>
-  </data>
-  <data name="UseHostname" xml:space="preserve">
-    <value>Simply press Enter to use the host name</value>
   </data>
   <data name="HyperVNotEnabled" xml:space="preserve">
     <value>Please first enable Hyper-V on this computer and then re-run this installer!</value>
@@ -189,5 +177,11 @@
   </data>
   <data name="BitLockerStatus" xml:space="preserve">
     <value>Could not check status of Bitlocker.</value>
+  </data>
+  <data name="IoTHubsHint" xml:space="preserve">
+    <value>Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key](You can get this string from the Azure Portal (portal.azure.com) under Shared Access Policies of your IoT Hub.)</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Please restart this app as Administrator/sudo.</value>
   </data>
 </root>

@@ -124,14 +124,8 @@
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
     <value>Name your IoT Edge Device:</value>
   </data>
-  <data name="NewAzureDevice" xml:space="preserve">
-    <value>Install Azure IoT Edge on this Computer</value>
-  </data>
-  <data name="CreateEdgeButton" xml:space="preserve">
-    <value>Install</value>
-  </data>
   <data name="IoTHubs" xml:space="preserve">
-    <value>Enter your IoT Hub Owner Connection String:(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]You can get this from the Azure Portal under Shared Access Policies of your IoT Hub)</value>
+    <value>Enter your IoT Hub Owner Connection String:</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Please restart this app as Administrator/sudo.</value>
@@ -141,9 +135,6 @@
   </data>
   <data name="DeployFailed" xml:space="preserve">
     <value>Deploying IoT Edge Container modules failed.</value>
-  </data>
-  <data name="Deployment" xml:space="preserve">
-    <value>Deploying IoT Edge Containers specified in Deployment Script...</value>
   </data>
   <data name="Install" xml:space="preserve">
     <value>Installing new IoT Edge and Moby Docker instance...</value>
@@ -192,5 +183,8 @@
   </data>
   <data name="BitLockerStatus" xml:space="preserve">
     <value>Could not check status of Bitlocker.</value>
+  </data>
+  <data name="IoTHubsHint" xml:space="preserve">
+    <value>Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key](You can get this string from the Azure Portal (portal.azure.com) under Shared Access Policies of your IoT Hub.)</value>
   </data>
 </root>

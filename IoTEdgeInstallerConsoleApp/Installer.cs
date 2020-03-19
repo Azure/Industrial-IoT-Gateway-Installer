@@ -247,6 +247,7 @@ namespace IoTEdgeInstaller
               && !connectionString.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey="))
             {
                 Console.WriteLine("\n" + Strings.IoTHubs + ":");
+                Console.WriteLine(Strings.IoTHubsHint);
                 connectionString = Console.ReadLine();
             }
             AzureIoTHub azureIoTHub = new AzureIoTHub(connectionString);

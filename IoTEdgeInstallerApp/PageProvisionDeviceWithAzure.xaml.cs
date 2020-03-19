@@ -19,6 +19,7 @@ namespace IoTEdgeInstaller
             CreateDescription.Text = Strings.NewAzureDevice;
             InstallButton.Content = Strings.CreateEdgeButton;
             IoTHubTitle.Text = Strings.IoTHubs;
+            IoTHubHint.Text = Strings.IoTHubsHint;
             CreateOptionsTitle.Text = Strings.AzureCreateDeviceIdDesc;
         }
 

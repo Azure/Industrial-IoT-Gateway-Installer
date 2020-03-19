@@ -120,9 +120,6 @@
   <data name="AboutSubtitle" xml:space="preserve">
     <value>Azure Industrial IoT Gateway Installer</value>
   </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Bitte starten Sie diese App als Administrator/sudo neu.</value>
-  </data>
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
     <value>Geben Sie Ihrem IoT Edge Gerät einen Namen:</value>
   </data>
@@ -151,13 +148,10 @@
     <value>Installiere...</value>
   </data>
   <data name="IoTHubs" xml:space="preserve">
-    <value>Geben Sie Ihren IoT Hub Owner Connection String ein:(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]Dieser kann im Azure Portal unter Ihrem IoT Hub unter Shared Access Policies ausgelesen werden)</value>
+    <value>Geben Sie Ihren IoT Hub Owner Connection String ein:</value>
   </data>
   <data name="NewAzureDevice" xml:space="preserve">
     <value>Azure IoT Edge auf diesem Computer installieren</value>
-  </data>
-  <data name="Prerequisits" xml:space="preserve">
-    <value>Überprüfe Vorrausetzungen zur Installation...</value>
   </data>
   <data name="PreRequisitsFailed" xml:space="preserve">
     <value>Die Voraussetzungen zur IoT Edge Installation sind noch nicht gegeben. Bitte probieren Sie die Installation erneut, sobald diese gegeben sind.</value>
@@ -171,14 +165,8 @@
   <data name="UninstallFailed" xml:space="preserve">
     <value>Das Deinstallieren von der IoT Edge Laufzeitumgebung ist fehlgeschlagen.</value>
   </data>
-  <data name="EnterToExist" xml:space="preserve">
-    <value>Drücken Sie Enter, um das Programm zu verlassen.</value>
-  </data>
   <data name="OSNotSupported" xml:space="preserve">
     <value>Dieses Betriebssystem wird leider nicht unterstützt.</value>
-  </data>
-  <data name="UseHostname" xml:space="preserve">
-    <value>Einfach Enter drücken, um den Hostnamen zu nutzen</value>
   </data>
   <data name="HyperVNotEnabled" xml:space="preserve">
     <value>Bitte zuerst Hyper-V auf diesem Computer einschalten und dann den Installer nochmal ausführen!</value>
@@ -188,5 +176,11 @@
   </data>
   <data name="BitLockerStatus" xml:space="preserve">
     <value>Der Status von Bitlocker konnte nicht überprüft werden.</value>
+  </data>
+  <data name="IoTHubsHint" xml:space="preserve">
+    <value>Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key](Dieser String kann im Azure Portal (portal.azure.com) unter Ihrem IoT Hub unter Shared Access Policies ausgelesen werden.)</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Bitte starten Sie diese App als Administrator/sudo.</value>
   </data>
 </root>

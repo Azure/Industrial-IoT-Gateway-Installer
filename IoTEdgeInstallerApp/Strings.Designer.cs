@@ -68,16 +68,18 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("AboutSubtitle", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Please restart this app as Administrator/sudo..
         /// </summary>
-        public static string Admin {
-            get {
+        public static string Admin
+        {
+            get
+            {
                 return ResourceManager.GetString("Admin", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Name your IoT Edge Device:.
         /// </summary>
@@ -151,15 +153,6 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Press Enter to exit..
-        /// </summary>
-        public static string EnterToExist {
-            get {
-                return ResourceManager.GetString("EnterToExist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Please first enable Hyper-V on this computer and then re-run this installer!.
         /// </summary>
         public static string HyperVNotEnabled {
@@ -196,14 +189,24 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:        ///(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
-        /// </summary>
+        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:        /// </summary>
         public static string IoTHubs {
             get {
                 return ResourceManager.GetString("IoTHubs", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to (Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
+        /// </summary>
+        public static string IoTHubsHint
+        {
+            get
+            {
+                return ResourceManager.GetString("IoTHubsHint", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Install Azure IoT Edge on this Computer.
         /// </summary>
@@ -219,15 +222,6 @@ namespace IoTEdgeInstaller {
         public static string OSNotSupported {
             get {
                 return ResourceManager.GetString("OSNotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Checking Prerequisits....
-        /// </summary>
-        public static string Prerequisits {
-            get {
-                return ResourceManager.GetString("Prerequisits", resourceCulture);
             }
         }
         
@@ -264,15 +258,6 @@ namespace IoTEdgeInstaller {
         public static string UninstallFailed {
             get {
                 return ResourceManager.GetString("UninstallFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Simply press Enter to use the host name.
-        /// </summary>
-        public static string UseHostname {
-            get {
-                return ResourceManager.GetString("UseHostname", resourceCulture);
             }
         }
     }

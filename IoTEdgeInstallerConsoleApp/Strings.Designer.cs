@@ -115,15 +115,6 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install.
-        /// </summary>
-        public static string CreateEdgeButton {
-            get {
-                return ResourceManager.GetString("CreateEdgeButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Creating IoT Edge device on selected IoT Hub failed..
         /// </summary>
         public static string CreateFailed {
@@ -147,15 +138,6 @@ namespace IoTEdgeInstaller {
         public static string DeployFailed {
             get {
                 return ResourceManager.GetString("DeployFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deploying IoT Edge Containers specified in Deployment Script....
-        /// </summary>
-        public static string Deployment {
-            get {
-                return ResourceManager.GetString("Deployment", resourceCulture);
             }
         }
         
@@ -212,16 +194,18 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("IoTHubs", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Install Azure IoT Edge on this Computer.
+        ///   Looks up a localized string similar to(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
         /// </summary>
-        public static string NewAzureDevice {
-            get {
-                return ResourceManager.GetString("NewAzureDevice", resourceCulture);
+        public static string IoTHubsHint
+        {
+            get
+            {
+                return ResourceManager.GetString("IoTHubsHint", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to This Operating System is unfortunately not supported..
         /// </summary>
