@@ -183,4 +183,7 @@
   <data name="Admin" xml:space="preserve">
     <value>Bitte starten Sie diese App als Administrator/sudo.</value>
   </data>
+  <data name="Reboot2" xml:space="preserve">
+    <value>Bitte starten Sie Ihr System neu, und führen dann diesen Installer nochmal aus.</value>
+  </data>
 </root>

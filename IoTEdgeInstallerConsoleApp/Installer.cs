@@ -211,27 +211,6 @@ namespace IoTEdgeInstaller
             return false;
         }
 
-        private void PSErrorStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            string text = ((PSDataCollection<ErrorRecord>)sender)[e.Index].ToString();
-
-            // supress encoding exceptions
-            if (!text.Contains("Exception setting \"OutputEncoding\""))
-            {
-                Console.WriteLine(text);
-            }
-        }
-
-        private void PSWarningStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            Console.WriteLine(((PSDataCollection<WarningRecord>)sender)[e.Index].ToString());
-        }
-
-        private void PSInfoStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            Console.WriteLine(((PSDataCollection<InformationRecord>)sender)[e.Index].ToString());
-        }
-
         public void CreateAzureIoTEdgeDevice(string azureCreateId)
         {
             PowerShell PS = PowerShell.Create();

@@ -1,8 +1,5 @@
-﻿using IoTEdgeInstaller;
-using System;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Diagnostics;
-using System.Management.Automation;
 using System.Reflection;
 using System.Security.Principal;
 
@@ -10,56 +7,6 @@ namespace IoTEdgeInstaller
 {
     class Program
     {
-        public static void ConsoleShowProgress(double progress, bool isAbsolute)
-        {
-            Console.Write(".");
-        }
-
-        public static void ConsoleShowError(string error)
-        {
-            Console.WriteLine("Error: " + error);
-        }
-
-        private static void PSErrorStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            string text = ((PSDataCollection<ErrorRecord>)sender)[e.Index].ToString();
-
-            // supress encoding exceptions
-            if (!text.Contains("Exception setting \"OutputEncoding\""))
-            {
-                Console.WriteLine(text);
-            }
-        }
-
-        private static void PSWarningStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            Console.WriteLine(((PSDataCollection<WarningRecord>)sender)[e.Index].ToString());
-        }
-
-        private static void PSInfoStreamHandler(object sender, DataAddedEventArgs e)
-        {
-            Console.WriteLine(((PSDataCollection<InformationRecord>)sender)[e.Index].ToString());
-        }
-
-        public static Collection<string> RunPSCommand(string command)
-        {
-            Collection<string> returnValues = new Collection<string>();
-            using (PowerShell ps = PowerShell.Create())
-            {
-                ps.AddScript(command);
-                Collection<PSObject> results = ps.Invoke();
-                ps.Streams.ClearStreams();
-                ps.Commands.Clear();
-
-                foreach (PSObject result in results)
-                {
-                    returnValues.Add(result.ToString());
-                }
-            }
-
-            return returnValues;
-        }
-
         static void Main(string[] args)
         {
 #if !DEBUG

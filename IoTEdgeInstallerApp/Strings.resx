@@ -184,4 +184,7 @@
   <data name="Admin" xml:space="preserve">
     <value>Please restart this app as Administrator/sudo.</value>
   </data>
+  <data name="Reboot2" xml:space="preserve">
+    <value>Please restart your system and rerun this installer.</value>
+  </data>
 </root>

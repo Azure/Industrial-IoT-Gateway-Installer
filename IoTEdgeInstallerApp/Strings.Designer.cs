@@ -189,7 +189,8 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:        /// </summary>
+        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:
+        /// </summary>
         public static string IoTHubs {
             get {
                 return ResourceManager.GetString("IoTHubs", resourceCulture);
@@ -197,7 +198,8 @@ namespace IoTEdgeInstaller {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to (Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
+        ///   Looks up a localized string similar to (Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]
+        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
         /// </summary>
         public static string IoTHubsHint
         {
@@ -242,7 +244,18 @@ namespace IoTEdgeInstaller {
                 return ResourceManager.GetString("Reboot", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Please restart your system and rerun this installer..
+        /// </summary>
+        public static string Reboot2
+        {
+            get
+            {
+                return ResourceManager.GetString("Reboot2", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Uninstalling previous IoT Edge instance, if required....
         /// </summary>

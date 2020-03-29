@@ -277,7 +277,15 @@ namespace IoTEdgeInstaller
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    // format restart requests corrrectly
+                    if (ex.Message.Contains("restart the computer"))
+                    {
+                        MessageBox.Show(Strings.Reboot2, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
 
                     try
                     {
