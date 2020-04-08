@@ -1,8 +1,7 @@
 
 # Azure Industrial IoT Gateway Installer
 This installer installs Azure IoT Edge on a local computer for both Windows 10 (supporting both a desktop app or a console app)
-as well as Linux (currently Ubuntu is supported only) in a simple, step-by-step manner. It installs all prerequisits and optionally installs the Azure Industrial IoT Edge Modules OPC Twin (see https://github.com/Azure/azure-iiot-opc-twin-module) and OPC Publisher
-(see https://github.com/Azure/iot-edge-opc-publisher) needed for interoperating with OPC UA adapters and PLCs integrated into industrial machinery. It also enumerates all IoT Hubs the user has access to for easy selection of an IoT Hub to associate with the IoT Edge instance.
+as well as Linux (currently Ubuntu is supported only) in a simple, step-by-step manner. It installs all prerequisits and optionally installs the Azure Industrial IoT Edge Modules Discovery, OPC Twin and OPC Publisher (see https://github.com/Azure/Industrial-IoT/tree/master/docs/modules) needed for interoperating with OPC UA adapters and PLCs integrated into industrial machinery.
 
 Releases including a 1-click installer for Windows can be found in the Releases folder.
 
