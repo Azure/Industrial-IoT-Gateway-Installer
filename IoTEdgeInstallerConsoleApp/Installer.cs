@@ -214,8 +214,6 @@ namespace IoTEdgeInstaller
 
         public void CreateAzureIoTEdgeDevice(string azureCreateId)
         {
-            PowerShell PS = PowerShell.Create();
-         
             if (!SetupPrerequisits())
             {
                 Console.WriteLine("Error: " + Strings.PreRequisitsFailed);

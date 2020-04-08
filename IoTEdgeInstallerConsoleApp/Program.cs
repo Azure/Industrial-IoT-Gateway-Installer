@@ -19,10 +19,12 @@ namespace IoTEdgeInstaller
                     var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
                     if (!principal.IsInRole(WindowsBuiltInRole.Administrator))
                     {
-                        var processInfo = new ProcessStartInfo("dotnet.exe");
-                        processInfo.Arguments = Assembly.GetExecutingAssembly().Location;
-                        processInfo.UseShellExecute = true;
-                        processInfo.Verb = "runas";
+                        var processInfo = new ProcessStartInfo("dotnet.exe")
+                        {
+                            Arguments = Assembly.GetExecutingAssembly().Location,
+                            UseShellExecute = true,
+                            Verb = "runas"
+                        };
                         Process.Start(processInfo);
                         return;
                     }
