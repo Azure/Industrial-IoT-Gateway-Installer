@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace IoTEdgeInstaller
+namespace Common
 {
     public class Tools
     {

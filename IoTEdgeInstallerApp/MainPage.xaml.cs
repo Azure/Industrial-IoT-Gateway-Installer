@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Common;
+using System.Windows;
 
 namespace IoTEdgeInstaller
 {

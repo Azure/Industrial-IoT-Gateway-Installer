@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices;
+﻿using Common;
+using Microsoft.Azure.Devices;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

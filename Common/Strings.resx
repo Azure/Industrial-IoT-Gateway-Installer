@@ -184,7 +184,22 @@
   <data name="Admin" xml:space="preserve">
     <value>Please restart this app as Administrator/sudo.</value>
   </data>
+  <data name="EnterToExist" xml:space="preserve">
+    <value>Press Enter to exit.</value>
+  </data>
+  <data name="Prerequisits" xml:space="preserve">
+    <value>Checking Prerequisits...</value>
+  </data>
+  <data name="UseHostname" xml:space="preserve">
+    <value>Simply press Enter to use the host name</value>
+  </data>
   <data name="Reboot2" xml:space="preserve">
     <value>Please restart your system and rerun this installer.</value>
+  </data>
+  <data name="ModulesStatus" xml:space="preserve">
+    <value>Module Status:</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not Available</value>
   </data>
 </root>

@@ -119,72 +119,86 @@
   </resheader>
   <data name="AboutSubtitle" xml:space="preserve">
     <value>Azure Industrial IoT Gateway Installer</value>
-    <comment>no loc</comment>
   </data>
   <data name="AzureCreateDeviceIdDesc" xml:space="preserve">
-    <value>Name your IoT Edge Device:</value>
-  </data>
-  <data name="IoTHubs" xml:space="preserve">
-    <value>Enter your IoT Hub Owner Connection String:</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Please restart this app as Administrator/sudo.</value>
+    <value>Geben Sie Ihrem IoT Edge Gerät einen Namen:</value>
   </data>
   <data name="Completed" xml:space="preserve">
-    <value>This part of the installation is completed.</value>
+    <value>Dieser Teil der Installation ist abgeschlossen.</value>
   </data>
-  <data name="DeployFailed" xml:space="preserve">
-    <value>Deploying IoT Edge Container modules failed.</value>
-  </data>
-  <data name="Install" xml:space="preserve">
-    <value>Installing new IoT Edge and Moby Docker instance...</value>
-  </data>
-  <data name="InstallFailed" xml:space="preserve">
-    <value>Installing IoT Edge runtime failed. Please reboot and try again.</value>
-  </data>
-  <data name="Uninstall" xml:space="preserve">
-    <value>Uninstalling previous IoT Edge instance, if required...</value>
-  </data>
-  <data name="UninstallFailed" xml:space="preserve">
-    <value>Uninstalling IoT Edge runtime failed.</value>
-  </data>
-  <data name="Reboot" xml:space="preserve">
-    <value>Please restart your system to complete the installation.</value>
+  <data name="CreateEdgeButton" xml:space="preserve">
+    <value>Installieren</value>
   </data>
   <data name="CreateFailed" xml:space="preserve">
-    <value>Creating IoT Edge device on selected IoT Hub failed.</value>
-  </data>
-  <data name="PreRequisitsFailed" xml:space="preserve">
-    <value>Prerequisits to install IoT Edge not yet met. Please try again after all prerequests are met.</value>
+    <value>Das IoT Edge Gerät konnte nicht für den selektierten IoT Hub angelegt werden.</value>
   </data>
   <data name="DeletedDevice" xml:space="preserve">
-    <value>A device with this name exists already for this IoT Hub. Do you want to overwrite the device?</value>
+    <value>Ein Gerät mit diesem Namen existiert bereits auf diesem IoT Hub. Wollen Sie das Gerät ersetzen?</value>
+  </data>
+  <data name="DeployFailed" xml:space="preserve">
+    <value>Das Anlegen der IoT Edge Container Module ist fehlgeschlagen.</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Installiere eine neue IoT Edge und Moby Docker Instanz...</value>
+  </data>
+  <data name="InstallFailed" xml:space="preserve">
+    <value>Die Installation der IoT Edge Laufzeitumgebung ist fehlgeschlagen. Bitte starten Sie den Computer neu und probieren es noch einmal.</value>
   </data>
   <data name="Installing" xml:space="preserve">
-    <value>Installing...</value>
+    <value>Installiere...</value>
   </data>
-  <data name="Prerequisits" xml:space="preserve">
-    <value>Checking Prerequisits...</value>
+  <data name="IoTHubs" xml:space="preserve">
+    <value>Geben Sie Ihren IoT Hub Owner Connection String ein:</value>
   </data>
-  <data name="EnterToExist" xml:space="preserve">
-    <value>Press Enter to exit.</value>
+  <data name="NewAzureDevice" xml:space="preserve">
+    <value>Azure IoT Edge auf diesem Computer installieren</value>
+  </data>
+  <data name="PreRequisitsFailed" xml:space="preserve">
+    <value>Die Voraussetzungen zur IoT Edge Installation sind noch nicht gegeben. Bitte probieren Sie die Installation erneut, sobald diese gegeben sind.</value>
+  </data>
+  <data name="Reboot" xml:space="preserve">
+    <value>Bitte starten Sie Ihr System neu, um die Installation abzuschließen.</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Vorige Installationen von IoT Edge werden jetzt entfernt, falls erforderlich...</value>
+  </data>
+  <data name="UninstallFailed" xml:space="preserve">
+    <value>Das Deinstallieren von der IoT Edge Laufzeitumgebung ist fehlgeschlagen.</value>
   </data>
   <data name="OSNotSupported" xml:space="preserve">
-    <value>This Operating System is unfortunately not supported.</value>
-  </data>
-  <data name="UseHostname" xml:space="preserve">
-    <value>Simply press Enter to use the host name</value>
+    <value>Dieses Betriebssystem wird leider nicht unterstützt.</value>
   </data>
   <data name="HyperVNotEnabled" xml:space="preserve">
-    <value>Please first enable Hyper-V on this computer and then re-run this installer!</value>
+    <value>Bitte zuerst Hyper-V auf diesem Computer einschalten und dann den Installer nochmal ausführen!</value>
   </data>
   <data name="BitlockerDisabled" xml:space="preserve">
-    <value>We recommend endabling Bitlocker on drive C: as IoT Edge modules store secrets there!</value>
+    <value>Wir empfehlen Bitlocker für das Laufwerk C: einzuschalten, denn dort speichern IoT Edge Module Sicherheitsschlüssel!</value>
   </data>
   <data name="BitLockerStatus" xml:space="preserve">
-    <value>Could not check status of Bitlocker.</value>
+    <value>Der Status von Bitlocker konnte nicht überprüft werden.</value>
   </data>
   <data name="IoTHubsHint" xml:space="preserve">
-    <value>Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key](You can get this string from the Azure Portal (portal.azure.com) under Shared Access Policies of your IoT Hub.)</value>
+    <value>Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key](Dieser String kann im Azure Portal (portal.azure.com) unter Ihrem IoT Hub unter Shared Access Policies ausgelesen werden.)</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Bitte starten Sie diese App als Administrator/sudo.</value>
+  </data>
+  <data name="EnterToExist" xml:space="preserve">
+    <value>Zum Beenden ENTER drücken.</value>
+  </data>
+  <data name="Prerequisits" xml:space="preserve">
+    <value>Überprüfe Anforderungen...</value>
+  </data>
+  <data name="UseHostname" xml:space="preserve">
+    <value>Drücken Sie ENTER zur Nutzung des Hostnamens</value>
+  </data>
+  <data name="Reboot2" xml:space="preserve">
+    <value>Bitte starten Sie Ihr System neu und führen dann diesen Installer wieder aus.</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Nicht verfügbar.</value>
+  </data>
+  <data name="ModulesStatus" xml:space="preserve">
+    <value>Status der Module:</value>
   </data>
 </root>

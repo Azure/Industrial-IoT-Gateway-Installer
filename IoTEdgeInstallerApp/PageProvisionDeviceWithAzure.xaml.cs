@@ -1,5 +1,10 @@
-﻿using System.Windows;
+﻿using Common;
+using System;
+using System.Collections.Generic;
+using System.Timers;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace IoTEdgeInstaller
 {
@@ -21,6 +26,39 @@ namespace IoTEdgeInstaller
             IoTHubTitle.Text = Strings.IoTHubs;
             IoTHubHint.Text = Strings.IoTHubsHint;
             CreateOptionsTitle.Text = Strings.AzureCreateDeviceIdDesc;
+
+            // periodically update the module status (every 3 seconds)
+            Timer timer = new Timer(3000);
+            timer.Elapsed += Timer_Elapsed;
+            timer.AutoReset = true;
+            timer.Start();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                string statusText = Strings.ModulesStatus + "\r\n";
+                AzureIoTHub hub = new AzureIoTHub(_viewModel.DisplayName);
+                List<KeyValuePair<string, string>> modulesStatus = hub.GetDeviceModulesStatusAsync(_viewModel.AzureCreateId).Result;
+                if ((modulesStatus != null) && (modulesStatus.Count > 0))
+                {
+                    foreach (KeyValuePair<string,string> moduleStatus in modulesStatus)
+                    {
+                        statusText += (moduleStatus.Key + ": " + moduleStatus.Value + "\r\n");
+                    }
+                }
+                else
+                {
+                    statusText += Strings.NotAvailable;
+                }
+
+                ModulesStatus.Dispatcher.Invoke(() => ModulesStatus.Text = statusText, DispatcherPriority.Background);
+            }
+            catch (Exception)
+            {
+                // do nothing
+            }
         }
 
         private void _pageFlow_PageChange(object sender, PageChangeCancelEventArgs e)

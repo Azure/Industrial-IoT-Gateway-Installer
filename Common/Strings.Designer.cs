@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IoTEdgeInstaller {
+namespace Common {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace IoTEdgeInstaller {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IoTEdgeInstaller.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Common.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -111,6 +111,15 @@ namespace IoTEdgeInstaller {
         public static string Completed {
             get {
                 return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install.
+        /// </summary>
+        public static string CreateEdgeButton {
+            get {
+                return ResourceManager.GetString("CreateEdgeButton", resourceCulture);
             }
         }
         
@@ -187,25 +196,50 @@ namespace IoTEdgeInstaller {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:        ///(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
+        ///   Looks up a localized string similar to Enter your IoT Hub Owner Connection String:.
         /// </summary>
         public static string IoTHubs {
             get {
                 return ResourceManager.GetString("IoTHubs", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to(Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///You can get this from the Azure Portal under Shared Access Policies of your IoT Hub).
+        ///   Looks up a localized string similar to Format: HostName=[Name].azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=[Key]        ///(You can get this string from the Azure Portal (portal.azure.com) under Shared Access Policies of your IoT Hub.).
         /// </summary>
-        public static string IoTHubsHint
-        {
-            get
-            {
+        public static string IoTHubsHint {
+            get {
                 return ResourceManager.GetString("IoTHubsHint", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Module Status:.
+        /// </summary>
+        public static string ModulesStatus {
+            get {
+                return ResourceManager.GetString("ModulesStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Install Azure IoT Edge on this Computer.
+        /// </summary>
+        public static string NewAzureDevice {
+            get {
+                return ResourceManager.GetString("NewAzureDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Available.
+        /// </summary>
+        public static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to This Operating System is unfortunately not supported..
         /// </summary>
@@ -239,6 +273,15 @@ namespace IoTEdgeInstaller {
         public static string Reboot {
             get {
                 return ResourceManager.GetString("Reboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please restart your system and rerun this installer..
+        /// </summary>
+        public static string Reboot2 {
+            get {
+                return ResourceManager.GetString("Reboot2", resourceCulture);
             }
         }
         

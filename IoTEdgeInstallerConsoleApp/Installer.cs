@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Devices;
+﻿using Common;
+using Microsoft.Azure.Devices;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -230,6 +231,7 @@ namespace IoTEdgeInstaller
                 Console.WriteLine(Strings.IoTHubsHint);
                 connectionString = Console.ReadLine();
             }
+
             AzureIoTHub azureIoTHub = new AzureIoTHub(connectionString);
            
             // check if device exists already

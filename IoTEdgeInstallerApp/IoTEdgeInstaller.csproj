@@ -114,11 +114,11 @@
     <Reference Include="Microsoft.Azure.Amqp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Amqp.2.4.3\lib\net45\Microsoft.Azure.Amqp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Devices, Version=1.20.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Devices.1.20.0\lib\net472\Microsoft.Azure.Devices.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Devices, Version=1.20.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Devices.1.20.1\lib\net472\Microsoft.Azure.Devices.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Azure.Devices.Shared, Version=1.19.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Devices.Shared.1.19.0\lib\net472\Microsoft.Azure.Devices.Shared.dll</HintPath>
+    <Reference Include="Microsoft.Azure.Devices.Shared, Version=1.20.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.Devices.Shared.1.20.0\lib\net472\Microsoft.Azure.Devices.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -217,14 +217,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="IoTHub.cs" />
     <Compile Include="PageFlow.cs" />
     <Compile Include="PageProvisionDeviceWithAzure.xaml.cs">
       <DependentUpon>PageProvisionDeviceWithAzure.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageProvisionDeviceWithAzureViewModel.cs" />
-    <Compile Include="Strings.Designer.cs" />
-    <Compile Include="Tools.cs" />
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -271,8 +268,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Strings.de-DE.resx" />
-    <EmbeddedResource Include="Strings.resx" />
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{1565597d-0722-478a-8e04-6572be1a2405}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -22,6 +22,7 @@
                     <TextBlock x:Name="CreateOptionsTitle" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="Visible" HorizontalAlignment="Left" Margin="2,15,2,0"/>
                     <TextBox FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Background="#121416" Visibility="Visible" Height="25" Width="350" HorizontalAlignment="Left" Margin="0,5,0,0" Text="{Binding AzureCreateId, Mode=TwoWay}"/>
                     <Button Margin="0,35,0,0" Width="350" Height="35"  x:Name="InstallButton" FontSize="20" Foreground="#121416" FontFamily="./Properties/#Selawik" Background="#AFB9C3" HorizontalAlignment="Left" Visibility="Visible" Click="ButtonCreateAzureCreateEdge_Click" />
+                    <TextBlock x:Name="ModulesStatus" TextWrapping="Wrap" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" Visibility="Visible" HorizontalAlignment="Left" Margin="2,25,2,0"/>
                 </StackPanel>
                 <StackPanel Margin="0,15,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <TextBox x:Name="OutputBox" IsReadOnly="True" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" BorderThickness="0" Background="#121416" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding OutputLB}" Width="380" Height="430"/>
