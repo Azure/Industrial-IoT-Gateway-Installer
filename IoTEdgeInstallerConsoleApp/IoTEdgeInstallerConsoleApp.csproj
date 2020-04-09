@@ -4,23 +4,10 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <StartupObject>IoTEdgeInstaller.Program</StartupObject>
-    <ApplicationIcon />
-    <Win32Resource />
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>Console.snk</AssemblyOriginatorKeyFile>
-    <DelaySign>false</DelaySign>
     <HighEntropyVA>true</HighEntropyVA>
     <NoWin32Manifest>true</NoWin32Manifest>
     <RootNamespace>IoTEdgeInstaller</RootNamespace>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="iiotedgedeploymentmanifest.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="6.2.1" />
@@ -29,20 +16,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Strings\Strings.Designer.cs">
-      <DependentUpon>Strings.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Strings\Strings.resx">
-      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
+ 
 </Project>

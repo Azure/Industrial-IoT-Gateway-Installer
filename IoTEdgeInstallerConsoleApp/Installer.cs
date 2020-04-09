@@ -56,8 +56,6 @@ namespace IoTEdgeInstaller
         {
             try
             {
-                PowerShell PS = PowerShell.Create();
-           
                 if (Environment.OSVersion.Platform == PlatformID.Unix)
                 {
                     "sudo apt-get update".Bash();
@@ -78,8 +76,9 @@ namespace IoTEdgeInstaller
                         Console.WriteLine("Error: " + Strings.OSNotSupported);
                         return false;
                     }
-                    
+
                     // check if bitlocker is enabled
+                    PowerShell PS = PowerShell.Create();
                     PS.AddScript("manage-bde -status C:");
                     Collection<PSObject> results = PS.Invoke();
                     PS.Streams.ClearStreams();

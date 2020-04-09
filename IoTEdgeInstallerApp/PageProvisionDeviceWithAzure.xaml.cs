@@ -61,7 +61,7 @@ namespace IoTEdgeInstaller
             }
         }
 
-        private void _pageFlow_PageChange(object sender, PageChangeCancelEventArgs e)
+        private void PageFlow_PageChange(object sender, PageChangeCancelEventArgs e)
         {
             if (e.CurrentPage == this)
             {
@@ -71,12 +71,12 @@ namespace IoTEdgeInstaller
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            _pageFlow.PageChange += _pageFlow_PageChange;
+            _pageFlow.PageChange += PageFlow_PageChange;
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            _pageFlow.PageChange -= _pageFlow_PageChange;
+            _pageFlow.PageChange -= PageFlow_PageChange;
         }
 
         private void ButtonCreateAzureCreateEdge_Click(object sender, RoutedEventArgs e)
