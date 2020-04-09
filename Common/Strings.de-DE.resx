@@ -157,7 +157,7 @@
     <value>Die Voraussetzungen zur IoT Edge Installation sind noch nicht gegeben. Bitte probieren Sie die Installation erneut, sobald diese gegeben sind.</value>
   </data>
   <data name="Reboot" xml:space="preserve">
-    <value>Bitte starten Sie Ihr System neu, um die Installation abzuschließen.</value>
+    <value>Bitte starten Sie Ihr System neu, um die Installation abzuschließen. Sie können den Laufzeitstatus der IoT Edge Module in diesem Installer beobachten.</value>
   </data>
   <data name="Uninstall" xml:space="preserve">
     <value>Vorige Installationen von IoT Edge werden jetzt entfernt, falls erforderlich...</value>

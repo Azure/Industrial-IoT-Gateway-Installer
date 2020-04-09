@@ -268,7 +268,7 @@ namespace Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please restart your system to complete the installation..
+        ///   Looks up a localized string similar to Please restart your system to complete the installation. You can monitor the IoT Edge module runtime status in this installer..
         /// </summary>
         public static string Reboot {
             get {
