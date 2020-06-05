@@ -36,16 +36,23 @@ namespace IoTEdgeInstaller
 
         public void CreateAzureIoTEdgeDevice()
         {
-            if ((DisplayName == null)
-             || (DisplayName == string.Empty)
-             || !DisplayName.StartsWith("HostName=")
-             || !DisplayName.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey="))
+            if (!_parentPage._isSaaSSetup)
             {
-                MessageBox.Show(Strings.IoTHubs, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                if ((DisplayName == null)
+                 || (DisplayName == string.Empty)
+                 || !DisplayName.StartsWith("HostName=")
+                 || !DisplayName.Contains(".azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey="))
+                {
+                    MessageBox.Show(Strings.IoTHubs, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    QueueUserWorkItem(CreateAzureIoTEdgeDevice, new AzureIoTHub(DisplayName));
+                }
             }
             else
             {
-                QueueUserWorkItem(CreateAzureIoTEdgeDevice, new AzureIoTHub(DisplayName));
+                QueueUserWorkItem(CreateAzureIoTEdgeDevice, null);
             }
         }
 
@@ -78,14 +85,13 @@ namespace IoTEdgeInstaller
         {
             try
             {
-                // check if we are on 1809 build 17763, which is the only supported version of Windows 10 for IoT Edge
-                if (Environment.OSVersion.Version.Build != 17763)
+                // check if we are on 1809 build 17763, which is the only supported version of Windows 10 for IoT Edge on Windows containers
+                if ((Environment.OSVersion.Version.Build != 17763) && (_parentPage.UseLCoW.IsChecked != true))
                 {
                     MessageBox.Show(Strings.OSNotSupported, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
-                // check if setup already
                 PowerShell PS = PowerShell.Create();
 
                 // check if bitlocker is enabled
@@ -148,56 +154,73 @@ namespace IoTEdgeInstaller
 
         private bool InstallIoTEdge(Device deviceEntity, AzureIoTHub iotHub)
         {
-            if (deviceEntity != null)
+            PowerShell PS = PowerShell.Create();
+            PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
+            PS.Streams.Error.DataAdded += PSErrorStreamHandler;
+            PS.Streams.Information.DataAdded += PSInfoStreamHandler;
+
+            OutputLB += (Strings.Uninstall + "\n");
+            try
             {
-                PowerShell PS = PowerShell.Create();
-                PS.Streams.Warning.DataAdded += PSWarningStreamHandler;
-                PS.Streams.Error.DataAdded += PSErrorStreamHandler;
-                PS.Streams.Information.DataAdded += PSInfoStreamHandler;
-
-                OutputLB += (Strings.Uninstall + "\n");
-                try
-                {
-                    PS.AddScript("Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Uninstall-IoTEdge -Force");
-                    Collection<PSObject> results1 = PS.Invoke();
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
-                    if (results1.Count == 0)
-                    {
-                        MessageBox.Show(Strings.UninstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                        return false;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    PS.Streams.ClearStreams();
-                    PS.Commands.Clear();
-                    return false;
-                }
-
-                OutputLB += (Strings.Install + "\n");
-                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs Windows -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.Authentication.SymmetricKey.PrimaryKey}' -SkipBatteryCheck");
-                Collection<PSObject> results = PS.Invoke();
+                PS.AddScript("Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Uninstall-IoTEdge -Force");
+                Collection<PSObject> results1 = PS.Invoke();
                 PS.Streams.ClearStreams();
                 PS.Commands.Clear();
-                if (results.Count == 0)
+                if (results1.Count == 0)
                 {
-                    MessageBox.Show(Strings.InstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(Strings.UninstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
-
-                if (!Tools.CreateDriveMappingDirectory())
-                {
-                    MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
-
-                OutputLB += (Strings.Completed + "\n" + Strings.Reboot + "\n");
-                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                PS.Streams.ClearStreams();
+                PS.Commands.Clear();
+                return false;
             }
 
-            return false;
+            OutputLB += (Strings.Install + "\n");
+
+            string os = "Windows";
+            if (_parentPage.UseLCoW.IsChecked == true)
+            {
+                os = "Linux";
+            }
+
+            if (_parentPage._isSaaSSetup)
+            {
+                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs {os} -Dps -ScopeId {_parentPage.DPS_IDScope.Text} -RegistrationId {_parentPage.DPS_DeviceID.Text} -SymmetricKey {_parentPage.DPS_PrimaryKey.Text} -SkipBatteryCheck");
+            }
+            else
+            {
+                if (deviceEntity != null)
+                {
+                    PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs {os} -Manual -DeviceConnectionString 'HostName={iotHub.Name}.azure-devices.net;DeviceId={deviceEntity.Id};SharedAccessKey={deviceEntity.Authentication.SymmetricKey.PrimaryKey}' -SkipBatteryCheck");
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            Collection<PSObject> results = PS.Invoke();
+            PS.Streams.ClearStreams();
+            PS.Commands.Clear();
+            if (results.Count == 0)
+            {
+                MessageBox.Show(Strings.InstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (!Tools.CreateDriveMappingDirectory())
+            {
+                MessageBox.Show(Strings.DeployFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            OutputLB += (Strings.Completed + "\n" + Strings.Reboot + "\n");
+            return true;
         }
 
         private void PSErrorStreamHandler(object sender, DataAddedEventArgs e)
@@ -239,65 +262,72 @@ namespace IoTEdgeInstaller
             }
             else
             {
-                // check if device exists already
-                Device deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
-                if (deviceEntity != null)
+                if (!_parentPage._isSaaSSetup)
                 {
-                    MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
-                    }
-                    else
-                    {
-                        SetUIState(HideMainProgressUI);
-                        _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
-                        return;
-                    }
-                }
-
-                try
-                {
-                    // create the device
-                    azureIoTHub.CreateIoTEdgeDeviceAsync(_azureCreateId).Wait();
-                    
-                    // retrieve the newly created device
-                    deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
+                    // check if device exists already
+                    Device deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
                     if (deviceEntity != null)
                     {
-                        if (!InstallIoTEdge(deviceEntity, azureIoTHub))
+                        MessageBoxResult result = MessageBox.Show(Strings.DeletedDevice, Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
                         {
-                            // installation failed so delete the device again
                             azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
                         }
-                    }
-                    else
-                    {
-                        MessageBox.Show(Strings.CreateFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // format restart requests corrrectly
-                    if (ex.Message.Contains("restart the computer"))
-                    {
-                        MessageBox.Show(Strings.Reboot2, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        else
+                        {
+                            SetUIState(HideMainProgressUI);
+                            _parentPage.CreateDescription.Dispatcher.Invoke(() => _parentPage.CreateDescription.Text = Strings.NewAzureDevice, DispatcherPriority.Background);
+                            return;
+                        }
                     }
 
                     try
                     {
-                        // installation failed so delete the device again (if neccessary)
-                        azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
+                        // create the device
+                        azureIoTHub.CreateIoTEdgeDeviceAsync(_azureCreateId).Wait();
 
+                        // retrieve the newly created device
+                        deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;
+                        if (deviceEntity != null)
+                        {
+                            if (!InstallIoTEdge(deviceEntity, azureIoTHub))
+                            {
+                                // installation failed so delete the device again
+                                azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(Strings.CreateFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
-                    catch (Exception ex2)
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(ex2.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        // format restart requests corrrectly
+                        if (ex.Message.Contains("restart the computer"))
+                        {
+                            MessageBox.Show(Strings.Reboot2, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+
+                        try
+                        {
+                            // installation failed so delete the device again (if neccessary)
+                            azureIoTHub.DeleteDeviceAsync(_azureCreateId).Wait();
+
+                        }
+                        catch (Exception ex2)
+                        {
+                            MessageBox.Show(ex2.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
                     }
+                }
+                else
+                {
+                    InstallIoTEdge(null, null);
                 }
             }
 

@@ -12,6 +12,7 @@ namespace IoTEdgeInstaller
     {
         private readonly PageFlow _pageFlow;
         private PageProvisionDeviceWithAzureViewModel _viewModel;
+        public bool _isSaaSSetup = false;
         
         public PageProvisionDeviceWithAzure(PageFlow pageFlow)
         {
@@ -82,6 +83,26 @@ namespace IoTEdgeInstaller
         private void ButtonCreateAzureCreateEdge_Click(object sender, RoutedEventArgs e)
         {
             _viewModel.CreateAzureIoTEdgeDevice();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (PaaSSetup != null)
+            {
+                PaaSSetup.Visibility = Visibility.Visible;
+                SaaSSetup.Visibility = Visibility.Collapsed;
+                _isSaaSSetup = false;
+            }
+        }
+
+        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        {
+            if (PaaSSetup != null)
+            {
+                PaaSSetup.Visibility = Visibility.Collapsed;
+                SaaSSetup.Visibility = Visibility.Visible;
+                _isSaaSSetup = true;
+            }
         }
     }
 }
