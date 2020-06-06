@@ -85,13 +85,19 @@ namespace IoTEdgeInstaller
         {
             try
             {
+                bool useLCOW = false;
+                _parentPage.Dispatcher.Invoke(() =>
+                {
+                    useLCOW = (_parentPage.UseLCoW.IsChecked == true);
+                });
+
                 // check if we are on 1809 build 17763, which is the only supported version of Windows 10 for IoT Edge on Windows containers
-                if ((Environment.OSVersion.Version.Build != 17763) && (_parentPage.UseLCoW.IsChecked != true))
+                if ((Environment.OSVersion.Version.Build != 17763) && !useLCOW)
                 {
                     MessageBox.Show(Strings.OSNotSupported, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
-
+                
                 PowerShell PS = PowerShell.Create();
 
                 // check if bitlocker is enabled
@@ -142,6 +148,25 @@ namespace IoTEdgeInstaller
                     MessageBox.Show(Strings.HyperVNotEnabled, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
+
+                // check if Docker Desktop is running
+                if (useLCOW)
+                {
+                    PS.AddScript("docker -v");
+                    results = PS.Invoke();
+                    PS.Streams.ClearStreams();
+                    PS.Commands.Clear();
+                    if (results.Count == 0)
+                    {
+                        MessageBoxResult result = MessageBox.Show("Docker was not detected. Do you want to install it now?", Strings.AboutSubtitle, MessageBoxButton.YesNo, MessageBoxImage.Error);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start("https://download.docker.com/win/stable/Docker%20Desktop%20Installer.exe");
+                        }
+                        
+                        return false;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -182,15 +207,29 @@ namespace IoTEdgeInstaller
 
             OutputLB += (Strings.Install + "\n");
 
+            bool useLCOW = false;
+            bool isSaaS = false;
+            string idScope = string.Empty;
+            string deviceID = string.Empty;
+            string primaryKey = string.Empty;
+            _parentPage.Dispatcher.Invoke(() =>
+            {
+                useLCOW = (_parentPage.UseLCoW.IsChecked == true);
+                isSaaS = _parentPage._isSaaSSetup;
+                idScope = _parentPage.DPS_IDScope.Text;
+                deviceID = _parentPage.DPS_DeviceID.Text;
+                primaryKey = _parentPage.DPS_PrimaryKey.Text;
+            });
+
             string os = "Windows";
-            if (_parentPage.UseLCoW.IsChecked == true)
+            if (useLCOW)
             {
                 os = "Linux";
             }
 
-            if (_parentPage._isSaaSSetup)
+            if (isSaaS)
             {
-                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs {os} -Dps -ScopeId {_parentPage.DPS_IDScope.Text} -RegistrationId {_parentPage.DPS_DeviceID.Text} -SymmetricKey {_parentPage.DPS_PrimaryKey.Text} -SkipBatteryCheck");
+                PS.AddScript($"Invoke-WebRequest -useb aka.ms/iotedge-win | Invoke-Expression; Install-IoTEdge -ContainerOs {os} -Dps -ScopeId {idScope} -RegistrationId {deviceID} -SymmetricKey {primaryKey} -SkipBatteryCheck");
             }
             else
             {
@@ -200,6 +239,7 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
+                    MessageBox.Show(Strings.InstallFailed, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
             }
@@ -327,7 +367,14 @@ namespace IoTEdgeInstaller
                 }
                 else
                 {
-                    InstallIoTEdge(null, null);
+                    try
+                    {
+                        InstallIoTEdge(null, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, Strings.AboutSubtitle, MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
 

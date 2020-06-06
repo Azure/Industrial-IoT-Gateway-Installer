@@ -47,7 +47,7 @@
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="0,15,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <TextBox x:Name="OutputBox" IsReadOnly="True" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" BorderThickness="0" Background="#121416" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding OutputLB}" Width="380" Height="430"/>
+                <TextBox x:Name="OutputBox" IsReadOnly="True" FontSize="15" Foreground="#AFB9C3" FontFamily="./Properties/#Selawik" BorderThickness="0" Background="#121416" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Text="{Binding OutputLB}" Width="380" Height="420"/>
             </StackPanel>
             </StackPanel>
         </StackPanel>
