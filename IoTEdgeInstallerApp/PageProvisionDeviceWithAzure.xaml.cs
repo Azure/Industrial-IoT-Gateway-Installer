@@ -85,7 +85,7 @@ namespace IoTEdgeInstaller
             _viewModel.CreateAzureIoTEdgeDevice();
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void RadioButton_PaaS_Checked(object sender, RoutedEventArgs e)
         {
             if (PaaSSetup != null)
             {
@@ -95,7 +95,7 @@ namespace IoTEdgeInstaller
             }
         }
 
-        private void RadioButton_Checked_1(object sender, RoutedEventArgs e)
+        private void RadioButton_SaaS_Checked(object sender, RoutedEventArgs e)
         {
             if (PaaSSetup != null)
             {
