@@ -323,8 +323,20 @@ namespace IoTEdgeInstaller
 
                     try
                     {
+                        bool useLCOW = false;
+                        _parentPage.Dispatcher.Invoke(() =>
+                        {
+                            useLCOW = (_parentPage.UseLCoW.IsChecked == true);
+                        });
+
+                        string os = "Windows";
+                        if (useLCOW)
+                        {
+                            os = "Linux";
+                        }
+
                         // create the device
-                        azureIoTHub.CreateIoTEdgeDeviceAsync(_azureCreateId).Wait();
+                        azureIoTHub.CreateIoTEdgeDeviceAsync(_azureCreateId, os).Wait();
 
                         // retrieve the newly created device
                         deviceEntity = azureIoTHub.GetDeviceAsync(_azureCreateId).Result;

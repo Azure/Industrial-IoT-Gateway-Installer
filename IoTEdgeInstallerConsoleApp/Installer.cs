@@ -257,7 +257,13 @@ namespace IoTEdgeInstaller
             try
             {
                 // create the device
-                azureIoTHub.CreateIoTEdgeDeviceAsync(azureCreateId).Wait();
+                string os = "Windows";
+                if (Environment.OSVersion.Platform == PlatformID.Unix)
+                {
+                    os = "Linux";
+                }
+
+                azureIoTHub.CreateIoTEdgeDeviceAsync(azureCreateId, os).Wait();
 
                 // retrieve the newly created device
                 deviceEntity = azureIoTHub.GetDeviceAsync(azureCreateId).Result;

@@ -169,7 +169,7 @@ namespace Common
             return modulesStatus;
         }
 
-        public async Task<bool> CreateIoTEdgeDeviceAsync(string deviceId)
+        public async Task<bool> CreateIoTEdgeDeviceAsync(string deviceId, string os)
         {
             // create new device
             Device newDevice = await registryManager.AddDeviceAsync(new Device(deviceId));
@@ -191,7 +191,7 @@ namespace Common
                     string patch = string.Empty;
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        patch = "\"tags\": { \"__type__\": \"iiotedge\", \"os\": \"Windows\" },";
+                        patch = "\"tags\": { \"__type__\": \"iiotedge\", \"os\": \" + os + \" },";
                     }
                     if (Environment.OSVersion.Platform == PlatformID.Unix)
                     {
