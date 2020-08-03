@@ -191,7 +191,7 @@ namespace Common
                     string patch = string.Empty;
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     {
-                        patch = "\"tags\": { \"__type__\": \"iiotedge\", \"os\": \" + os + \" },";
+                        patch = "\"tags\": { \"__type__\": \"iiotedge\", \"os\": \"" + os + "\" },";
                     }
                     if (Environment.OSVersion.Platform == PlatformID.Unix)
                     {
