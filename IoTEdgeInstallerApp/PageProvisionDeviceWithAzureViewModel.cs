@@ -124,7 +124,7 @@ namespace IoTEdgeInstaller
                 }
 
                 // check if Hyper-V is enabled
-                PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online");
+                PS.AddScript("$hyperv = Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V -Online");
                 PS.AddScript("if($hyperv.State -eq 'Enabled') { write 'enabled' }");
                 results = PS.Invoke();
                 PS.Streams.ClearStreams();
