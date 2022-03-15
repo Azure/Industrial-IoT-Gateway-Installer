@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="2.0.0.2" publicKeyToken="b9849d11f5056fd9" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:publisher="Azure Industrial IoT Gateway Installer" asmv2:product="Azure Industrial IoT Gateway Installer" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="AzureIoTEdgeInstaller" version="2.0.0.0" publicKeyToken="B9849D11F5056FD9" language="neutral" processorArchitecture="msil" />
+    <commandLine file="AzureIoTEdgeInstaller.exe" parameters="" />
+  </entryPoint>
+  <co.v1:useManifestForTrust xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet version="1" class="System.Security.NamedPermissionSet" Name="Internet" Description="Default rights given to Internet applications" Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="AzureIoTEdgeInstaller.exe" size="33720">
+      <assemblyIdentity name="AzureIoTEdgeInstaller" version="2.0.0.0" publicKeyToken="B9849D11F5056FD9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>Ye3kL/ptPeI71cStHhyCHT7eKwocIfk2gCfR1H0uuKA=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Common.dll" size="25600">
+      <assemblyIdentity name="Common" version="1.0.0.0" publicKeyToken="B9849D11F5056FD9" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>KnMiIQuANrGmTBLpYRlVem7yxZehC2o9/iQ+8g291r0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="de-DE\Common.resources.dll" size="6656">
+      <assemblyIdentity name="Common.resources" version="1.0.0.0" publicKeyToken="B9849D11F5056FD9" language="de-DE" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>szw3bt42ULM/AEeIjkhhrqoXUKRVwwmIvqQL/4XB2t0=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Azure.Amqp.dll" size="393080">
+      <assemblyIdentity name="Microsoft.Azure.Amqp" version="2.4.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>pxn7T6QHH5od23Cx4e+t2mNqLo0eQTuy/CLZc4DdfJY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Azure.Devices.dll" size="423800">
+      <assemblyIdentity name="Microsoft.Azure.Devices" version="1.20.1.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>A+DokPlv30mnjpuwljCdNNRLTPmudGZfERkHohPIndw=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Microsoft.Azure.Devices.Shared.dll" size="36944">
+      <assemblyIdentity name="Microsoft.Azure.Devices.Shared" version="1.20.0.0" publicKeyToken="31BF3856AD364E35" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>VUtyHdPQD7GxQ6/C3WonkqsVLl8PUmkO9YnPpWznYZk=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Newtonsoft.Json.dll" size="700336">
+      <assemblyIdentity name="Newtonsoft.Json" version="12.0.0.0" publicKeyToken="30AD4FE6B2A6AEED" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>f5ErKKB8Im4L46z7L1fwUFOKugEA+h8L8sOfGh8dqBQ=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="AzureIoTEdgeInstaller.exe.config" size="781">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>ASsecs/Tfsb5vhUdQU1QWZArw3E3yPJSLAlPR8GnXNk=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="Properties\selawk.ttf" size="44108">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>m2iZfIYv2cNFjSkt6ZVPNk/j8y1t16kLAhQbyDsbWKE=</dsig:DigestValue>
+    </hash>
+  </file>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 10 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+    </application>
+  </compatibility>
+<publisherIdentity name="CN=REDMOND\erichb" issuerKeyHash="44e65f5e559f73d87988ceb345cdf7cf6d940f10" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>9uDDTWjyN7tj4CUkaX5tx96wODTQY2wl6SORDuPPb/Y=</DigestValue></Reference></SignedInfo><SignatureValue>Jde1Z6pK5L51h97MWSOdr0lA39MmI12W/elg/AbaMMFFLhCWksAWUTmv+aGYyMxxzfxFmcfkzLv5DzZv/3g28XGUuylHZflhLfXxY+tFaCndXUQZ/wHtFJLAXVgrlq/ZNcMhfvNWjBWobrWEkesLCjw12tJHLjRbGx6xajk8t/g=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>uluM12zQB87FjTgptqlxdxeuGIMSpwW2/8kC3Vbi8Jc/Hblx9B73f/xTjnLbfOEhH4kWppS1AMIrlBd35mce7/AU4xrIaLf0Rr3HB56h+N1sH71rwM+j+vT46zeBa0y/vsQetGHE6/CWYqWsh8xI9zG3m7Aa5IiAllim857MMKk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="f66fcfe30e9123e9256c63d03438b0dec76d7e692425e063bb37f2684dc3e0f6" Description="" Url=""><as:assemblyIdentity name="AzureIoTEdgeInstaller.exe" version="2.0.0.2" publicKeyToken="b9849d11f5056fd9" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=REDMOND\erichb</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>X7E81QuSPtDwoAgPAxFk0ksZ+PZlSCbYgdvaLOOTjB8=</DigestValue></Reference></SignedInfo><SignatureValue>dou/Tj/LvKyqar15xB4UORaPorm8/aWthJpP2lK6Ra7s3+iTfWGZ1NDwJup1UQcZVOdHp8H8IIbT3n9PnlKIGLgDw1NCFNWzirbbNyjIeTFRaUIbvZgkNBUJgNbBDMAB7tHUXd9VlIkCQr/BIexJStiLdt9NyfzoVk0xYE805Io=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>uluM12zQB87FjTgptqlxdxeuGIMSpwW2/8kC3Vbi8Jc/Hblx9B73f/xTjnLbfOEhH4kWppS1AMIrlBd35mce7/AU4xrIaLf0Rr3HB56h+N1sH71rwM+j+vT46zeBa0y/vsQetGHE6/CWYqWsh8xI9zG3m7Aa5IiAllim857MMKk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB0TCCATqgAwIBAgIQa75yERP4W4NLSh0vfA9iHzANBgkqhkiG9w0BAQsFADAnMSUwIwYDVQQDHhwAUgBFAEQATQBPAE4ARABcAGUAcgBpAGMAaABiMB4XDTIyMDMxNTE0MDUyOVoXDTIzMDMxNTIwMDUyOVowJzElMCMGA1UEAx4cAFIARQBEAE0ATwBOAEQAXABlAHIAaQBjAGgAYjCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAuluM12zQB87FjTgptqlxdxeuGIMSpwW2/8kC3Vbi8Jc/Hblx9B73f/xTjnLbfOEhH4kWppS1AMIrlBd35mce7/AU4xrIaLf0Rr3HB56h+N1sH71rwM+j+vT46zeBa0y/vsQetGHE6/CWYqWsh8xI9zG3m7Aa5IiAllim857MMKkCAwEAATANBgkqhkiG9w0BAQsFAAOBgQCNyEzY1rRvjcfJ8A03Y8Z6ba1H+k2SojpCDJ9LzJngjAwJEgaMJ3LmojB01rmSHXfLum6FU/DKx+pDkLZf2PMDWRbC+Qn/eEYAbwkT4aQWSwiZ28ou/mhwUeslgl8X2Um03ZYgsfTIZqCBewZNxDZVw0odbFihj7W+6An+PpgLsA==</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
